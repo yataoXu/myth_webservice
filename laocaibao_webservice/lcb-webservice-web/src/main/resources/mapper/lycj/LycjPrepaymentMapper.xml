@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.lycj.LycjPrepaymentMapper">
+
+    <resultMap type="com.zdmoney.models.lycj.LycjPrepayment" id="lycjPrepaymentMap">
+        <result property="repayId" column="REPAY_ID"/>
+        <result property="id" column="ID"/>
+        <result property="advancedTime" column="ADVANCED_TIME"/>
+        <result property="actualPeriod" column="ACTUAL_PERIOD"/>
+        <result property="advancedAmount" column="ADVANCED_AMOUNT"/>
+        <result property="subjectNo" column="SUBJECT_NO"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        REPAY_ID,ID,ADVANCED_TIME,ACTUAL_PERIOD,ADVANCED_AMOUNT,SUBJECT_NO    </sql>
+
+    <select id="queryLycjPrepayment" resultMap="lycjPrepaymentMap" parameterType="java.util.Map">
+        select * from (
+        SELECT
+        rownum RN,<include refid="base_column_list"></include>
+        FROM LYCJ_PREPAYMENT WHERE SUBSTR(advanced_time,0,10) = #{dateTime}
+        ) where RN > (#{pageNo}-1)*#{pageSize} and RN &lt;= #{pageNo} * #{pageSize}
+    </select>
+
+    <insert id="saveLycjPrepayment" parameterType="com.zdmoney.models.lycj.LycjPrepayment">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_LYCJ_PREPAYMENT.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO LYCJ_PREPAYMENT
+          (REPAY_ID,ID,ADVANCED_TIME,ACTUAL_PERIOD,ADVANCED_AMOUNT,SUBJECT_NO)
+        VALUES
+          (#{repayId},#{id},#{advancedTime},#{actualPeriod},#{advancedAmount},#{subjectNo})
+    </insert>
+
+    <update id="updateLycjPrepayment" parameterType="com.zdmoney.models.lycj.LycjPrepayment">
+        UPDATE LYCJ_PREPAYMENT
+        <set>
+            <if test="repayId != null">
+                REPAY_ID = #{repayId},
+            </if>
+            <if test="advancedTime != null">
+                ADVANCED_TIME = #{advancedTime},
+            </if>
+            <if test="actualPeriod != null">
+                ACTUAL_PERIOD = #{actualPeriod},
+            </if>
+            <if test="advancedAmount != null">
+                ADVANCED_AMOUNT = #{advancedAmount},
+            </if>
+            <if test="subjectNo != null">
+                SUBJECT_NO = #{subjectNo}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeLycjPrepaymentById" parameterType="java.lang.Long">
+        DELETE FROM LYCJ_PREPAYMENT WHERE ID = #{id}
+    </delete>
+
+
+</mapper>

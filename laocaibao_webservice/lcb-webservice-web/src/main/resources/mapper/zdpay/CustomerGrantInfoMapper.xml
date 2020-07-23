@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.zdpay.CustomerGrantInfoMapper">
+
+    <resultMap type="com.zdmoney.models.zdpay.UserGrantBO" id="customerGrantInfoMap">
+        <result property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="customerId" column="CUSTOMER_ID" jdbcType="DECIMAL"/>
+        <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
+        <result property="cellPhone" column="CELL_PHONE" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result property="userAttr" column="USER_ATTR" jdbcType="VARCHAR"/>
+        <result property="authStatus" column="AUTH_STATUS" jdbcType="DECIMAL"/>
+        <result property="autoLendTerm" column="AUTO_LEND_TERM" jdbcType="VARCHAR"/>
+        <result property="autoLendAmt" column="AUTO_LEND_AMT" jdbcType="VARCHAR"/>
+        <result property="usedLendAmt" column="USED_LEND_AMT" jdbcType="VARCHAR"/>
+        <result property="leaveLendAmt" column="LEAVE_LEND_AMT" jdbcType="VARCHAR"/>
+        <result property="autoFeeTerm" column="AUTO_FEE_TERM" jdbcType="VARCHAR"/>
+        <result property="autoFeeAmt" column="AUTO_FEE_AMT" jdbcType="VARCHAR"/>
+        <result property="autoRepayAmt" column="AUTO_REPAY_AMT" jdbcType="VARCHAR"/>
+        <result property="autoCompenTerm" column="AUTO_COMPEN_TERM" jdbcType="VARCHAR"/>
+        <result property="autoCompenAmt" column="AUTO_COMPEN_AMT" jdbcType="VARCHAR"/>
+        <result property="autoRepayTerm" column="AUTO_REPAY_TERM" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CUSTOMER_ID,USER_NAME,CELL_PHONE,USER_ATTR,AUTH_STATUS,AUTO_LEND_TERM,AUTO_LEND_AMT,USED_LEND_AMT,LEAVE_LEND_AMT,AUTO_FEE_TERM,AUTO_FEE_AMT,CREATE_TIME,AUTO_REPAY_AMT,AUTO_COMPEN_TERM,AUTO_COMPEN_AMT,AUTO_REPAY_TERM
+    </sql>
+
+    <insert id="saveCustomerGrantInfo" parameterType="com.zdmoney.models.zdpay.UserGrantBO">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_CUSTOMER_GRANT_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO CUSTOMER_GRANT_INFO
+        (ID,CUSTOMER_ID,USER_NAME,CELL_PHONE,USER_ATTR,AUTH_STATUS,AUTO_LEND_TERM,AUTO_LEND_AMT,USED_LEND_AMT,LEAVE_LEND_AMT,AUTO_FEE_TERM,AUTO_FEE_AMT,CREATE_TIME,
+          AUTO_REPAY_AMT,AUTO_COMPEN_TERM,AUTO_COMPEN_AMT,AUTO_REPAY_TERM, STATUS)
+        VALUES
+        (#{id},#{customerId},#{userName},#{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},#{userAttr},#{authStatus},#{autoLendTerm},#{autoLendAmt},#{usedLendAmt},#{leaveLendAmt},#{autoFeeTerm},
+          #{autoFeeAmt},sysdate,#{autoRepayAmt},#{autoCompenTerm},#{autoCompenAmt},#{autoRepayTerm},#{status})
+    </insert>
+
+    <select id="queryUserGrant" parameterType="java.lang.Long" resultMap="customerGrantInfoMap">
+        select <include refid="base_column_list"/> from CUSTOMER_GRANT_INFO
+        where CUSTOMER_ID = #{customerId}
+    </select>
+
+    <update id="updateCustomerGrantInfo" parameterType="com.zdmoney.models.zdpay.UserGrantBO">
+        UPDATE CUSTOMER_GRANT_INFO
+        <set>
+            <if test="userAttr != null">
+                USER_ATTR = #{userAttr,jdbcType=VARCHAR},
+            </if>
+            <if test="authStatus != null">
+                AUTH_STATUS = #{authStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="autoLendTerm != null">
+                AUTO_LEND_TERM = #{autoLendTerm,jdbcType=VARCHAR},
+            </if>
+            <if test="autoLendAmt != null">
+                AUTO_LEND_AMT = #{autoLendAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="usedLendAmt != null">
+                USED_LEND_AMT = #{usedLendAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="leaveLendAmt != null">
+                LEAVE_LEND_AMT = #{leaveLendAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="autoFeeTerm != null">
+                AUTO_FEE_TERM = #{autoFeeTerm,jdbcType=VARCHAR},
+            </if>
+            <if test="autoFeeAmt != null">
+                AUTO_FEE_AMT = #{autoFeeAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="autoRepayAmt != null">
+                AUTO_REPAY_AMT = #{autoRepayAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="autoCompenTerm != null">
+                AUTO_COMPEN_TERM = #{autoCompenTerm,jdbcType=VARCHAR},
+            </if>
+            <if test="autoCompenAmt != null">
+                AUTO_COMPEN_AMT = #{autoCompenAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="autoRepayTerm != null">
+                AUTO_REPAY_TERM = #{autoRepayTerm,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=DECIMAL}
+            </if>
+        </set>
+        WHERE CUSTOMER_ID = #{customerId}
+    </update>
+
+</mapper>

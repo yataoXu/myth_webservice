@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysFeedbackMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysFeedback">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CONTENT" property="content" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="APP_TYPE" property="appType" jdbcType="VARCHAR"/>
+        <result column="SYSTEM" property="system" jdbcType="VARCHAR"/>
+        <result column="APP_VERSION" property="appVersion" jdbcType="VARCHAR"/>
+        <result column="SYSTEM_VERSION" property="systemVersion" jdbcType="VARCHAR"/>
+        <result column="OPER_DATE" property="operDate" jdbcType="TIMESTAMP"/>
+        <result column="FEEDBACK_TYPE" property="feedbackType" jdbcType="VARCHAR"/>
+        <result column="FEEDBACK_SOURCE" property="feedbackSource" jdbcType="VARCHAR"/>
+        <result column="CONTACT_WAY" property="contactWay" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getSysFeedbackList" resultMap="BaseResultMap">
+        select * from SYS_FEEDBACK where 1=1
+        <if test="beginTime != null">
+            and OPER_DATE &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+        </if>
+        <if test="endTime != null">
+            and OPER_DATE &lt;= (to_date(#{endTime},'yyyy-MM-dd'))+1
+        </if>
+        order by OPER_DATE desc
+    </select>
+</mapper>

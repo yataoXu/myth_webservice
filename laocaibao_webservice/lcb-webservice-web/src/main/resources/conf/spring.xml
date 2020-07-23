@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:apollo="http://www.ctrip.com/schema/apollo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-3.2.xsd
+
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.ctrip.com/schema/apollo http://www.ctrip.com/schema/apollo.xsd">
+
+
+    <apollo:config/>
+
+    <!-- 扫描文件（自动将servicec层注入） -->
+    <context:component-scan base-package="com.zdmoney.service,com.zdmoney.component.mq,com.zdmoney.component.eventListener,websvc.servant,com.zdmoney.facade,,com.zdmoney.match"/>
+    <task:annotation-driven />
+
+    <import resource="dubbo-consumer.xml"/>
+
+    <bean class="com.zdmoney.common.listener.InstantiationTracingBeanPostListener" />
+
+    <!--配置-->
+    <bean id="configParamBean" class="com.zdmoney.common.ConfigParamBean"/>
+
+    <bean id="springUtils" class="com.zdmoney.utils.SpringUtils"/>
+
+    <!-- 注入超强获取业务层或持久层对象 -->
+    <bean id="springContextHelper" class="websvc.utils.SpringContextHelper" />
+
+    <!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!--在web环境中一定要定位到classpath 否则默认到当前web应用下找-->
+                <value>classpath:messages/messages</value>
+                <value>classpath:messages/ValidationMessages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
+
+
+
+    <aop:aspectj-autoproxy/>
+    <bean class="com.zdmoney.framework.intercept.SendLogAspect"/>
+
+    <!-- 线程执行器配置 -->
+    <bean id="taskExecutor" class="com.zdmoney.trace.utils.LcbTraceThreadPoolTaskExecutor"/>
+
+
+    <!-- 日志线程执行器配置 -->
+    <bean id="logExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="20"/>
+        <property name="maxPoolSize" value="1000"/>
+        <property name="queueCapacity" value="5000"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$DiscardPolicy" />
+        </property>
+    </bean>
+
+    <!-- 支付线程执行器配置 -->
+    <bean id="payThreadExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="20"/>
+        <property name="maxPoolSize" value="1000"/>
+        <property name="queueCapacity" value="5000"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+
+    <!-- 撮合按产品维度下单线程执行器配置 -->
+    <bean id="matchJobThreadExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="20"/>
+        <property name="queueCapacity" value="5000"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+
+    <!-- 撮合按主订单维度下单线程执行器配置 -->
+    <bean id="matchMainOrderThreadExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="20"/>
+        <property name="maxPoolSize" value="40"/>
+        <property name="queueCapacity" value="100000"/>
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+    <bean id="retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+        <!-- 间隔时间基数 -->
+        <constructor-arg index="0" value="10000" />
+        <!-- 重连策略 -->
+        <constructor-arg index="1" value="3" />
+    </bean>
+    <bean id="curatorFramework" class="org.apache.curator.framework.CuratorFrameworkFactory" factory-method="newClient" init-method="start">
+        <constructor-arg index="0" value="${dubbo.registry.address}" />
+        <!-- sessionTimeoutMs会话超时时间，单位为毫秒。默认是60000ms  -->
+        <constructor-arg index="1" value="60000" />
+        <!-- connectionTimeoutMs连接创建超时时间，单位毫秒，默认15000ms -->
+        <constructor-arg index="2" value="20000" />
+        <constructor-arg index="3" ref="retryPolicy" />
+    </bean>
+
+
+
+    <bean id="defaultMatchApi" class="com.zdmoney.match.api.DefaultMatchApi"/>
+
+    <bean id="matchResultListener" class="com.zdmoney.component.eventListener.MatchResultListener"/>
+
+</beans>

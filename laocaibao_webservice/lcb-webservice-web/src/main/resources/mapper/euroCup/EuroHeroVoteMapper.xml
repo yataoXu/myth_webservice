@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.euroCup.EuroHeroVoteMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.euroCup.EuroHeroVote" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="VOTE_MOBILE" property="voteMobile" jdbcType="DECIMAL" />
+    <result column="GUESS_MOBILE" property="guessMobile" jdbcType="DECIMAL" />
+    <result column="VOTE_DATE" property="voteDate" jdbcType="DATE" />
+  </resultMap>
+</mapper>

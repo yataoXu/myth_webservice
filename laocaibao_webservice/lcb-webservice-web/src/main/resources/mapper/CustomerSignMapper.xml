@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerSignMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerSign">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP"/>
+        <result column="INTEGRAL" property="integral" jdbcType="DECIMAL"/>
+        <result column="SIGN_TIME" property="signTime" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="countSign" parameterType="com.zdmoney.models.customer.CustomerSign" resultType="int">
+        SELECT count(id)
+        FROM CUSTOMER_SIGN
+        WHERE CM_NUMBER = #{cmNumber,jdbcType=VARCHAR} AND
+              to_char(SIGN_DATE, 'yyyyMMdd') = to_char(#{signDate,jdbcType=TIMESTAMP}, 'yyyyMMdd')
+    </select>
+
+    <select id="findOneByCmNumberOrderBySignDate" resultMap="BaseResultMap">
+        SELECT *
+        FROM
+            (SELECT cs.*
+             FROM CUSTOMER_SIGN cs
+             WHERE CM_NUMBER = #{cmNumber,jdbcType=VARCHAR}
+             ORDER BY SIGN_DATE DESC)
+        WHERE ROWNUM = 1
+    </select>
+</mapper>

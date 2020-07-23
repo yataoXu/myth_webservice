@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.financePlan.BusiMatchExceptionMapper">
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.webservice.api.dto.plan.BusiMatchExceptionVO" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+        <result column="FINANCEID" property="financeId" jdbcType="DECIMAL" />
+        <result column="FUND_ID" property="fundId" jdbcType="DECIMAL" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <select id="queryMatchException" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select * from busi_match_exception   where 1=1
+        <if test="orderNum != null">
+            and ORDER_NUM =#{orderNum,jdbcType=DECIMAL}
+        </if>
+        <if test="status != null">
+            and STATUS =#{status,jdbcType=VARCHAR}
+        </if>
+        <if test="productId != null">
+            and product_id =#{productId}
+        </if>
+    </select>
+
+
+    <insert id="saveMatchException" parameterType="java.util.Map">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            SELECT SEQ_BUSI_MATCH_EXCEPTION.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO busi_match_exception (id, product_id, status, order_num, order_id, fund_id, financeId, create_date, modify_date)
+        VALUES (#{id,jdbcType=DECIMAL}, #{productId}, '0',#{orderNum}, #{orderId}, #{fundId,jdbcType=DECIMAL},#{financeId},sysdate,sysdate)
+    </insert>
+
+    <update id="updateByMap" parameterType="java.util.Map" >
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update busi_match_exception set modify_date =sysdate,STATUS = '1' where financeId = ${item} and STATUS='0'
+        </foreach>
+    </update>
+</mapper>

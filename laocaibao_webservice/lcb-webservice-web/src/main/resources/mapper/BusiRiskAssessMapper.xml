@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiRiskAssessMapper" >
+    <resultMap id="riskEvaluateNotify" type="com.zdmoney.webservice.api.dto.customer.RiskEvaluateNotifyDto">
+        <result column="id" property="userId" jdbcType="VARCHAR"/>
+        <result column="CM_NUMBER" property="userNo" jdbcType="VARCHAR"/>
+        <result column="risk_test_type" property="riskResult" jdbcType="VARCHAR"/>
+        <result column="INSERT_TIME" property="riskTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="listBusiRiskAssess" resultType="com.zdmoney.models.BusiRiskAssess">
+        select point_min as pointMin, point_max as pointMax, type, explain, synopsis from  T_RISK_ASSESS
+    </select>
+
+    <insert id="saveRiskAnswer" parameterType="com.zdmoney.models.BusiRiskTest">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_T_RISK_TEST.nextval from dual
+        </selectKey>
+        insert into T_RISK_TEST (ID, CUSTOMER_ID, ANSWER_RESULT, IS_FIRST, TYPE, INSERT_TIME, UPDATE_TIME)
+        values (#{id,jdbcType=DECIMAL}, #{customerId,jdbcType=VARCHAR}, #{answerResult,jdbcType=VARCHAR},
+        #{isFirst,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="queryRiskTest" parameterType="Long" resultType="Long">
+        select count(id) from T_RISK_TEST where customer_id = #{customerId}
+    </select>
+
+    <update id="updateRiskAnswer" parameterType="com.zdmoney.models.BusiRiskTest">
+        update T_RISK_TEST
+        <set>
+            <if test="answerResult != null" >
+                ANSWER_RESULT = #{answerResult,jdbcType=VARCHAR},
+            </if>
+            <if test="isFirst != null" >
+                IS_FIRST = #{isFirst,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where CUSTOMER_ID = #{customerId,jdbcType=DECIMAL}
+    </update>
+
+    <!--获取用户最新一条评测结果-->
+    <select id="queryCustomerRiskTestType" parameterType="Long" resultType="com.zdmoney.models.BusiRiskAssess">
+       select * from
+           (
+                 SELECT
+                    ra.type as type,
+                    ra.explain, ra.synopsis, rt.is_first as isFirst  , c.risk_expire_time as riskExpireTime
+                from T_RISK_TEST rt, t_risk_assess ra,customer_main_info c
+                where rt.type = ra.type
+                       and rt.customer_id =c.id
+                       and rt.customer_id = #{customerId,jdbcType=DECIMAL} order by rt.insert_time desc
+          ) where rownum = 1
+    </select>
+
+    <select id="queryRiskEvaluateNotify" resultMap="riskEvaluateNotify">
+        select cm.id,cm.CM_NUMBER,cm.risk_test_type,t.INSERT_TIME
+        from  t_risk_test t,customer_main_info cm
+        where  t.customer_id = cm.id
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd HH24:MI:SS') &lt;= t.INSERT_TIME
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd HH24:MI:SS') &gt;= t.INSERT_TIME
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiRebateStatisticsMapper" >
+  <resultMap id="resultRebateStatistics" type="com.zdmoney.vo.BusiRebateStatisticsVo" >
+    <result column="LAST_MON_REBATE" property="lastMonRebate" jdbcType="DECIMAL" />
+    <result column="CUR_MON_REBATE" property="curMonRebate" jdbcType="DECIMAL" />
+    <result column="STATUS" property="payStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  
+   <select id="selectTotalAmtById" resultMap="resultRebateStatistics" parameterType="java.util.Map" >
+      select nvl((select t.REBATE_AMT from BUSI_REBATE_STATISTICS t where t.statis_month=to_char(add_months(#{now},-1),'yyyymm') and t.CUSTOMER_ID=#{customerId} ),0) as LAST_MON_REBATE , 
+             nvl((select t.STATUS from BUSI_REBATE_STATISTICS t where t.statis_month=to_char(add_months(#{now},-1),'yyyymm') and t.CUSTOMER_ID=#{customerId} ),0) as STATUS , 
+             nvl((select t.REBATE_AMT from BUSI_REBATE_STATISTICS t where t.statis_month=to_char(#{now},'yyyymm') and t.CUSTOMER_ID=#{customerId} ),0) as CUR_MON_REBATE 
+             from dual
+  </select>
+</mapper>

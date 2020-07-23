@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.financePlan.DebtDetailMapper">
+
+    <resultMap id="deptDetailResultMap" type="com.zdmoney.webservice.api.dto.plan.BusiDebtDetailVO" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="DEBT_NO" property="debtNo" jdbcType="VARCHAR" />
+        <result column="INIT_SUBJECT_NO" property="initSubjectNo" jdbcType="VARCHAR" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="REST_DAYS" property="restDays" jdbcType="DECIMAL" />
+        <result column="NEXT_PAY_DATE" property="nextPayDate" jdbcType="TIMESTAMP" />
+        <result column="LAUNCH_DATE" property="launchDate" jdbcType="TIMESTAMP"/>
+        <result column="MATCH_DATE" property="matchDate" jdbcType="TIMESTAMP" />
+        <result column="DEBT_TYPE" property="debtType" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+        <result column="DEBT_PRICE" property="debtPrice" jdbcType="DECIMAL" />
+        <result column="INIT_RATE" property="initRate" jdbcType="DECIMAL" />
+        <result column="INIT_PAY" property="initPay" jdbcType="VARCHAR" />
+        <result column="CURR_HOLDER" property="currHolder" jdbcType="VARCHAR" />
+        <result column="INIT_HOLDER" property="initHolder" jdbcType="VARCHAR" />
+        <result column="IS_SPECIAL_TRANSFER" property="isSpecialTransfer" jdbcType="VARCHAR" />
+        <result column="BORROWER_NUMBER" property="borrowerNumber" jdbcType="VARCHAR" />
+        <result column="BORROWER_DATE" property="borrowerDate" jdbcType="TIMESTAMP" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+        <result column="FINANCE_ID" property="financeId" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="queryDeptProductDetail" resultMap="deptDetailResultMap" parameterType="com.zdmoney.webservice.api.dto.plan.DebtDetailReqDTO">
+        SELECT * FROM
+            (SELECT ROWNUM AS rowno, t.* FROM BUSI_DEBT_DETAIL t WHERE 1=1
+            <include refid="DEBT_DETAIL_WHERE"/>
+            AND ROWNUM &lt;= #{pageNo}) ta
+        WHERE ta.rowno &gt;= #{pageSize}
+    </select>
+
+    <select id="countDeptProductDetail" resultType="java.lang.Long" parameterType="com.zdmoney.webservice.api.dto.plan.DebtDetailReqDTO">
+        select count(id) from BUSI_DEBT_DETAIL WHERE 1=1
+        <include refid="DEBT_DETAIL_WHERE"/>
+    </select>
+
+    <insert id="insertDebtDetail"  parameterType="com.zdmoney.webservice.api.dto.plan.BusiDebtDetailVO">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_BUSI_DEBT_DETAIL.nextval from dual
+        </selectKey>
+        insert into BUSI_DEBT_DETAIL
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            ID,
+            <if test="debtNo != null" >
+                DEBT_NO,
+            </if>
+            <if test="initSubjectNo != null" >
+                INIT_SUBJECT_NO,
+            </if>
+            <if test="productId != null" >
+                PRODUCT_ID,
+            </if>
+            <if test="restDays != null" >
+                REST_DAYS,
+            </if>
+            <if test="nextPayDate != null" >
+                NEXT_PAY_DATE,
+            </if>
+            <if test="launchDate != null" >
+                LAUNCH_DATE,
+            </if>
+            <if test="matchDate != null" >
+                MATCH_DATE,
+            </if>
+            <if test="debtType != null" >
+                DEBT_TYPE,
+            </if>
+            <if test="status != null" >
+                STATUS,
+            </if>
+            <if test="priority != null" >
+                PRIORITY,
+            </if>
+            <if test="debtPrice != null" >
+                DEBT_PRICE,
+            </if>
+            <if test="initRate != null" >
+                INIT_RATE,
+            </if>
+            <if test="initPay != null" >
+                INIT_PAY,
+            </if>
+            <if test="currHolder != null" >
+                CURR_HOLDER,
+            </if>
+            <if test="initHolder != null" >
+                INIT_HOLDER,
+            </if>
+            <if test="isSpecialTransfer != null" >
+                IS_SPECIAL_TRANSFER,
+            </if>
+            <if test="borrowerNumber != null" >
+                BORROWER_NUMBER,
+            </if>
+            <if test="borrowerName != null" >
+                BORROWER_NAME,
+            </if>
+            <if test="borrowerDate != null" >
+                BORROWER_DATE,
+            </if>
+            <if test="remark != null" >
+                REMARK
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            #{id,jdbcType=DECIMAL},
+            <if test="debtNo != null" >
+                #{debtNo,jdbcType=VARCHAR},
+            </if>
+            <if test="initSubjectNo != null" >
+                #{initSubjectNo,jdbcType=VARCHAR},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=DECIMAL},
+            </if>
+            <if test="restDays != null" >
+                #{restDays,jdbcType=DECIMAL},
+            </if>
+            <if test="nextPayDate != null" >
+                #{nextPayDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="launchDate != null" >
+                #{launchDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="matchDate != null" >
+                #{matchDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="debtType != null" >
+                #{debtType,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="priority != null" >
+                #{priority,jdbcType=VARCHAR},
+            </if>
+            <if test="debtPrice != null" >
+                #{debtPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="initRate != null" >
+                #{initRate,jdbcType=DECIMAL},
+            </if>
+            <if test="initPay != null" >
+                #{initPay,jdbcType=VARCHAR},
+            </if>
+            <if test="currHolder != null" >
+                #{currHolder,jdbcType=DECIMAL},
+            </if>
+            <if test="initHolder != null" >
+                #{initHolder,jdbcType=DECIMAL},
+            </if>
+            <if test="isSpecialTransfer != null" >
+                #{isSpecialTransfer,jdbcType=VARCHAR},
+            </if>
+            <if test="borrowerNumber != null" >
+                #{borrowerNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="borrowerName != null" >
+                #{borrowerName,jdbcType=VARCHAR},
+            </if>
+            <if test="borrowerDate != null" >
+                #{borrowerDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <sql id="DEBT_DETAIL_WHERE">
+        <if test="mainProductId != null">
+            and PRODUCT_ID = #{mainProductId}
+        </if>
+        <if test="debtNo != null and debtNo != ''">
+            and DEBT_NO = #{debtNo}
+        </if>
+        <if test="status != null">
+            and STATUS = #{status}
+        </if>
+        <if test="paymentManner != null">
+            and init_pay = #{paymentManner}
+        </if>
+        <if test="isTransfer != null">
+            and IS_SPECIAL_TRANSFER = #{isTransfer}
+        </if>
+        <if test="minDebtPrice != null and maxDebtPrice != null">
+            <![CDATA[
+                and (DEBT_PRICE >= #{minDebtPrice} and DEBT_PRICE < #{maxDebtPrice})
+            ]]>
+        </if>
+        <if test="launchStartDate != null and launchEndDate != null">
+            <![CDATA[
+                and to_char(LAUNCH_DATE,'yyyy-MM-dd hh24:mi:ss') >= to_char(#{launchStartDate},'yyyy-MM-dd hh24:mi:ss')
+                and to_char(LAUNCH_DATE,'yyyy-MM-dd hh24:mi:ss') < to_char(#{launchEndDate},'yyyy-MM-dd hh24:mi:ss')
+            ]]>
+        </if>
+        <if test="debtType != null">
+            and DEBT_TYPE = #{debtType}
+        </if>
+        <if test="paymentStartDate != null and paymentEndDate != null">
+            <![CDATA[
+                and to_char(NEXT_PAY_DATE,'yyyy-MM-dd hh24:mi:ss') >= to_char(#{paymentStartDate},'yyyy-MM-dd hh24:mi:ss')
+                and to_char(NEXT_PAY_DATE,'yyyy-MM-dd hh24:mi:ss') < to_char(#{paymentEndDate},'yyyy-MM-dd hh24:mi:ss')
+            ]]>
+        </if>
+    </sql>
+
+    <update id="updateDebtDetail" parameterType="java.util.Map">
+        UPDATE busi_debt_detail
+        <set>
+            <if test="matchDate!=null">
+                MATCH_DATE = #{matchDate},
+            </if>
+            <if test="status!=null">
+                STATUS=#{status},
+            </if>
+            <if test="currHolder!=null">
+                CURR_HOLDER = #{currHolder},
+            </if>
+            <if test="initHolder!=null">
+                INIT_HOLDER = #{initHolder},
+            </if>
+        </set>
+        <where>
+            <if test="productId!=null">
+                PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+            </if>
+            <if test="initStatus!=null">
+                and STATUS=#{initStatus}
+            </if>
+            <if test="debtNo!=null">
+                and DEBT_NO=#{debtNo}
+            </if>
+        </where >
+    </update>
+
+    <!--产品详情，借款人明细列表（app）-->
+    <resultMap id="debtDetailResultMap" type="com.zdmoney.vo.BusiDebtDetailVo" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="borrowerNumber" property="borrowerNumber" jdbcType="VARCHAR" />
+        <result column="borrowerName" property="borrowerName" jdbcType="VARCHAR" />
+        <result column="BORROWER_DATE" property="borrowerDate" jdbcType="TIMESTAMP" />
+        <result column="DEBT_TYPE" property="debtType" jdbcType="VARCHAR" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+        <result column="rn" property="rn" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectFinancePlanDetails" resultMap="debtDetailResultMap" parameterType="java.util.Map">
+        select id,borrowerNumber,borrowerName,borrowerDate,debtType,productId
+                from(
+                select t.id as id,
+                t.BORROWER_NUMBER as borrowerNumber,
+                t.BORROWER_NAME   as borrowerName,
+                t.BORROWER_DATE  as borrowerDate,
+                t.DEBT_TYPE     as debtType ,
+                t.PRODUCT_ID   as productId   ,
+                row_number() over(partition by t.BORROWER_NAME ORDER BY t.BORROWER_NUMBER desc) rn
+
+                from BUSI_DEBT_DETAIL t
+                join busi_product b
+                on t.product_id = b.id
+                where b.subject_type = 4
+                <if test="productId != null">
+                    and b.id= ${productId}
+                </if>
+            ) where rn =1
+    </select>
+    <!--理财计划订单产品详情，借款人明细列表（app）-->
+    <select id="selectOrderBusiDebtDetails" resultMap="debtDetailResultMap" parameterType="java.util.Map">
+            select t1.id as id,
+                   t1.debtor_num as borrowerNumber,
+                   t1.debtor_name as borrowerName,
+                   t1.borrower_date as borrowerDate,
+                   t1.DEBT_TYPE as debtType,
+                   t.PRODUCT_ID as productId
+              from  busi_order_sub t1
+                join  busi_order t on  t1.parent_id = t.id  where t.id = ${orderId}  and t1.status !=4 and t1.status !=11
+                 order by t1.id asc
+    </select>
+
+    <!--理财计划订单产品详情，借款人明细列表（app,特殊展示优选转理财计划）-->
+    <select id="selectSpecialOrder" resultMap="debtDetailResultMap" parameterType="java.util.Map">
+            select             ch.id as id,
+                   ch.borrow_num as borrowerNumber,
+                   ch.borrow_name as borrowerName,
+                   ch.borrow_date as borrowerDate,
+                   2 as debtType,
+                   ch.plan_id as productId
+              from  YX_PLAN_DEBT_CH ch
+              where ch.plan_order_id =  ${orderId} order by ch.id asc
+    </select>
+
+    <!--查询单个订单-->
+    <select id="selectOneSpecialOrder"  resultType="String" parameterType="java.lang.Long">
+               select    ch.subject_no
+              from  YX_PLAN_DEBT_CH ch
+              where ch.id =  #{orderId,jdbcType=DECIMAL}
+    </select>
+
+
+
+    <!--根据id查询债权信息-->
+    <select id="selectDebtDetailByPrimaryKey" resultMap="deptDetailResultMap" parameterType="java.lang.Long" >
+         select t.id ,t.INIT_SUBJECT_NO,t.PRODUCT_ID
+            from BUSI_DEBT_DETAIL t
+            where t.ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <insert id="saveDebtInfo" parameterType="com.zdmoney.models.financePlan.BusiDebtQueue">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            SELECT seq_busi_debt_queue.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO busi_debt_queue (ID, PRODUCT_ID, DEBT_NO, CM_NUMBER, HOLDER_TYPE, DEBT_TYPE, DISK_NO, PUSH_FLAG, CREATE_TIME, ORDER_NO)
+        VALUES (#{id,jdbcType=DECIMAL},#{productId, jdbcType=DECIMAL},#{debtNo,jdbcType=VARCHAR},#{cmNumber,jdbcType=VARCHAR},
+            #{holderType,jdbcType=VARCHAR},#{debtType,jdbcType=VARCHAR},#{diskNo,jdbcType=VARCHAR},#{pushFlag,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},#{orderNo,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="queryDebtDetailBySubjectNo" resultMap="deptDetailResultMap" parameterType="String" >
+        select * from BUSI_DEBT_DETAIL
+        where init_subject_no = #{subjectNo,jdbcType=DECIMAL}
+    </select>
+
+    <select id="selectDebtDetailBySubjectNo" resultMap="deptDetailResultMap" parameterType="String" >
+        select * from BUSI_DEBT_DETAIL
+        where init_subject_no = #{subjectNo,jdbcType=DECIMAL}
+    </select>
+
+    <select id="debtMatchNums" resultType="java.lang.Long" parameterType="Long">
+        select count(id) from BUSI_DEBT_DETAIL  WHERE  PRODUCT_ID=  #{productId,jdbcType=DECIMAL}
+    </select>
+</mapper>

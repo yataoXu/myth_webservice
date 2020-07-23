@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.product.BusiSubjectInfoMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.product.BusiSubjectInfo">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="SUBJECT_NO" jdbcType="VARCHAR" property="subjectNo" />
+    <result column="LAST_EXPIRE" jdbcType="DATE" property="lastExpire" />
+    <result column="PAY_END_TIME" jdbcType="VARCHAR" property="payEndTime" />
+    <result column="BORROWER_NAME" jdbcType="VARCHAR" property="borrowerName" />
+    <result column="BORROWER_TYPE" jdbcType="VARCHAR" property="borrowerType" />
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo" />
+    <result column="BORROW_PURPOSE" jdbcType="VARCHAR" property="borrowPurpose" />
+    <result column="TRANSFEROR_NAME" jdbcType="VARCHAR" property="transferorName" />
+    <result column="TRANSFERORID_NO" jdbcType="VARCHAR" property="transferoridNo" />
+    <result column="ORGANIZATION_NO" jdbcType="VARCHAR" property="organizationNo" />
+    <result column="ORGANIZATION_NAME" jdbcType="VARCHAR" property="organizationName" />
+    <result column="REPAY_TYPE" jdbcType="VARCHAR" property="repayType" />
+    <result column="BANK_CARD_USER" jdbcType="VARCHAR" property="bankCardUser" />
+    <result column="BANK_CARD_NO" jdbcType="VARCHAR" property="bankCardNo" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="BANK_BRANCH" jdbcType="VARCHAR" property="bankBranch" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="SERNO" jdbcType="VARCHAR" property="serno" />
+    <result column="REFUND_STATUS" jdbcType="VARCHAR" property="refundStatus" />
+    <result column="IS_FINISH" jdbcType="VARCHAR" property="isFinish" />
+    <result column="IS_NOTIFY" jdbcType="VARCHAR" property="isNotify" />
+    <result column="COLLECT_DAY" jdbcType="DECIMAL" property="collectDay" />
+    <result column="COLLECT_AMOUNT" jdbcType="DECIMAL" property="collectAmount" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="LOAN_DATE" jdbcType="DATE" property="loanDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CM_NUMBER" jdbcType="VARCHAR" property="cmNumber" />
+    <result column="AHEAD_PAY_DATE" jdbcType="DATE" property="aheadPayDate" />
+    <result column="BORROWER_PHONE" jdbcType="VARCHAR" property="borrowerPhone" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="MARITAL_STATUS" jdbcType="VARCHAR" property="maritalStatus" />
+    <result column="BRITHDAY" jdbcType="VARCHAR" property="brithday" />
+    <result column="CITY" jdbcType="VARCHAR" property="city" />
+    <result column="HAS_CAR" jdbcType="VARCHAR" property="hasCar" />
+    <result column="HAS_HOURSE" jdbcType="VARCHAR" property="hasHourse" />
+    <result column="TRADE_INFO" jdbcType="VARCHAR" property="tradeInfo" />
+    <result column="POST_INFO" jdbcType="VARCHAR" property="postInfo" />
+    <result column="COMPANY_NATURE" jdbcType="VARCHAR" property="companyNature" />
+    <result column="MONTH_INCOME" jdbcType="VARCHAR" property="monthIncome" />
+    <result column="CREDIT_NUMS" jdbcType="VARCHAR" property="creditNums" />
+    <result column="LOAN_NUMS" jdbcType="VARCHAR" property="loanNums" />
+    <result column="HAS_CAR_LOAN" jdbcType="VARCHAR" property="hasCarLoan" />
+    <result column="HAS_HOURSE_LOAN" jdbcType="VARCHAR" property="hasHourseLoan" />
+    <result column="IS_PLAN" jdbcType="VARCHAR" property="isPlan" />
+    <result column="IS_BUILD" jdbcType="VARCHAR" property="isBuild" />
+    <result column="INTEREST_START_DATE" jdbcType="DATE" property="interestStartDate" />
+    <result column="INTEREST_END_DATE" jdbcType="DATE" property="interestEndDate" />
+    <result column="SALE_START_DATE" jdbcType="DATE" property="saleStartDate" />
+    <result column="SALE_END_DATE" jdbcType="DATE" property="saleEndDate" />
+    <result column="YEAR_RATE" jdbcType="DECIMAL" property="yearRate" />
+    <result column="PRODUCT_RANK" jdbcType="DECIMAL" property="productRank" />
+    <result column="LIABILITIES_RATE" jdbcType="DECIMAL" property="liabilitiesRate" />
+    <result column="BORROW_USE" jdbcType="VARCHAR" property="borrowUse" />
+    <result column="BURROW_INDUSTRY" jdbcType="VARCHAR" property="burrowIndustry" />
+    <result column="WORK_NATURE" jdbcType="VARCHAR" property="workNature" />
+    <result column="REPAYMENT_TERMS" jdbcType="DECIMAL" property="repaymentTerms" />
+    <result column="CREDIT_SOURCE" jdbcType="VARCHAR" property="creditSource" />
+    <result column="IS_PACKED" jdbcType="DECIMAL" property="isPacked" />
+    <result column="PUSH_TIME" jdbcType="DATE" property="pushTime" />
+    <result column="PRODUCT_INTEREST" jdbcType="DECIMAL" property="productInterest" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+      ID,SUBJECT_NO,LAST_EXPIRE,PAY_END_TIME,BORROWER_NAME,BORROWER_TYPE,ID_NO,BORROW_PURPOSE,TRANSFEROR_NAME,TRANSFERORID_NO,ORGANIZATION_NO,ORGANIZATION_NAME,REPAY_TYPE,BANK_CARD_USER,BANK_CARD_NO,BANK_NAME,BANK_BRANCH,STATUS,SERNO,REFUND_STATUS,IS_FINISH,IS_NOTIFY,COLLECT_DAY,COLLECT_AMOUNT,CREATE_DATE,LOAN_DATE,REMARK,CM_NUMBER,AHEAD_PAY_DATE,BORROWER_PHONE,SEX,MARITAL_STATUS,BRITHDAY,CITY,HAS_CAR,HAS_HOURSE,TRADE_INFO,POST_INFO,COMPANY_NATURE,MONTH_INCOME,CREDIT_NUMS,LOAN_NUMS,HAS_CAR_LOAN,HAS_HOURSE_LOAN,IS_PLAN,IS_BUILD,INTEREST_START_DATE,INTEREST_END_DATE,SALE_START_DATE,SALE_END_DATE,YEAR_RATE,PRODUCT_RANK,LIABILITIES_RATE,BORROW_USE,BURROW_INDUSTRY,WORK_NATURE,REPAYMENT_TERMS,CREDIT_SOURCE,IS_PACKED,PUSH_TIME
+  </sql>
+
+  <select id="selectSubjectInfoByIsPacked" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_SUBJECT_INFO
+    where 1=1
+    <if test="packedStatus != null">
+      and IS_PACKED in
+      <foreach collection="packedStatus" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
+
+
+  <update id="updatePackedForSubjectInfo" parameterType="java.util.Map" >
+    update BUSI_SUBJECT_INFO t
+    set t.IS_PACKED = #{packedStatus}
+    where t.SUBJECT_NO = #{subjectNo}
+    <if test="oldPackedStatus != null">
+      and IS_PACKED in
+      <foreach collection="oldPackedStatus" index="index" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </update>
+
+</mapper>

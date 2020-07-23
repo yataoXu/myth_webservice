@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiArchiveMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.webservice.api.dto.sundry.BusiArchiveDto" >
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+        <result column="descr" property="descr" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP" />
+        <result column="user_id" property="userId" jdbcType="DECIMAL" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="SimpleResultMap" type="com.zdmoney.vo.BusiArchiveVo" >
+        <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+        <result column="descr" property="descr" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="all_columns">
+        id,full_name,descr,create_date,modify_date,user_id,user_name
+    </sql>
+    <!-- 增加撮合信息 -->
+    <insert id="insertArchive" parameterType="com.zdmoney.webservice.api.dto.sundry.BusiArchiveDto" >
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select seq_busi_archive.nextval from dual
+        </selectKey>
+        insert into busi_archive(id,full_name,descr,create_date,modify_date,user_id,user_name)
+        values(#{id,jdbcType=DECIMAL},#{fullName},#{descr},#{createDate,jdbcType=TIMESTAMP},#{modifyDate,jdbcType=TIMESTAMP},#{userId,jdbcType=DECIMAL},#{userName})
+    </insert>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select <include refid="all_columns"/>
+        from busi_archive
+        <where>
+            <if test="fullName != null and fullName != ''">
+                and full_name = #{fullName}
+            </if>
+            <if test="neId != null and neId != ''">
+                and id != #{neId}
+            </if>
+        </where>
+        order by create_date desc
+    </select>
+
+    <select id="selectSimpleList" resultMap="SimpleResultMap" parameterType="java.util.Map" >
+        select full_name,descr
+        from busi_archive
+        order by create_date desc
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select <include refid="all_columns"/>
+        from busi_archive
+        where id = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <update id="updateArchive" parameterType="com.zdmoney.webservice.api.dto.sundry.BusiArchiveDto">
+       update busi_archive
+        <set>
+            <if test="fullName != null">
+                full_name = #{fullName},
+            </if>
+            <if test="descr != null">
+                descr = #{descr},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=DECIMAL},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName},
+            </if>
+        </set>
+        where id = #{id,jdbcType=DECIMAL}
+    </update>
+</mapper>

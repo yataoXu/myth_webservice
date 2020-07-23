@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.trade.BusiTradeFlowDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.trade.BusiTradeFlowDetail" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="SUB_BANK_CODE" property="subBankCode" jdbcType="VARCHAR" />
+    <result column="SUB_BANK_NAME" property="subBankName" jdbcType="VARCHAR" />
+    <result column="BANK_CARD_NUM" property="bankCardNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="PAY_SERIALNO" property="paySerialno" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="PAY_CHANNEL" property="payChannel" jdbcType="VARCHAR" />
+    <result column="REQUEST_SERIAL_NO" property="requestSerialNo" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="tpp_agreement" property="tppAgreement" jdbcType="VARCHAR"/>
+    <result column="DEAL_TIME" property="dealTime" jdbcType="TIMESTAMP" />
+
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.models.trade.BusiTradeFlowDetail" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select SEQ_BUSI_TRADE_FLOW_DETAIL.nextval from dual
+    </selectKey>
+    insert into BUSI_TRADE_FLOW_DETAIL (ID, FLOW_NUM, BANK_CODE,
+      BANK_NAME, SUB_BANK_CODE, SUB_BANK_NAME, 
+      BANK_CARD_NUM, PAY_SERIALNO, MEMO, 
+      PAY_CHANNEL, REQUEST_SERIAL_NO, CREATOR, 
+      CREATE_TIME,tpp_agreement, deal_time)
+    values (#{id,jdbcType=DECIMAL}, #{flowNum,jdbcType=VARCHAR}, #{bankCode,jdbcType=VARCHAR},
+      #{bankName,jdbcType=VARCHAR}, #{subBankCode,jdbcType=VARCHAR}, #{subBankName,jdbcType=VARCHAR},
+      #{bankCardNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}, #{paySerialno,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR},
+      #{payChannel,jdbcType=VARCHAR}, #{requestSerialNo,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},#{tppAgreement,jdbcType=VARCHAR}, #{dealTime,jdbcType=TIMESTAMP})
+  </insert>
+  <sql id="Base_Column_List" >
+     ID ,FLOW_NUM,BANK_CODE,BANK_NAME,SUB_BANK_CODE,SUB_BANK_NAME,BANK_CARD_NUM,PAY_SERIALNO,MEMO , PAY_CHANNEL,  REQUEST_SERIAL_NO,  CREATOR,  CREATE_TIME,  DEAL_TIME,  TPP_AGREEMENT
+  </sql>
+
+  <select id="selectByCondition" parameterType="com.zdmoney.models.trade.BusiTradeFlowDetail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_TRADE_FLOW_DETAIL where 1=1
+    <if test="flowNum != null">
+      and FLOW_NUM = #{flowNum}
+    </if>
+  </select>
+
+  <update id="updateById" parameterType="com.zdmoney.models.trade.BusiTradeFlowDetail">
+    UPDATE BUSI_TRADE_FLOW_DETAIL set tpp_agreement = #{tppAgreement},deal_time = #{dealTime} where id = #{id}
+  </update>
+</mapper>

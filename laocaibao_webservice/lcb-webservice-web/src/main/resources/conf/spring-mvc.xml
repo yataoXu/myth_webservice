@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+    <!--<bean id='propertyPlaceholderConfigurer' class="com.zdmoney.helper.PropertyConfigurer">
+        <property name="locations">
+            <list>
+                <value>file:${global.config.path}/serviceConfig.properties</value>
+            </list>
+        </property>
+    </bean>-->
+    <mvc:annotation-driven >
+		<!--解决返回String时乱码-->
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+			     <property name="supportedMediaTypes">  
+	                <list>  
+	                    <value>text/plain;charset=UTF-8</value>  
+	                    <value>text/html;charset=UTF-8</value>  
+	                </list>  
+	            </property>  
+			</bean>
+		</mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 注解请求映射  -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+
+	<!-- ViewResolver 视图解释类 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
+        <property name="prefix" value="/WEB-INF/jsp/" />  
+        <property name="suffix" value=".jsp" />
+        <property name="order" value="1"/>
+    </bean>
+    
+    <!-- 扫描controller（controller层注入）-->
+    <context:component-scan base-package="com.zdmoney.controller"/>
+	
+    <!-- 对静态资源文件的访问  方案一  -->  
+    <mvc:default-servlet-handler/>  
+    
+    <!-- 对静态资源文件的访问  方案二 
+    <mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>  
+    <mvc:resources mapping="/js/**" location="/js/" cache-period="31556926"/>  
+    <mvc:resources mapping="/css/**" location="/css/" cache-period="31556926"/>
+    -->
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="0">
+        <!-- 默认视图 放在解析链最后 -->
+        <property name="defaultViews">
+            <list>
+                <!--<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>-->
+                <bean class="com.alibaba.fastjson.support.spring.FastJsonJsonView"/>
+                <!--<bean class="org.springframework.web.servlet.view.xml.MarshallingView"/>-->
+            </list>
+        </property>
+    </bean>
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+            <bean class="com.zdmoney.common.filter.LoginInterceptor">
+                <property name="ignoreCusts">
+                    <value>${ignore.cust.cellphone}</value>
+                </property>
+            </bean>
+    </mvc:interceptors>
+
+    <import resource="hessian-remote.xml"/>
+    <import resource="dubbo-provider.xml"/>
+</beans>

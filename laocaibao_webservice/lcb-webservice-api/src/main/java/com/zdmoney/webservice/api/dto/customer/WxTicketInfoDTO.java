@@ -1,0 +1,1 @@
+package com.zdmoney.webservice.api.dto.customer;import lombok.Data;import java.io.Serializable;@Datapublic class WxTicketInfoDTO implements Serializable {    private static final long serialVersionUID = 1L;    private String appId;    private String noncestr;    private String ticket;    private Long timestamp;    private String signature;}

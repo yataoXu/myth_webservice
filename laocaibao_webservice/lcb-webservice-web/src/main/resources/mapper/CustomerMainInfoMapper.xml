@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerMainInfoMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerMainInfo">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="CM_CELLPHONE" property="cmCellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_ACCOUNT" property="cmAccount" jdbcType="VARCHAR"/>
+        <result column="CM_REAL_NAME" property="cmRealName" jdbcType="VARCHAR"/>
+        <result column="CM_PASSWORD" property="cmPassword" jdbcType="VARCHAR"/>
+        <result column="CM_VALID" property="cmValid" jdbcType="DECIMAL"/>
+        <result column="CM_INVITE_CODE" property="cmInviteCode" jdbcType="VARCHAR"/>
+        <result column="CM_INTRODUCE_CODE" property="cmIntroduceCode" jdbcType="VARCHAR"/>
+        <result column="CM_INPUT_ID" property="cmInputId" jdbcType="DECIMAL"/>
+        <result column="CM_INPUT_DATE" property="cmInputDate" jdbcType="TIMESTAMP"/>
+        <result column="CM_MODIFY_ID" property="cmModifyId" jdbcType="DECIMAL"/>
+        <result column="CM_MODIFY_DATE" property="cmModifyDate" jdbcType="TIMESTAMP"/>
+        <result column="CM_EMPLOYEE" property="cmEmployee" jdbcType="DECIMAL"/>
+        <result column="CM_STATUS" property="cmStatus" jdbcType="DECIMAL"/>
+        <result column="CM_IDNUM" property="cmIdnum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_IDNUM_TYPE" property="cmIdnumType" jdbcType="DECIMAL"/>
+        <result column="CM_AUTHEN_COUNT" property="cmAuthenCount" jdbcType="DECIMAL"/>
+        <result column="CM_TOKEN" property="cmToken" jdbcType="VARCHAR"/>
+        <result column="CM_DEVICE" jdbcType="DECIMAL" property="cmDevice"/>
+        <result column="CM_RECOMMEND" jdbcType="DECIMAL" property="cmRecommend"/>
+        <result column="CM_BINDCARD_DATE" jdbcType="TIMESTAMP" property="cmBindcardDate"/>
+        <result column="CM_VALIDCARD_DATE" jdbcType="TIMESTAMP" property="cmValidcardDate"/>
+        <result column="CM_OPEN_MECHANISM" jdbcType="VARCHAR" property="cmOpenMechanism"/>
+        <result column="CM_OPEN_PLATFORM" jdbcType="VARCHAR" property="cmOpenPlatform"/>
+        <result column="CM_TOGATHER_TYPE" jdbcType="VARCHAR" property="cmTogatherType"/>
+        <result column="CM_OPEN_CHANNEL" jdbcType="VARCHAR" property="cmOpenChannel"/>
+        <result column="CM_REGISTER_VERSION" jdbcType="VARCHAR" property="cmRegisterVersion"/>
+        <result column="IS_CONSUMED" jdbcType="DECIMAL" property="isConsumed"/>
+        <result column="CUSTOMER_BANK_ACCOUNT_ID" jdbcType="DECIMAL" property="bankAccountId"/>
+        <result column="CM_ORIGIN" jdbcType="VARCHAR" property="cmOrigin"/>
+        <result column="CM_SALT" jdbcType="VARCHAR" property="cmSalt"/>
+        <result column="CM_LOGIN_PASSWORD" jdbcType="VARCHAR" property="cmLoginPassword"/>
+        <result column="OPEN_ID" jdbcType="VARCHAR" property="openId"/>
+        <result column="CM_FIRST_CONSUME_DATE" jdbcType="TIMESTAMP" property="firstConsumeDate"/>
+        <result column="PAY_PASSWORD" jdbcType="VARCHAR" property="payPassword"/>
+        <result column="PAY_ERROR_TIME" jdbcType="DECIMAL" property="payErrorTime"/>
+        <result column="PAY_LOCK_TIME" jdbcType="TIMESTAMP" property="payLockTime"/>
+        <result column="RESET_ERROR_TIME" jdbcType="DECIMAL" property="resetErrorTime"/>
+        <result column="RESET_LOCK_TIME" jdbcType="TIMESTAMP" property="resetLockTime"/>
+        <result column="LIMIT_TYPE" jdbcType="DECIMAL" property="limitType"/>
+        <result column="LIMIT_LAST_DATE" jdbcType="TIMESTAMP" property="limitLastDate"/>
+        <result column="PAY_ERROR_LAST_TIME" jdbcType="TIMESTAMP" property="payErrorLastTime"/>
+        <result column="RESET_ERROR_LAST_TIME" jdbcType="TIMESTAMP" property="resetErrorLastTime"/>
+        <result column="LOGIN_OPEN_ID" jdbcType="VARCHAR" property="loginOpenId"/>
+        <result column="BUY_WECHAT" jdbcType="INTEGER" property="buyWechat"/>
+        <result column="WEALTH_VALUE" jdbcType="DECIMAL" property="wealthValue"/>
+        <result column="real_name_time" jdbcType="TIMESTAMP" property="realNameTime"/>
+        <result column="CHANNEL_CODE" jdbcType="VARCHAR" property="channelCode"/>
+        <result column="MEMBER_TYPE" jdbcType="INTEGER" property="memberType"/>
+        <result column="PLANNER_INVITE_CODE" jdbcType="VARCHAR" property="plannerInviteCode"/>
+        <result column="MOBILE_LOCK_TIME" jdbcType="TIMESTAMP" property="mobileLockTime"/>
+        <result column="MOBILE_ERROR_TIMES" jdbcType="DECIMAL" property="mobileErrorTimes"/>
+        <result column="MOBILE_ERROR_LAST_TIME" jdbcType="TIMESTAMP" property="mobileLastTime"/>
+        <result column="REGISTER_SOURCE" jdbcType="DECIMAL" property="registerSource"/>
+        <result column="CM_OPEN_ACCOUNT_FLAG" jdbcType="VARCHAR" property="cmOpenAccountFlag"/>
+        <result column="CM_OPEN_ACCOUNT_DATE" jdbcType="TIMESTAMP" property="cmOpenAccountDate"/>
+        <result column="OLD_BANK_ACCOUNT_ID" jdbcType="DECIMAL" property="oldBankAccountId"/>
+        <result column="INTRODUCER" jdbcType="VARCHAR" property="introducer"/>
+        <result column="account_type" jdbcType="VARCHAR" property="accountType"/>
+        <result column="INTRODUCER_IDNUM" jdbcType="VARCHAR" property="introducerIdNum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="RISK_TEST_TYPE" property="riskTestType" jdbcType="VARCHAR" />
+        <result column="RISK_TEST_TIME" property="riskTestTime" jdbcType="TIMESTAMP" />
+        <result column="USER_LABEL" property="userLabel" jdbcType="VARCHAR" />
+        <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+        <result column="RISK_EXPIRE_TIME" jdbcType="TIMESTAMP" property="riskExpireTime"/>
+        <result column="SIGN_CONTRACT" jdbcType="DECIMAL" property="signContract"/>
+        <result column="RISK_TEST_TYPE" property="riskTestType" jdbcType="VARCHAR" />
+        <result column="BUSINESS_LICENSE" property="businessLicense" jdbcType="VARCHAR" />
+        <result column="ORG_CODE" property="orgCode" jdbcType="VARCHAR" />
+        <result column="ENTERPRISE_NAME" property="enterpriseName" jdbcType="VARCHAR" />
+        <result column="CUSTOMER_TYPE" property="customerType" jdbcType="VARCHAR" />
+        <result column="WX_BIND_TIME" property="wxBindTime" jdbcType="TIMESTAMP" />
+
+        <result column="FUIOU_LOGIN_ID" property="fuiouLoginId" jdbcType="VARCHAR" />
+        <result column="IS_SET_PWD" property="isSetPwd" jdbcType="DECIMAL" />
+        <result column="FANLI_UID" property="fanliUid" jdbcType="VARCHAR"/>
+        <result column="FANLI_TC" property="fanliTc" jdbcType="VARCHAR"/>
+        <result column="MEMBER_LEVEL" property="memberLevel" jdbcType="DECIMAL" />
+        <result column="RATING_CHANGING_DATE" property="ratingChangingDate" jdbcType="TIMESTAMP" />
+        <result column="INVITER_MEMBER_LEVEL" property="inviterMemberLevel" jdbcType="DECIMAL" />
+        <result column="INVITER_USER_LEVEL" property="inviterUserLevel" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="CustomerMap" type="com.zdmoney.webservice.api.dto.customer.CustomerMainInfoVo">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+        <result column="CM_CELLPHONE" property="cmCellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler" />
+        <result column="CM_ACCOUNT" property="cmAccount" jdbcType="VARCHAR" />
+        <result column="CM_REAL_NAME" property="cmRealName" jdbcType="VARCHAR" />
+        <result column="CM_PASSWORD" property="cmPassword" jdbcType="VARCHAR" />
+        <result column="CM_VALID" property="cmValid" jdbcType="DECIMAL" />
+        <result column="CM_INVITE_CODE" property="cmInviteCode"
+                jdbcType="VARCHAR" />
+        <result column="CM_INTRODUCE_CODE" property="cmIntroduceCode"
+                jdbcType="VARCHAR" />
+        <result column="CM_INPUT_ID" property="cmInputId" jdbcType="DECIMAL" />
+        <result column="CM_INPUT_DATE" property="cmInputDate" jdbcType="TIMESTAMP" />
+        <result column="cm_origin" property="cmOrigin" jdbcType="VARCHAR" />
+        <result column="CM_MODIFY_ID" property="cmModifyId" jdbcType="DECIMAL" />
+        <result column="CM_MODIFY_DATE" property="cmModifyDate"	jdbcType="TIMESTAMP" />
+        <result column="CM_EMPLOYEE" property="cmEmployee" jdbcType="DECIMAL" />
+        <result column="CM_EMPLOYEE_STR" property="cmEmployeeStr" jdbcType="VARCHAR" />
+        <result column="CM_STATUS" property="cmStatus" jdbcType="DECIMAL" />
+        <result column="CM_IDNUM" property="cmIdnum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler" />
+        <result column="CM_IDNUM_TYPE" property="cmIdnumType" jdbcType="DECIMAL" />
+        <result column="CM_AUTHEN_COUNT" property="cmAuthenCount" jdbcType="DECIMAL" />
+        <result column="CM_TOKEN" property="cmToken" jdbcType="VARCHAR" />
+        <result column="CM_DEVICE" jdbcType="DECIMAL" property="cmDevice" />
+        <result column="CM_RECOMMEND" property="cmRecommend" jdbcType="VARCHAR" />
+        <result column="CM_RECOMMEND_STR" property="cmRecommendStr" jdbcType="VARCHAR" />
+        <result column="INTRODUCER" property="introducer" jdbcType="VARCHAR" />
+        <result column="INTRODUCER_IDNUM" property="introducerIdnum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CB_ACCOUNT" property="cbAccount" jdbcType="VARCHAR" />
+        <result column="CB_BRANCH_NAME" property="cbBranchName" jdbcType="VARCHAR" />
+        <result column="RENZHENG" property="renzheng" jdbcType="VARCHAR" />
+        <result column="CUSTOMER_BANK_ACCOUNT_ID" property="customerBankAccountId" jdbcType="DECIMAL" />
+        <result column="is_consumed" property="isConsumed" jdbcType="VARCHAR" />
+        <result column="cm_first_consume_date" property="cmFirstConsumeDate" jdbcType="VARCHAR" />
+        <result column="MERCHANT_CODE" property="merchantCode" jdbcType="VARCHAR" />
+        <result column="CHANNEL_CODE" property="channelCode" jdbcType="VARCHAR" />
+        <result column="STAFF_CODE" property="staffCode" jdbcType="VARCHAR" />
+        <result column="member_type" property="memberType" jdbcType="VARCHAR" />
+        <result column="buy_times" property="buyTimes" jdbcType="DECIMAL" />
+        <result column="cm_open_account_flag" property="openAccountFlag" jdbcType="VARCHAR" />
+        <result column="REGISTER_SOURCE" property="registerSource" jdbcType="VARCHAR" />
+        <result column="CM_OPEN_PLATFORM" property="cmOpenPlatform" jdbcType="VARCHAR" />
+        <result column="RISK_TEST_TYPE" property="riskTestType" jdbcType="VARCHAR" />
+        <result column="account_type" property="accountType" jdbcType="VARCHAR" />
+        <result column="USER_LABEL" property="userLabel" jdbcType="VARCHAR" />
+        <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+        <result column="RISK_TEST_TIME" property="riskTestTime" jdbcType="TIMESTAMP" />
+        <result column="MEMBER_LEVEL" property="memberLevel" jdbcType="DECIMAL" />
+        <result column="MEMBER_LEVEL_DESCR" property="memberLevelDescr" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseVoMap" type="com.zdmoney.webservice.api.dto.customer.CustomerInfoVO">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="CM_CELLPHONE" property="cmCellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_REAL_NAME" property="cmRealName" jdbcType="VARCHAR"/>
+        <result column="CM_IDNUM" property="cmIdnum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_EMPLOYEE" property="cmEmployee" jdbcType="DECIMAL"/>
+        <result column="CM_AUTHEN_COUNT" property="cmAuthenCount" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_BANK_ACCOUNT_ID" jdbcType="DECIMAL" property="customerBankAccountId"/>
+        <result column="CM_BINDCARD_DATE" jdbcType="TIMESTAMP" property="cmBindcardDate"/>
+        <result column="OPEN_ID" jdbcType="VARCHAR" property="openId"/>
+        <result column="MEMBER_TYPE" jdbcType="VARCHAR" property="memberType"/>
+        <result column="USER_LABEL" property="userLabel" jdbcType="VARCHAR" />
+        <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="ExpandedVoMap" type="com.zdmoney.webservice.api.dto.customer.ExpandedCustomerInfoVO" extends="BaseVoMap">
+        <result column="introducerName" jdbcType="VARCHAR" property="introducerName"/>
+        <result column="cm_introduce_code" jdbcType="VARCHAR" property="introducerCode"/>
+        <result column="owner_code" jdbcType="VARCHAR" property="ownerCode"/>
+        <result column="owner" jdbcType="VARCHAR" property="owner"/>
+        <result column="owner_type" jdbcType="VARCHAR" property="ownerType"/>
+        <result column="bankRecordId" jdbcType="VARCHAR" property="bankRecordId"/>
+        <result column="CB_ACCOUNT" jdbcType="VARCHAR" property="cbAccount" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="cb_bank_name" jdbcType="VARCHAR" property="cbBankName"/>
+        <result column="cb_branch_name" jdbcType="VARCHAR" property="cbBranchName"/>
+        <result column="cb_bank_code" jdbcType="VARCHAR" property="cbBankCode"/>
+        <result column="cb_valid" jdbcType="VARCHAR" property="cbValid"/>
+    </resultMap>
+
+    <resultMap id="YmResultMap" type="com.zdmoney.webservice.api.dto.ym.vo.CustomerMainInfoVo" >
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="register_date" property="registerDate" />
+        <result column="card_no" property="cardNo" jdbcType="VARCHAR"/>
+        <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
+        <result column="CM_VALID" property="cmValid" jdbcType="DECIMAL" />
+        <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
+        <result column="first_consume_date" property="firstConsumeDate"  />
+        <result column="last_update" property="lastUpdate"  />
+        <result column="real_name_time" property="realNameTime" />
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR" />
+        <result column="register_source" property="registerSource" jdbcType="VARCHAR" />
+        <result column="bk" property="bk" jdbcType="VARCHAR" />
+        <result column="referrals_code" property="referralsCode" jdbcType="VARCHAR" />
+        <result column="customerType" property="customerType" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="CustomerGrantInfoMap" type="com.zdmoney.webservice.api.dto.customer.CustomerGrantInfoDTO" >
+        <result column="cm_number" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="cm_real_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="cm_cellphone" property="cellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="cm_idnum" property="idNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="grant_status" property="grantStatus" jdbcType="VARCHAR" />
+        <result column="auto_lend_term" property="autoLendTerm"  jdbcType="VARCHAR"/>
+        <result column="auto_lend_amt" property="autoLendAmt" jdbcType="VARCHAR"/>
+        <result column="used_lend_amt" property="usedLendAmt" jdbcType="VARCHAR"/>
+        <result column="leave_lend_amt" property="leaveLendAmt" jdbcType="VARCHAR"/>
+        <result column="auto_fee_term" property="autoFeeTerm" jdbcType="VARCHAR"/>
+        <result column="auto_fee_amt" property="autoFeeAmt" jdbcType="VARCHAR"/>
+        <result column="auto_repay_amt" property="autoRepayAmt" jdbcType="VARCHAR"/>
+        <result column="auto_repay_term" property="autoRepayTerm" jdbcType="VARCHAR"/>
+        <result column="auto_compen_amt" property="autoCompenAmt" jdbcType="VARCHAR"/>
+        <result column="auto_compen_term" property="autoCompenTerm" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="RegisterNotify" type="com.zdmoney.webservice.api.dto.customer.RegisterNotifyDto">
+        <id column="ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="userNo" jdbcType="VARCHAR"/>
+        <result column="CM_CELLPHONE" property="telPhone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_INPUT_DATE" property="recordTime" jdbcType="TIMESTAMP"/>
+        <result column="USER_LEVEL" property="userType" jdbcType="VARCHAR" />
+        <result column="ACCOUNT_TYPE" property="userTag" jdbcType="VARCHAR" />
+        <result column="ip" property="ipAddress" jdbcType="VARCHAR"/>
+        <result column="CM_STATUS" property="registerStatus" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <resultMap id="NameCertificateNotify" type="com.zdmoney.webservice.api.dto.customer.NameCertificateNotifyDto">
+        <id column="ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="userNo" jdbcType="VARCHAR"/>
+        <result column="real_name_time" jdbcType="TIMESTAMP" property="recordTime"/>
+        <result column="CM_IDNUM" property="idCardNo" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_REAL_NAME" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="WeChatBindNotify" type="com.zdmoney.webservice.api.dto.customer.RecordDto">
+        <id column="ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="userNo" jdbcType="VARCHAR"/>
+        <result column="WX_BIND_TIME" jdbcType="TIMESTAMP" property="recordTime"/>
+    </resultMap>
+    <resultMap id="CloseAccount" type="com.zdmoney.webservice.api.dto.customer.RecordDto">
+        <id column="ID" property="userId" jdbcType="DECIMAL"/>
+        <result column="CM_NUMBER" property="userNo" jdbcType="VARCHAR"/>
+        <result column="CM_MODIFY_DATE" jdbcType="TIMESTAMP" property="recordTime"/>
+    </resultMap>
+
+    <resultMap id="BusiUnbindRecord" type="com.zdmoney.webservice.api.dto.customer.BusiUnbindRecordVO">
+        <result column="ID" jdbcType="DECIMAL" property="id" />
+        <result column="UB_BANK_CODE" jdbcType="VARCHAR" property="ubBankCode" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_TELEPHONE" jdbcType="VARCHAR" property="ubTelephone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_REAL_NAME" jdbcType="VARCHAR" property="ubRealName" />
+        <result column="UB_IDNUM" jdbcType="VARCHAR" property="ubIdnum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="OPER_TIME" jdbcType="TIMESTAMP" property="operTime" />
+        <result column="OPER_MAN" jdbcType="VARCHAR" property="operMan" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="UN_TYPE" jdbcType="VARCHAR" property="unType" />
+    </resultMap>
+
+    <resultMap id="UserInfoMap" type="com.zdmoney.webservice.api.dto.customer.UserInfoDTO">
+        <result column="ID" jdbcType="DECIMAL" property="userId" />
+        <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="CustomerInvestingInfoMap" type="com.zdmoney.models.customer.CustomerInvestingInfo">
+        <result column="id"  property="id" jdbcType="DECIMAL" />
+        <result column="amt"  property="amt" />
+        <result column="member_level"  property="memberLevel" jdbcType="DECIMAL"/>
+        <result column="cm_real_name"  property="realName" jdbcType="VARCHAR" />
+        <result column="cm_number"  property="cmNumber" jdbcType="VARCHAR" />
+        <result column="cm_cellphone"  property="cellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="open_id"  property="openId" jdbcType="VARCHAR" />
+        <result column="rating_changing_date"  property="ratingChangingDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, CM_NUMBER, CM_CELLPHONE, CM_ACCOUNT, CM_REAL_NAME, CM_PASSWORD, CM_VALID, CM_INVITE_CODE,
+        CM_INTRODUCE_CODE, CM_INPUT_ID, CM_INPUT_DATE, CM_MODIFY_ID, CM_MODIFY_DATE, CM_EMPLOYEE,
+        CM_STATUS, CM_IDNUM, CM_IDNUM_TYPE, CM_AUTHEN_COUNT,CM_TOKEN,CM_DEVICE,CM_RECOMMEND,
+        CM_BINDCARD_DATE, CM_VALIDCARD_DATE, CM_OPEN_MECHANISM, CM_OPEN_PLATFORM, CM_TOGATHER_TYPE,
+        CM_OPEN_CHANNEL, CM_REGISTER_VERSION, IS_CONSUMED,CUSTOMER_BANK_ACCOUNT_ID,CM_SALT,CM_LOGIN_PASSWORD,OPEN_ID,CM_FIRST_CONSUME_DATE,
+        PAY_PASSWORD,PAY_ERROR_TIME,PAY_LOCK_TIME,RESET_ERROR_TIME,RESET_LOCK_TIME,LIMIT_TYPE,LIMIT_LAST_DATE,PAY_ERROR_LAST_TIME,RESET_ERROR_LAST_TIME,
+        LOGIN_OPEN_ID,WEALTH_VALUE,BUY_WECHAT,CHANNEL_CODE,MEMBER_TYPE,PLANNER_INVITE_CODE,REAL_NAME_TIME,MOBILE_LOCK_TIME,MOBILE_ERROR_TIMES,MOBILE_ERROR_LAST_TIME,
+        REGISTER_SOURCE,CM_OPEN_ACCOUNT_FLAG,CM_OPEN_ACCOUNT_DATE,OLD_BANK_ACCOUNT_ID,INTRODUCER,INTRODUCER_IDNUM,USER_LABEL,USER_LEVEL,account_type,SIGN_CONTRACT,
+        RISK_TEST_TYPE,CUSTOMER_TYPE,FUIOU_LOGIN_ID,IS_SET_PWD,FANLI_UID,FANLI_TC, MEMBER_LEVEL, RATING_CHANGING_DATE, INVITER_MEMBER_LEVEL, INVITER_USER_LEVEL
+    </sql>
+
+    <select id="selectCustomerInvestingInfo" resultMap="CustomerInvestingInfoMap">
+        select id,cust.cm_cellphone,cust.cm_number,cust.cm_real_name,cust.open_id,cust.member_level,rating_changing_date,nvl(order_amt,0) amt
+        from
+         (
+            select * from laocaibao.customer_main_info
+            <where>
+                <if test="accountType != null and accountType != ''">
+                    and account_type = #{accountType}
+                </if>
+                <if test="customerIds != null">
+                    and id in
+                    <foreach collection="customerIds" open="(" close=")" item="var" separator=",">
+                        #{var}
+                    </foreach>
+                </if>
+            </where>
+        ) cust
+        left join (
+        select
+        nvl(sum(case when PRODUCT_TYPE='4' then order_amt  when PRODUCT_TYPE='3' and t.repay_status in (1, 2, 8) then  principal else 0 end), 0) order_amt,
+        bo.customer_id
+        from busi_order bo left join  busi_order_pay_plan t on bo.order_num = t.order_num
+            <where>
+                PRODUCT_TYPE in( '3','4')
+                <if test="statusList != null">
+                    and bo.status in
+                    <foreach collection="statusList" open="(" close=")" item="var" separator=",">
+                        #{var}
+                    </foreach>
+                </if>
+                <if test="customerIds != null">
+                    and bo.customer_id in
+                    <foreach collection="customerIds" open="(" close=")" item="var" separator=",">
+                        #{var}
+                    </foreach>
+                </if>
+                <if test="orderBeforeDate != null">
+                    and bo.order_time &lt; #{orderBeforeDate}
+                </if>
+            </where>
+          group by bo.customer_id
+        ) tmp on cust.id=tmp.customer_id
+
+    </select>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        update customer_main_info t
+        <set>
+            <if test="newRating != null">
+                t.member_level = #{newRating},
+            </if>
+            <if test="ratingChangingDate != null">
+                t.rating_changing_date = #{ratingChangingDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <if test="customerIds != null">
+                and id in
+                <foreach collection="customerIds" item="var" separator="," open="(" close=")">
+                    #{var}
+                </foreach>
+            </if>
+        </where>
+    </update>
+
+    <select id="selectCustomerWithPlannerInfo" parameterType="java.util.Map" resultMap="ExpandedVoMap">
+        select cmi.id id,cmi.cm_cellphone ,cmi.cm_real_name,cmi.cm_number,cr.cust_type member_type,cmi.introducer introducerName,
+        cmi.cm_introduce_code,cr.invite_code owner_code ,cmir.cm_real_name owner,cr2.cust_type owner_type from customer_main_info cmi
+        left join customer_relationship cr on(cr.cust_number = cmi.cm_number)
+        left join customer_main_info cmir on(cr.invite_code = cmir.cm_invite_code)
+        left join customer_relationship cr2 on(cr2.cust_number = cmir.cm_number)
+        where cmi.cm_valid = '0'
+        <if test="plannerName != null">
+            and bfp.fp_name like '%'||#{plannerName}||'%'
+        </if>
+        <if test="cmCellphone != null and cmCellphone !=''">
+            and cmi.cm_cellphone = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="memberType != null">
+            and cr.cust_type = #{memberType}
+        </if>
+        <if test="introducerCode != null">
+            and cmi.cm_introduce_code = #{introducerCode}
+        </if>
+        <if test="ownerCode != null">
+            and cr.invite_code = #{ownerCode}
+        </if>
+        order by cmi.cm_input_date desc
+    </select>
+
+    <!--用于接口的条件查询-->
+    <select id="getCustomerByParams" resultMap="BaseVoMap">
+        select ID,CM_NUMBER,CM_CELLPHONE,CM_REAL_NAME,CM_IDNUM,CM_EMPLOYEE,CM_AUTHEN_COUNT,CUSTOMER_BANK_ACCOUNT_ID,CM_BINDCARD_DATE,OPEN_ID
+        from CUSTOMER_MAIN_INFO where 1=1
+        <if test="cmCellphone != null and cmCellphone !=''">
+            and CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmNumber != null">
+            and CM_NUMBER = #{cmNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="notVarified">
+            and cm_status != 3
+        </if>
+    </select>
+
+    <!--根据条件查询-->
+    <select id="getCustomerBySearchParam" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where 1=1
+        <if test="id != null">
+            and id = #{id,jdbcType=DECIMAL}
+        </if>
+        <if test="cmCellphone != null">
+            and CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmValid != null">
+            and CM_VALID = #{cmValid,jdbcType=VARCHAR}
+        </if>
+        <if test="cmInviteCode != null">
+            and CM_INVITE_CODE = #{cmInviteCode,jdbcType=VARCHAR}
+        </if>
+        <if test="cmNumber != null">
+            and CM_NUMBER = #{cmNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="cmStatus != null">
+            and CM_STATUS = #{cmStatus,jdbcType=VARCHAR}
+        </if>
+        <if test='consumed!= null'>
+            and IS_CONSUMED = #{consumed}
+        </if>
+        <if test="accountType != null">
+            and account_type = #{accountType}
+        </if>
+        <if test="cmNumbers != null">
+            and CM_NUMBER IN
+            <foreach collection="cmNumbers" item="var" separator="," open="(" close=")">
+                #{var}
+            </foreach>
+        </if>
+        <if test="ids != null">
+            AND ID IN
+            <foreach collection="ids" item="var" separator="," open="(" close=")">
+                #{var}
+            </foreach>
+        </if>
+        <if test="exclusiveCustomers != null">
+            AND ID not IN
+            <foreach collection="exclusiveCustomers" item="var" separator="," open="(" close=")">
+                #{var}
+            </foreach>
+        </if>
+        order by id asc
+    </select>
+
+    <!--根据条件查询条数-->
+    <select id="getCustMainCountByParam" resultType="long">
+        select count(ID) from CUSTOMER_MAIN_INFO where 1=1
+        <if test="cmInputDate != null">
+            and to_char(CM_INPUT_DATE,'YYMMDD')=#{cmInputDate,jdbcType=VARCHAR}
+        </if>
+        <if test="cmInviteCode != null">
+            and CM_INVITE_CODE = #{cmInviteCode,jdbcType=VARCHAR}
+        </if>
+        <if test="cmValid != null">
+            and CM_VALID = #{cmValid,jdbcType=VARCHAR}
+        </if>
+        <if test="cmStatus != null">
+            and CM_STATUS = #{cmStatus,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--根据条件查询条数-->
+    <select id="queryCustMainInfoByIntroduceCode" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from CUSTOMER_MAIN_INFO where 1=1
+        <if test="cmInputDate != null">
+            and to_char(CM_INPUT_DATE,'YYMMDD')=#{cmInputDate,jdbcType=VARCHAR}
+        </if>
+        <if test="cmInviteCode != null">
+            and CM_INVITE_CODE = #{cmInviteCode,jdbcType=VARCHAR}
+        </if>
+        <if test="cmValid != null">
+            and CM_VALID = #{cmValid,jdbcType=VARCHAR}
+        </if>
+        <if test="cmStatus != null">
+            and CM_STATUS = #{cmStatus,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--根据手机号查询有效会员  -->
+    <select id="selectByPhone" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    </select>
+
+    <!-- 修改密码 -->
+    <update id="updatepassword" parameterType="String">
+  update CUSTOMER_MAIN_INFO set CM_PASSWORD=#{cmPassword,jdbcType=VARCHAR},
+          CM_LOGIN_PASSWORD=#{cmLoginPassword,jdbcType=VARCHAR} where CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+  and CM_VALID='0'
+  </update>
+    <!-- 更新交易密码 -->
+    <update id="updateTradePassword" parameterType="String">
+        update CUSTOMER_MAIN_INFO set PAY_PASSWORD=#{tradePassword,jdbcType=VARCHAR}
+        where CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        and CM_VALID='0'
+    </update>
+    <!-- 更新重置交易密码锁定时间 -->
+    <update id="updateResetLockInfos">
+        update CUSTOMER_MAIN_INFO set RESET_ERROR_TIME=#{resetErrorTime,jdbcType=DECIMAL},RESET_LOCK_TIME=#{resetLockTime,jdbcType=TIMESTAMP}
+        where CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        and CM_VALID='0'
+    </update>
+    <!-- 用户认证 -->
+    <update id="updateByCustomerId" parameterType="com.zdmoney.models.customer.CustomerMainInfo">
+        update CUSTOMER_MAIN_INFO
+        <set>
+            <if test="cmCellphone != null">
+                CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+            </if>
+            <if test="cmAccount != null">
+                CM_ACCOUNT = #{cmAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="cmRealName != null">
+                CM_REAL_NAME = #{cmRealName,jdbcType=VARCHAR},
+            </if>
+            <if test="cmPassword != null">
+                CM_PASSWORD = #{cmPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="cmValid != null">
+                CM_VALID = #{cmValid,jdbcType=DECIMAL},
+            </if>
+            <if test="cmInviteCode != null">
+                CM_INVITE_CODE = #{cmInviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cmIntroduceCode != null">
+                CM_INTRODUCE_CODE = #{cmIntroduceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cmInputId != null">
+                CM_INPUT_ID = #{cmInputId,jdbcType=DECIMAL},
+            </if>
+            <if test="cmInputDate != null">
+                CM_INPUT_DATE = #{cmInputDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cmModifyId != null">
+                CM_MODIFY_ID = #{cmModifyId,jdbcType=DECIMAL},
+            </if>
+            <if test="cmModifyDate != null">
+                CM_MODIFY_DATE = #{cmModifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cmEmployee != null">
+                CM_EMPLOYEE = #{cmEmployee,jdbcType=DECIMAL},
+            </if>
+            <if test="cmStatus != null">
+                CM_STATUS = #{cmStatus,jdbcType=DECIMAL},
+            </if>
+            <if test="cmIdnum != null">
+                CM_IDNUM = #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+            </if>
+            <if test="cmIdnumType != null">
+                CM_IDNUM_TYPE = #{cmIdnumType,jdbcType=DECIMAL},
+            </if>
+            <if test="cmAuthenCount != null">
+                CM_AUTHEN_COUNT = #{cmAuthenCount,jdbcType=DECIMAL},
+            </if>
+            <if test="cmToken != null">
+                CM_TOKEN = #{cmToken,jdbcType=VARCHAR},
+            </if>
+            <if test="cmDevice != null">
+                CM_DEVICE= #{cmDevice,jdbcType=DECIMAL},
+            </if>
+            <if test="cmRecommend != null">
+                CM_RECOMMEND= #{cmRecommend,jdbcType=DECIMAL},
+            </if>
+            <if test="cmBindcardDate != null">
+                CM_BINDCARD_DATE = #{cmBindcardDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cmValidcardDate != null">
+                CM_VALIDCARD_DATE = #{cmValidcardDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cmOpenMechanism != null">
+                CM_OPEN_MECHANISM = #{cmOpenMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenPlatform != null">
+                CM_OPEN_PLATFORM = #{cmOpenPlatform,jdbcType=VARCHAR},
+            </if>
+            <if test="cmTogatherType != null">
+                CM_TOGATHER_TYPE = #{cmTogatherType,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenChannel != null">
+                CM_OPEN_CHANNEL = #{cmOpenChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="cmRegisterVersion != null">
+                CM_REGISTER_VERSION = #{cmRegisterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isConsumed != null">
+                IS_CONSUMED = #{isConsumed,jdbcType=DECIMAL},
+            </if>
+            <if test="bankAccountId != null">
+                CUSTOMER_BANK_ACCOUNT_ID = #{bankAccountId,jdbcType=DECIMAL},
+            </if>
+            <if test="wealthValue != null">
+                WEALTH_VALUE = #{wealthValue,jdbcType=DECIMAL},
+            </if>
+            <if test="buyWechat != null">
+                BUY_WECHAT = #{buyWechat,jdbcType=INTEGER},
+            </if>
+            <if test="channelCode != null">
+                CHANNEL_CODE = #{channelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="memberType != null">
+                MEMBER_TYPE = #{memberType,jdbcType=INTEGER},
+            </if>
+            <if test="plannerInviteCode != null">
+                PLANNER_INVITE_CODE = #{plannerInviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userLabel != null">
+                USER_LABEL = #{userLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="userLevel != null">
+                USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+            </if>
+            CM_MODIFY_DATE=sysdate
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <!--根据客户编号查询有效会员  -->
+    <select id="selectByCustomerId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where ID = #{cmCustomerId,jdbcType=DECIMAL}
+        and CM_VALID='0'
+    </select>
+
+    <!-- 更新用户状态 -->
+    <update id="updateCmStatusById">
+	update CUSTOMER_MAIN_INFO set CM_STATUS=#{cmStatus,jdbcType=DECIMAL} where ID = #{cmCustomerId,jdbcType=DECIMAL}
+	</update>
+
+    <!-- 更新认证次数 -->
+    <update id="updateCmAuthenCountById">
+  update CUSTOMER_MAIN_INFO set CM_AUTHEN_COUNT = #{cmAuthenCount,jdbcType=DECIMAL}
+  where ID = #{cmCustomerId,jdbcType=DECIMAL}
+  </update>
+
+
+    <select id="validateIntroduceCode" resultMap="BaseResultMap" parameterType="String">
+        SELECT * FROM (
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM CUSTOMER_MAIN_INFO
+        WHERE CM_VALID=0 AND
+        CM_STATUS=3 AND
+        trim(CM_INVITE_CODE)=#{introduceCode,jdbcType=VARCHAR}
+        ) WHERE ROWNUM =1
+    </select>
+
+    <!-- 查询库中是否已存在该身份证 -->
+    <select id="selectByIdNum" resultMap="BaseResultMap" parameterType="String">
+        SELECT * FROM (
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where upper(CM_IDNUM) = #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        and CM_VALID='0'
+        ) WHERE ROWNUM =1
+    </select>
+
+    <!-- 根据custId查询设备信息 -->
+    <select id="selectTokenBycustId" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <!-- 根据token查询用户 -->
+    <select id="selectByToken" resultMap="BaseResultMap" parameterType="String">
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where CM_TOKEN=#{cmToken,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 更新设备号 -->
+    <update id="updateTokenBycustId" >
+  	update CUSTOMER_MAIN_INFO set CM_TOKEN=#{cmToken,jdbcType=VARCHAR},CM_DEVICE= #{cmDevice,jdbcType=DECIMAL}
+  	 where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+    <update id="clearToken" parameterType="String">
+    update CUSTOMER_MAIN_INFO set CM_TOKEN='',CM_DEVICE= ''
+    where CM_TOKEN=#{cmToken,jdbcType=VARCHAR} and CM_DEVICE= #{cmDevice,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 根据邀请码判断推荐状态 -->
+    <select id="selectRecommendByInivteCode" parameterType="String" resultType="String">
+  	select CM_EMPLOYEE FROM CUSTOMER_MAIN_INFO WHERE CM_INVITE_CODE=#{cmInviteCode,jdbcType=VARCHAR}
+  </select>
+
+    <!-- 根据邀请码判断推荐状态 -->
+    <select id="selecCustomerByInivteCode" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM CUSTOMER_MAIN_INFO WHERE CM_INVITE_CODE=#{cmInviteCode,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInviteCodeNum" parameterType="String" resultType="Integer">
+  	SELECT COUNT(*) FROM CUSTOMER_MAIN_INFO WHERE CM_INVITE_CODE=#{cmInviteCode,jdbcType=VARCHAR}
+  </select>
+
+    <!-- 推荐第三者判断 -->
+    <select id="selectByThird" parameterType="java.util.Map" resultType="Integer">
+    select count(*) from customer_main_info x
+     where ((select b.cm_invite_code
+              from customer_main_info b
+             where b.cm_introduce_code =
+                   (select a.cm_invite_code
+                      from customer_main_info a
+                     where id = #{id,jdbcType=DECIMAL}))  in
+           (select c.cm_introduce_code
+              from customer_main_info c
+             where c.cm_invite_code = #{cmIntroduceCode,jdbcType=VARCHAR}))
+             and x.id =#{id,jdbcType=DECIMAL}
+  </select>
+
+    <select id="selectInviteCodeByIntroduceCode" parameterType="String" resultMap="BaseResultMap">
+    select * from customer_main_info A where A.CM_INTRODUCE_CODE=#{introduceCode,jdbcType=VARCHAR}
+  </select>
+
+    <select id="validateIntroduceCodeByDay" resultType="Integer" parameterType="String">
+    select count(*) from customer_main_info where CM_INTRODUCE_CODE=#{cmIntroduceCode,jdbcType=VARCHAR}
+    and to_char(CM_INPUT_DATE,'yyyy-MM-dd')=to_char(sysdate,'yyyy-MM-dd')
+  </select>
+
+    <!--根据cmNumber查询数据-->
+    <select id="selectBycmNumber" parameterType="String" resultMap="BaseResultMap">
+    select * from customer_main_info where CM_NUMBER=#{cmNumber,jdbcType=VARCHAR}
+  </select>
+
+
+    <select id="selectAllCustomer" parameterType="String" resultMap="BaseResultMap">
+    select * from customer_main_info
+  </select>
+
+    <select id="checkBind" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from customer_main_info where open_id = #{openId} and cm_valid = 0
+    </select>
+
+    <select id="checkLoginOpenIdBind" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from customer_main_info where login_open_id = #{loginOpenId} and cm_valid = 0
+    </select>
+
+    <update id="bindWeichat" parameterType="java.util.Map">
+    update customer_main_info
+    set open_id = #{openId},WX_BIND_TIME = #{wxBindTime}
+    where id = #{customerId}
+  </update>
+
+    <update id="unBind" parameterType="java.lang.Long">
+        UPDATE CUSTOMER_MAIN_INFO SET OPEN_ID = '',CM_MODIFY_DATE=sysdate WHERE ID = #{customerId}
+    </update>
+
+    <select id="queryAuthChannelInfo" resultType="com.zdmoney.models.customer.CustomerAuthChannel">
+        select id, channel_name channelName, status from SYS_REAL_CHANNEL where status = 1
+    </select>
+
+    <!-- 更新用户实名认证失败 -->
+    <update id="updateCmStatusFailure">
+        update CUSTOMER_MAIN_INFO set CM_STATUS=4,CM_AUTHEN_COUNT=CM_AUTHEN_COUNT+1 where ID = #{id,jdbcType=DECIMAL} and CM_STATUS !=3
+    </update>
+
+    <!-- 更新用户绑卡信息 -->
+    <update id="updateCardInfo">
+        update CUSTOMER_MAIN_INFO set CM_MODIFY_DATE=#{currentDate,jdbcType=TIMESTAMP},CM_BINDCARD_DATE=#{currentDate,jdbcType=TIMESTAMP},CM_VALIDCARD_DATE=#{currentDate,jdbcType=TIMESTAMP},CUSTOMER_BANK_ACCOUNT_ID=#{accountId,jdbcType=DECIMAL} where ID = #{id,jdbcType=DECIMAL} and CUSTOMER_BANK_ACCOUNT_ID is null
+    </update>
+
+    <!-- 更新用户风险测评类型 -->
+    <update id="updateCustomerRiskTestType">
+        update CUSTOMER_MAIN_INFO set RISK_TEST_TYPE = #{riskTestType,jdbcType=VARCHAR},RISK_TEST_TIME = sysdate ,RISK_EXPIRE_TIME = add_months(sysdate,12)  where id = #{customerId, jdbcType=DECIMAL}
+    </update>
+
+    <select id="querySpecialFinancialPlannerInfo" parameterType="String" resultType="com.zdmoney.webservice.api.dto.plan.SpecialFinancialPlannerVO">
+        select cmi.id as customerId, cmi.cm_number as cmNumber, cmi.cm_real_name as realName, cmi.cm_idnum as idNum, cmi.cm_cellphone as cellPhone, cba.cb_account as bankAccount,
+        cba.cb_bank_code as bankCode, cba.cb_bank_name as bankName, cba.cb_subbank_code as subbankCode
+        from customer_bank_account cba, customer_main_info cmi
+        where cmi.customer_bank_account_id = cba.id
+        and cmi.cm_number = #{cmNumber, jdbcType=DECIMAL}
+    </select>
+    <!-- 将理财师客户推荐的客户，类型为理财师客户的，设置为普通客户，同时将其理财师邀请码设置为空-->
+    <update id="modifyInviteeMemberTypeByIntroduceCode" parameterType="java.lang.String">
+        update customer_main_info set member_type = 3,planner_invite_code = null,CM_MODIFY_DATE=sysdate
+        where cm_introduce_code = #{introduceCode,jdbcType=VARCHAR} and member_type = 2
+    </update>
+
+    <!--根据条件查询 -->
+    <select id="getCustomerBySearchParamNew" resultMap="CustomerMap">
+        SELECT   A.CM_RECOMMEND, (case when A.is_consumed=1 then '是' ELSE '否' END )is_consumed,
+        A.ID ID,A.CM_NUMBER CM_NUMBER,A.CM_CELLPHONE CM_CELLPHONE,A.CM_REAL_NAME,a.CM_OPEN_PLATFORM,
+        A.CM_IDNUM CM_IDNUM, A.CM_VALID CM_VALID,A.CM_AUTHEN_COUNT CM_AUTHEN_COUNT,A.CM_OPEN_ACCOUNT_FLAG,
+        CASE WHEN A.cm_status !=3 THEN '否' WHEN A.cm_status =3 THEN '是' else null  end as RENZHENG,
+        A.CM_EMPLOYEE CM_EMPLOYEE,CASE  WHEN A.CM_EMPLOYEE =1 THEN '是' ELSE '否'  END as CM_EMPLOYEE_STR,
+        A.CM_INVITE_CODE CM_INVITE_CODE,A.CM_INTRODUCE_CODE CM_INTRODUCE_CODE,A.CM_INPUT_DATE CM_INPUT_DATE,
+        to_char(A.cm_first_consume_date,'yyyy-MM-dd')cm_first_consume_date,a.INTRODUCER_IDNUM,a.INTRODUCER,a.REGISTER_SOURCE,
+        case when m.merchant_type = '1' then  m.MERCHANT_NO end MERCHANT_CODE,
+        case when m.merchant_type = '2' then  m.MERCHANT_NO end CHANNEL_CODE,
+        (CASE WHEN a.user_level='0' THEN '项目顾问' WHEN a.user_level='1' THEN '一级客户' WHEN a.user_level='2' THEN '二级客户'
+        WHEN a.user_level='3'  THEN '互联网客户' WHEN a.user_level='4' THEN '互联网员工'  else '' END
+        ) member_type,
+        nvl(o.count,0) buy_times,a.RISK_TEST_TYPE,RISK_TEST_TIME,account_type,c.rating_descr as MEMBER_LEVEL_DESCR
+        from customer_main_info a
+        left join laocaibao.customer_rating_config c on c.rating_num=a.member_level
+        left join merchant_register_record m	on m.customer_no = a.cm_number
+        left join busi_sales_volume o on o.customer_id = a.id
+        where  a.CM_VALID ='0'
+        <include refid="CUSTOMER_MAIN_WHERE"/>
+
+        order by a.ID desc
+    </select>
+
+    <!--根据条件查询 -->
+    <select id="getCountBySearchParamNew" resultType="java.lang.Integer">
+        SELECT  count(1) from customer_main_info a
+        left join merchant_register_record m on m.customer_no = a.cm_number
+        left join busi_sales_volume o on o.customer_id = a.id
+        where  a.CM_VALID ='0'
+        <include refid="CUSTOMER_MAIN_WHERE"/>
+        order by a.ID desc
+    </select>
+
+    <sql id="CUSTOMER_MAIN_WHERE">
+        <if test="cmNumber != null">
+            and a.CM_NUMBER = #{cmNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="cmCellphone != null and cmCellphone !=''">
+            and a.CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmRealName != null">
+            and a.CM_REAL_NAME = #{cmRealName,jdbcType=VARCHAR}
+        </if>
+        <if test="cmIdnum != null and cmIdnum !=''">
+            and a.CM_IDNUM = #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmInviteCode != null">
+            and a.CM_INVITE_CODE = #{cmInviteCode,jdbcType=VARCHAR}
+        </if>
+        <if test="cmEmployee != null and cmEmployee != ''">
+            and a.CM_EMPLOYEE = #{cmEmployee,jdbcType=VARCHAR}
+        </if>
+        <if test="beginTime != null">
+            and a.CM_INPUT_DATE &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+        </if>
+        <if test="endTime != null">
+            and a.CM_INPUT_DATE &lt;= (to_date(#{endTime},'yyyy-MM-dd')+1)
+        </if>
+        <if test="cmRecommend != null">
+            and a.CM_RECOMMEND = #{cmRecommend,jdbcType=VARCHAR}
+        </if>
+
+        <if test="cmIntroduceCode != null">
+            and a.CM_INTRODUCE_CODE = #{cmIntroduceCode,jdbcType=VARCHAR}
+        </if>
+        <if test="introducer != null">
+            and a.introducer = #{introducer,jdbcType=VARCHAR}
+        </if>
+        <if test="cmOrigin != null">
+            and a.cm_origin = #{cmOrigin,jdbcType=VARCHAR}
+        </if>
+        <if test="renzheng != null and renzheng != ''">
+            <choose>
+                <when test="renzheng == 1">
+                    AND a.cm_status =3
+                </when>
+                <when test="renzheng == 0">
+                    AND a.cm_status !=3
+                </when>
+            </choose>
+        </if>
+        <if test="merchantCode != null">
+            and m.MERCHANT_NO = #{merchantCode,jdbcType=VARCHAR} and m.merchant_type = '1'
+        </if>
+        <if test="channelCode != null">
+            and m.MERCHANT_NO = #{channelCode,jdbcType=VARCHAR} and m.merchant_type = '2'
+        </if>
+        <if test="openAccountFlag != null and openAccountFlag!=-1">
+            and a.CM_OPEN_ACCOUNT_FLAG = #{openAccountFlag}
+        </if>
+        <if test="minBuyTimes != null">
+            and #{minBuyTimes} &lt;= nvl(o.count,0)
+        </if>
+        <if test="maxBuyTimes != null">
+            and nvl(o.count,0) &lt;= #{maxBuyTimes}
+        </if>
+        <if test="registerSource == 1">
+            and a.register_source= 0  and a.cm_open_platform='App'
+        </if>
+        <if test="registerSource ==2">
+            and a.register_source= 0  and a.cm_open_platform='WEB'
+        </if>
+        <if test="registerSource ==3">
+            and a.register_source= 1  and a.cm_open_platform='App'
+        </if>
+        <if test="registerSource ==4">
+            and a.register_source= 1  and a.cm_open_platform='WEB'
+        </if>
+        <if test="registerSource ==5">
+            and  a.cm_open_platform!='WEB' and a.cm_open_platform!='App'
+        </if>
+        <if test='riskTestType != null and riskTestType != "" and riskTestType != "N" '>
+            and a.RISK_TEST_TYPE= #{riskTestType}
+        </if>
+        <if test='riskTestType!= null and riskTestType =="N" '>
+            and a.RISK_TEST_TYPE is null
+        </if>
+        <if test='accountType!= null and accountType !="" '>
+            and a.account_type = #{accountType}
+        </if>
+        <if test='consumed!= null'>
+            and a.is_consumed = #{consumed}
+        </if>
+        <if test="ids != null">
+            AND a.ID IN
+            <foreach collection="ids" item="var" separator="," open="(" close=")">
+                #{var}
+            </foreach>
+        </if>
+        <if test="exclusiveCustomers != null">
+            AND a.ID not IN
+            <foreach collection="exclusiveCustomers" item="var" separator="," open="(" close=")">
+                #{var}
+            </foreach>
+        </if>
+        <if test="userLevel != null and userLevel !='' ">
+            and a.USER_LEVEL = #{userLevel}
+        </if>
+        <if test="memberLevel != null and memberLevel !='' ">
+            and a.MEMBER_LEVEL = #{memberLevel}
+        </if>
+    </sql>
+    <!--客户银行卡信息查询-->
+    <select id="selectCustomersBankAccountInfo" resultMap="ExpandedVoMap"	parameterType="java.util.Map">
+        select DISTINCT uu.* from(
+        select  b.id as bankRecordId,a.cm_number,a.customer_bank_account_id,a.cm_cellphone,a.cm_real_name,a.cm_idnum,b.CB_INPUT_DATE cm_bindcard_date,a.id,a.user_label, a.user_level,
+        b.CB_ACCOUNT,b.cb_bank_name,b.cb_branch_name,b.CB_VALID,b.cb_bank_code
+        from customer_main_info a inner join customer_bank_account b on (b.CUSTOMER_ID=a.id)
+        <where> 1=1
+            <if test="cmCellphone != null">
+                and  a.cm_cellphone = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cmNumber != null">
+                and a.cm_number = #{cmNumber}
+            </if>
+            <if test="cmRealName != null">
+                AND a.cm_real_name LIKE '%'||#{cmRealName}||'%'
+            </if>
+            <if test="cmIdnum != null">
+                AND a.cm_idnum = #{cmIdnum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cmEmployee eq 1 ">
+                AND c.id is not null
+            </if>
+            <if test="cmEmployee eq 0 ">
+                AND c.id is null
+            </if>
+            <if test="cbAccount != null">
+                AND b.cb_account = #{cbAccount,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cbValid eq 0">
+                AND (b.CB_VALID = '0' OR b.CB_VALID IS NULL)
+            </if>
+            <if test="cbValid eq 1">
+                AND b.CB_VALID = '1'
+            </if>
+            <if test="beginTime != null">
+                and b.CB_INPUT_DATE &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+            </if>
+            <if test="endTime != null">
+                and b.CB_INPUT_DATE &lt;= (to_date(#{endTime},'yyyy-MM-dd')+1)
+            </if>
+        </where>
+        ) uu order by uu.cm_bindcard_date desc,uu.id desc
+    </select>
+    <select id="selectOneCustomerBankAccount" resultMap="ExpandedVoMap"	parameterType="java.util.Map">
+        select * from (
+        select  b.id as bankRecordId,a.cm_number,a.customer_bank_account_id,a.cm_cellphone,a.cm_real_name,
+        a.cm_idnum,b.CB_INPUT_DATE cm_bindcard_date,a.id,
+        b.CB_ACCOUNT,b.cb_bank_name,b.cb_branch_name,b.CB_VALID,b.cb_bank_code
+        from customer_main_info a inner join customer_bank_account b on (b.CUSTOMER_ID=a.id)
+        <where> 1=1
+            <if test="cmCellphone != null">
+                and  a.cm_cellphone = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cmNumber != null">
+                and a.cm_number = #{cmNumber}
+            </if>
+            <if test="cmIdnum != null">
+                AND a.cm_idnum = #{cmIdnum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cmEmployee eq 1 ">
+                AND c.id is not null
+            </if>
+            <if test="cmEmployee eq 0 ">
+                AND c.id is null
+            </if>
+            <if test="cbAccount != null">
+                AND b.cb_account = #{cbAccount,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cbValid eq 0">
+                AND (b.CB_VALID = '0' OR b.CB_VALID IS NULL)
+            </if>
+            <if test="cbValid eq 1">
+                AND b.CB_VALID = '1'
+            </if>
+            <if test="beginTime != null">
+                and b.CB_INPUT_DATE &gt;= to_date(#{beginTime},'yyyy-MM-dd')
+            </if>
+            <if test="endTime != null">
+                and b.CB_INPUT_DATE &lt;= (to_date(#{endTime},'yyyy-MM-dd')+1)
+            </if>
+        </where>
+        order by b.CB_INPUT_DATE desc, a.id desc
+        ) page where rownum &lt;2
+    </select>
+    <select id="selectBankAccountDetail" resultMap="ExpandedVoMap"	parameterType="java.lang.Long">
+        select  a.id,a.cm_number,a.customer_bank_account_id,a.cm_cellphone,a.cm_real_name,a.cm_idnum,
+        b.id as bankRecordId,b.CB_ACCOUNT,b.cb_bank_name,b.cb_branch_name,b.CB_INPUT_DATE cm_bindcard_date,b.cb_bank_code
+        from customer_main_info a left join customer_bank_account b on (b.CUSTOMER_ID=a.id)
+        where b.id = #{bankRecordId}
+    </select>
+
+
+
+    <select id="getCustomerInfo" resultMap="YmResultMap" parameterType="com.zdmoney.webservice.api.dto.ym.CustomerMainInfoDto">
+        select cmi.CM_CELLPHONE mobile,
+
+        replace(cmi.cm_real_name, chr(10), '') name,
+
+        cmi.CM_INTRODUCE_CODE referrals_code,
+
+        cmi.CM_INPUT_DATE register_date,
+
+        cmi.cm_idnum card_no,
+
+
+
+        cmi.CM_INVITE_CODE invite_code,
+
+        cmi.CM_NUMBER customer_code,
+
+        cmi.CM_FIRST_CONSUME_DATE first_consume_date,
+
+        cmi.cm_modify_date last_update,
+
+        cmi.REAL_NAME_TIME,
+
+        mrr.merchant_no channel_code,
+
+        cmi.REGISTER_SOURCE,
+
+        cmi.cm_valid,
+
+        case when cmi.user_level = 0  then 0
+        when cmi.user_level = 1 then 1
+        when cmi.user_level = 2 then 2
+        when cmi.user_level = 4 then 4
+        when cmi.user_level=3 and cmi2.user_level=4 then 5
+        end customerType,
+
+        case
+
+        when cmi.CUSTOMER_BANK_ACCOUNT_ID is null then
+
+        '未绑卡'
+
+        else
+
+        '已绑卡'
+
+        end bk
+
+        from CUSTOMER_MAIN_INFO cmi
+        left join merchant_register_record mrr
+        on (cmi.cm_number = mrr.customer_no and mrr.merchant_type = '2')
+        left join customer_main_info cmi2 on cmi.cm_introduce_code = cmi2.cm_invite_code
+        where 1=1
+        AND (cmi.USER_LABEL='1' or cmi.user_level = '4' or (cmi.user_level='3' and cmi2.user_level = '4') )
+        <if test="inviteCode != null" >
+            AND cmi.CM_INVITE_CODE = #{inviteCode}
+        </if>
+        <if test="startTime != null" >
+            AND cmi.cm_modify_date >= to_date(#{startTime},'yyyy/mm/dd hh24:mi:ss')
+        </if>
+        <if test="endTime != null">
+            <![CDATA[
+            AND cmi.cm_modify_date <= to_date(#{endTime},'yyyy/mm/dd hh24:mi:ss')
+            ]]>
+        </if>
+    </select>
+
+    <select id="getUserInfo" resultMap="CustomerMap" parameterType="java.lang.String">
+        SELECT
+         ID,
+           CM_NUMBER,
+           CM_CELLPHONE,
+           CM_ACCOUNT,
+           CM_REAL_NAME,
+           CM_PASSWORD,
+           CM_VALID,
+           CM_INVITE_CODE,
+           CM_INTRODUCE_CODE,
+           CM_INPUT_ID,
+           CM_INPUT_DATE,
+           cm_origin,
+           CM_MODIFY_ID,
+           CM_MODIFY_DATE,
+           CM_EMPLOYEE,
+           CM_STATUS,
+           CM_IDNUM,
+           CM_IDNUM_TYPE,
+           CM_AUTHEN_COUNT,
+           CM_TOKEN,
+           CM_DEVICE,
+           CM_RECOMMEND,
+           INTRODUCER,
+           INTRODUCER_IDNUM,
+           CUSTOMER_BANK_ACCOUNT_ID,
+           is_consumed,
+           cm_first_consume_date,
+           CHANNEL_CODE,
+           member_type,
+           cm_open_account_flag,
+           REGISTER_SOURCE,
+           CM_OPEN_PLATFORM,
+           RISK_TEST_TYPE,
+           account_type,
+           USER_LABEL,
+           USER_LEVEL,
+           RISK_TEST_TIME
+         FROM laocaibao.CUSTOMER_MAIN_INFO WHERE CM_NUMBER=#{cmNumber}
+    </select>
+
+    <select id="getUserIdByInvideCode" resultMap="CustomerMap">
+        SELECT
+         ID,
+       CM_NUMBER,
+       CM_CELLPHONE,
+       CM_ACCOUNT,
+       CM_REAL_NAME,
+       CM_PASSWORD,
+       CM_VALID,
+       CM_INVITE_CODE,
+       CM_INTRODUCE_CODE,
+       CM_INPUT_ID,
+       CM_INPUT_DATE,
+       cm_origin,
+       CM_MODIFY_ID,
+       CM_MODIFY_DATE,
+       CM_EMPLOYEE,
+       CM_STATUS,
+       CM_IDNUM,
+       CM_IDNUM_TYPE,
+       CM_AUTHEN_COUNT,
+       CM_TOKEN,
+       CM_DEVICE,
+       CM_RECOMMEND,
+       INTRODUCER,
+       INTRODUCER_IDNUM,
+       CUSTOMER_BANK_ACCOUNT_ID,
+       is_consumed,
+       cm_first_consume_date,
+       CHANNEL_CODE,
+       member_type,
+       cm_open_account_flag,
+       REGISTER_SOURCE,
+       CM_OPEN_PLATFORM,
+       RISK_TEST_TYPE,
+       account_type,
+       USER_LABEL,
+       USER_LEVEL,
+       RISK_TEST_TIME
+         FROM laocaibao.CUSTOMER_MAIN_INFO WHERE CM_INTRODUCE_CODE = #{invideCode}
+    </select>
+
+    <update id="updateUserLevel" parameterType="com.zdmoney.webservice.api.dto.customer.CustomerMainInfoVo">
+        update CUSTOMER_MAIN_INFO set USER_LABEL=#{userLabel,jdbcType=VARCHAR},USER_LEVEL=#{userLevel,jdbcType=VARCHAR},cm_modify_date=sysdate
+        WHERE ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectCustomerByIdNum" parameterType="java.lang.String" resultMap="CustomerMap">
+        SELECT
+         ID,
+       CM_NUMBER,
+       CM_CELLPHONE,
+       CM_ACCOUNT,
+       CM_REAL_NAME,
+       CM_PASSWORD,
+       CM_VALID,
+       CM_INVITE_CODE,
+       CM_INTRODUCE_CODE,
+       CM_INPUT_ID,
+       CM_INPUT_DATE,
+       cm_origin,
+       CM_MODIFY_ID,
+       CM_MODIFY_DATE,
+       CM_EMPLOYEE,
+       CM_STATUS,
+       CM_IDNUM,
+       CM_IDNUM_TYPE,
+       CM_AUTHEN_COUNT,
+       CM_TOKEN,
+       CM_DEVICE,
+       CM_RECOMMEND,
+       INTRODUCER,
+       INTRODUCER_IDNUM,
+       CUSTOMER_BANK_ACCOUNT_ID,
+       is_consumed,
+       cm_first_consume_date,
+       CHANNEL_CODE,
+       member_type,
+       cm_open_account_flag,
+       REGISTER_SOURCE,
+       CM_OPEN_PLATFORM,
+       RISK_TEST_TYPE,
+       account_type,
+       USER_LABEL,
+       USER_LEVEL,
+       RISK_TEST_TIME
+         FROM  laocaibao.CUSTOMER_MAIN_INFO WHERE CM_IDNUM=#{idNum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} and cm_valid = 0
+    </select>
+
+    <select id="querySpecialFinancialPlannerInfoList" parameterType="map" resultType="com.zdmoney.webservice.api.dto.plan.SpecialFinancialPlannerVO">
+        select cmi.id as customerId, cmi.cm_number as cmNumber, cmi.cm_real_name as realName, cmi.cm_idnum as idNum, cmi.cm_cellphone as cellPhone, cba.cb_account as bankAccount,
+        cba.cb_bank_code as bankCode, cba.cb_bank_name as bankName, cba.cb_subbank_code as subbankCode
+        from customer_bank_account cba, customer_main_info cmi
+        where cmi.customer_bank_account_id = cba.id
+        and cmi.cm_number  in
+        <foreach collection="cmNumberList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--根据姓名和手机号查询-->
+    <select id="getCustomerByNameAndPhone" resultMap="BaseVoMap">
+        select ID,CM_NUMBER,CM_CELLPHONE,CM_REAL_NAME,CM_IDNUM,CM_EMPLOYEE,CM_AUTHEN_COUNT,CUSTOMER_BANK_ACCOUNT_ID,CM_BINDCARD_DATE,OPEN_ID
+        from CUSTOMER_MAIN_INFO where 1=1
+        <if test="cmCellphone != null and cmCellphone !=''">
+            and CM_CELLPHONE = #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmRealName != null">
+            AND cm_real_name LIKE '%'||#{cmRealName}||'%'
+        </if>
+    </select>
+
+
+    <!--根据注册日期查询-->
+    <select id="queryRegisterNotify" resultMap="RegisterNotify" parameterType="java.util.Map" >
+        select
+        ID,
+        CM_NUMBER,
+        CM_CELLPHONE,
+        CM_INPUT_DATE,
+        IP,
+        CM_STATUS,
+        USER_LEVEL,
+        ACCOUNT_TYPE
+        from CUSTOMER_MAIN_INFO where 1=1
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= CM_INPUT_DATE
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= CM_INPUT_DATE
+        </if>
+    </select>
+
+    <!--用户微信绑定列表-->
+    <select id="queryWeChatBindNotify" resultMap="WeChatBindNotify" parameterType="java.util.Map" >
+        select  ID,CM_NUMBER,WX_BIND_TIME from CUSTOMER_MAIN_INFO   where 1=1
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= WX_BIND_TIME
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= WX_BIND_TIME
+        </if>
+    </select>
+
+    <!--用户销户-->
+    <select id="queryCloseAccount" resultMap="CloseAccount" parameterType="java.util.Map" >
+        select  ID,CM_NUMBER,cm_modify_date from CUSTOMER_MAIN_INFO  where cm_valid = 1
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= cm_modify_date
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= cm_modify_date
+        </if>
+    </select>
+
+    <!--用户实名-->
+    <select id="queryNameCertificateNotify" resultMap="NameCertificateNotify" parameterType="java.util.Map" >
+        select
+        ID,CM_NUMBER,real_name_time,CM_IDNUM,CM_REAL_NAME
+        from CUSTOMER_MAIN_INFO where 1=1
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= real_name_time
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= real_name_time
+        </if>
+    </select>
+
+
+    <resultMap id="PhoneUnBind" type="com.zdmoney.webservice.api.dto.customer.BusiUnbindRecordDto">
+        <result column="ID" jdbcType="DECIMAL" property="userId" />
+        <result column="CM_NUMBER" jdbcType="DECIMAL" property="userNo" />
+        <result column="UB_BANK_CODE" jdbcType="VARCHAR" property="ubBankCode" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_TELEPHONE" jdbcType="VARCHAR" property="ubTelephone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="OPER_TIME" jdbcType="TIMESTAMP" property="recordTime" />
+    </resultMap>
+    <!--解绑手机号-->
+    <select id="queryPhoneBindModify" resultMap="PhoneUnBind" parameterType="java.util.Map" >
+        select a.ID, a.CM_NUMBER, b.OPER_TIME,b.UB_TELEPHONE
+        from customer_main_info a,busi_unbind_record b	where a.cm_idnum = b.ub_idnum and b.un_type=2
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= b.OPER_TIME
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= b.OPER_TIME
+        </if>
+    </select>
+
+
+    <select id="queryCustomerInfoByLoginId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from CUSTOMER_MAIN_INFO
+        where fuiou_login_id = #{loginId}
+    </select>
+
+    <select id="searchCustomerGrantInfo" resultMap="CustomerGrantInfoMap" parameterType="java.util.Map">
+        select cmi.cm_number,cmi.cm_real_name ,cmi.cm_cellphone ,cmi.cm_idnum ,
+        auto_lend_term,auto_lend_amt,used_lend_amt,leave_lend_amt,auto_fee_term,auto_fee_amt,
+        auto_repay_amt,auto_compen_term,auto_compen_amt,auto_repay_term,
+        (case when cgi.id is null or to_number(cgi.auth_status)=0 then '0' when cgi.status='1' then '2' when  cgi.status='0' then '1' end) grant_status
+        from customer_main_info cmi left join customer_grant_info cgi on cmi.id=cgi.customer_id
+        <where>
+            <if test="cmNumber != null and cmNumber != ''">
+                cmi.cm_number = #{cmNumber}
+            </if>
+            <if test="cmCellphone != null and cmCellphone != ''">
+                and cmi.cm_cellphone = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="cmRealName != null and cmRealName != ''">
+                and cmi.cm_real_name = #{cmRealName}
+            </if>
+            <if test="cmIdnum != null and cmIdnum != ''">
+                and cmi.cm_idnum = #{cmIdnum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            </if>
+            <if test="accountType != null and accountType != ''">
+                and cmi.account_type = #{accountType}
+            </if>
+            <if test="grantStatus != null and grantStatus != ''">
+                <choose>
+                    <when test='grantStatus == "0"'>
+                        and (cgi.id is null or to_number(cgi.auth_status)=0)
+                    </when>
+                    <when test='grantStatus == "1"'>
+                        and cgi.status = '0'
+                    </when>
+                    <when test='grantStatus == "2"'>
+                        and cgi.status = '1'
+                    </when>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="listUserInfos" resultMap="UserInfoMap">
+        select id, user_level from customer_main_info cmi where cmi.cm_valid = 0 and cmi.id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <select id="selectByIdNumAndPhone" resultMap="BaseResultMap" parameterType="string">
+        SELECT * FROM (
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where CM_VALID='0'
+        and account_type = 'borrower'
+        and cm_cellphone = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        ) WHERE ROWNUM =1
+    </select>
+
+    <select id="findByIdNoAndPhone" resultMap="BaseResultMap" parameterType="string">
+        SELECT * FROM (
+        select
+        <include refid="Base_Column_List"/>
+        from CUSTOMER_MAIN_INFO
+        where CM_VALID='0'
+        and cm_cellphone = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        and cm_idnum = #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        ) WHERE ROWNUM =1
+    </select>
+
+
+    <select id="getCustomerForDebtTransfer" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select cmi.ID,cmi.CM_NUMBER,cmi.CM_CELLPHONE,cmi.CM_REAL_NAME,cmi.CM_IDNUM,cmi.CM_EMPLOYEE
+        from customer_main_info cmi where cmi.cm_number in (
+        select o.DEBTOR_NUM from busi_debt_transfer debt
+        left join busi_order_sub o on debt.init_order_no = o.order_num
+        where debt.is_settle =1
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt; debt.TRANSFER_DATE
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= debt.TRANSFER_DATE
+        </if>
+        )
+    </select>
+
+    <select id="getCustomerForOrderNo"  resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select *from customer_main_info cmi where cmi.cm_number = (select DEBTOR_NUM from BUSI_ORDER_SUB   where order_num = #{orderNo,jdbcType=VARCHAR})
+    </select>
+
+</mapper>

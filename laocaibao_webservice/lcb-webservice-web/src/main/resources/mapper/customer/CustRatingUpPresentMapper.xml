@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.customer.CustRatingUpPresentMapper">
+
+    <resultMap type="com.zdmoney.models.customer.CustRatingUpPresent" id="custRatingUpPresentMap">
+        <result property="customerId" column="CUSTOMER_ID"/>
+        <result property="customerNumber" column="CUSTOMER_NUMBER"/>
+        <result property="nextRatingCode" column="NEXT_RATING_CODE"/>
+        <result property="nextRatingNum" column="NEXT_RATING_NUM"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="creditNum" column="CREDIT_NUM"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        CUSTOMER_ID,CUSTOMER_NUMBER,NEXT_RATING_CODE,NEXT_RATING_NUM,CREATE_TIME,CREDIT_NUM,status,LOCKING_THREAD
+    </sql>
+
+    <select id="queryCustRatingUpPresent" resultMap="custRatingUpPresentMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM CUST_RATING_UP_PRESENT
+        <where>
+            <if test="customerIds != null" >
+                and CUSTOMER_ID in
+                <foreach collection="customerIds" separator="," open="(" close=")" item="var">
+                    #{var}
+                </foreach>
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="lockingThread != null">
+                and LOCKING_THREAD = #{lockingThread}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        update CUST_RATING_UP_PRESENT
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="lockingThread != null">
+                LOCKING_THREAD = #{lockingThread}
+            </if>
+        </set>
+        <where>
+            <if test="initStatus != null">
+                and status = #{initStatus}
+            </if>
+            <if test="initLock != null">
+                and LOCKING_THREAD = #{initLock}
+            </if>
+            <if test="startTime != null">
+                and CREATE_TIME &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and CREATE_TIME &lt;= #{endTime}
+            </if>
+            <if test="customerId != null">
+                and CUSTOMER_ID = #{customerId}
+            </if>
+            <if test="nextRatingNum != null">
+                and NEXT_RATING_NUM = #{nextRatingNum}
+            </if>
+        </where>
+    </update>
+
+    <insert id="saveCustRatingUpPresent" parameterType="com.zdmoney.models.customer.CustRatingUpPresent">
+        INSERT INTO CUST_RATING_UP_PRESENT
+          (CUSTOMER_ID,CUSTOMER_NUMBER,NEXT_RATING_CODE,NEXT_RATING_NUM,CREATE_TIME,CREDIT_NUM)
+        VALUES
+          (#{customerId},#{customerNumber},#{nextRatingCode},#{nextRatingNum},#{createTime},#{creditNum})
+    </insert>
+
+    <insert id="savePresents" parameterType="java.util.List">
+        INSERT INTO CUST_RATING_UP_PRESENT
+        (CUSTOMER_ID,CUSTOMER_NUMBER,NEXT_RATING_CODE,NEXT_RATING_NUM,CREATE_TIME,CREDIT_NUM)
+        select * from
+        (
+        <foreach collection="list" separator="union" item="var">
+            select #{var.customerId},#{var.customerNumber},#{var.nextRatingCode},#{var.nextRatingNum},#{var.createTime},#{var.creditNum} from dual
+        </foreach>
+        ) tmp
+    </insert>
+
+</mapper>

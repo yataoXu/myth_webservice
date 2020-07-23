@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.task.BusiTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.task.BusiTask" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR" />
+    <result column="TASK_DESC" property="taskDesc" jdbcType="VARCHAR" />
+    <result column="TASK_TYPE" property="taskType" jdbcType="VARCHAR" />
+    <result column="LIMIT_TYPE" property="limitType" jdbcType="VARCHAR" />
+    <result column="INVEST_PERIOD" property="investPeriod" jdbcType="DECIMAL" />
+    <result column="PERIOD_UPPER_LIMIT" property="periodUpperLimit" jdbcType="DECIMAL"/>
+    <result column="INVEST_AMT" property="investAmt" jdbcType="DECIMAL" />
+    <result column="LC_AMT" property="lcAmt" jdbcType="DECIMAL" />
+    <result column="TASK_START_TIME" property="taskStartTime" jdbcType="TIMESTAMP" />
+    <result column="TASK_END_TIME" property="taskEndTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SHOW_STATUS" property="showStatus" jdbcType="VARCHAR" />
+    <result column="ACTION_TYPE" property="actionType" jdbcType="VARCHAR" />
+    <result column="IS_LOOP" property="isLoop" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getMaxTaskInvestAmt" resultType="DECIMAL">
+    select max(t.invest_amt) from busi_task t where t.status = 1 and t.show_status = 1 and t.task_type = 3
+  </select>
+
+  <select id="selectEnableTask" resultMap="BaseResultMap" parameterType="java.util.Date">
+    <![CDATA[
+      select * from (
+        select * from busi_task t
+        where t.status = 1 and t.show_status = 1
+        and t.task_type in(2,3)
+        and to_char(t.task_start_time,'yyyyMMdd') <= to_char(#{sysDate},'yyyyMMdd')
+        and to_char(t.task_end_time,'yyyyMMdd') >= to_char(#{sysDate},'yyyyMMdd')
+        order by t.limit_type asc,t.task_start_time asc
+      )
+      union all
+      select * from busi_task tt
+      where tt.status = 1 and tt.show_status = 1
+      and tt.task_type not in(2,3)
+    ]]>
+  </select>
+
+  <select id="selectValidListByActionType" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select * from LAOCAIBAO.BUSI_TASK t
+    where STATUS = 1 and SHOW_STATUS = 1
+    and ACTION_TYPE = #{actionType,jdbcType=DECIMAL}
+    and (TASK_START_TIME is null or TASK_START_TIME &lt;= #{now,jdbcType=TIMESTAMP})
+    and (TASK_END_TIME is null or TASK_END_TIME &gt;= #{now,jdbcType=TIMESTAMP})
+    order by id
+  </select>
+
+  <select id="countDailyTaskByDate" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1) from LAOCAIBAO.BUSI_TASK t
+    where STATUS = 1 and SHOW_STATUS = 1
+    and TASK_TYPE = 11
+    and TASK_START_TIME &lt;= #{now,jdbcType=TIMESTAMP}
+    and TASK_END_TIME &gt;= #{now,jdbcType=TIMESTAMP}
+  </select>
+
+    <select id="getCashDtoByTaskId" resultType="com.zdmoney.integral.api.dto.cash.CashDto" parameterType="java.lang.Long">
+        select bwr.amount,
+               bwr.invest_min_amount investMin,
+               bwr.invest_max_amount investMax,
+               bwr.invest_min_period investPeriodMin,
+               bwr.invest_max_period investPeriodMax,
+               bwr.period
+          from busi_task bt
+          left join busi_welfare_rule bwr
+            on bwr.id = bt.cash_id
+         where bt.id = #{taskId}
+    </select>
+
+  <select id="getBusiTaskByRiskTest" resultMap="BaseResultMap">
+    select * from busi_task where award_type = '2' and task_type = 10 and status = 1
+  </select>
+</mapper>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.bank.CustomerBankAccountTempMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.bank.CustomerBankAccountTemp" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+    <result column="CB_ACCOUNT" property="cbAccount" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="CB_ACCOUNT_NAME" property="cbAccountName" jdbcType="VARCHAR" />
+    <result column="CB_ACCOUNT_TYPE" property="cbAccountType" jdbcType="DECIMAL" />
+    <result column="CB_BANK_CODE" property="cbBankCode" jdbcType="VARCHAR" />
+    <result column="CB_BANK_NAME" property="cbBankName" jdbcType="VARCHAR" />
+    <result column="CB_BRANCH_NAME" property="cbBranchName" jdbcType="VARCHAR" />
+    <result column="CB_INPUT_ID" property="cbInputId" jdbcType="DECIMAL" />
+    <result column="CB_INPUT_DATE" property="cbInputDate" jdbcType="TIMESTAMP" />
+    <result column="CB_MODIFY_ID" property="cbModifyId" jdbcType="DECIMAL" />
+    <result column="CB_MODIFY_DATE" property="cbModifyDate" jdbcType="TIMESTAMP" />
+    <result column="CB_VALID" property="cbValid" jdbcType="DECIMAL" />
+    <result column="CB_MEMO" property="cbMemo" jdbcType="VARCHAR" />
+    <result column="CB_SUBBANK_CODE" property="cbSubbankCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTOMER_ID, CB_ACCOUNT, CB_ACCOUNT_NAME, CB_ACCOUNT_TYPE, CB_BANK_CODE, CB_BANK_NAME, 
+    CB_BRANCH_NAME, CB_INPUT_ID, CB_INPUT_DATE, CB_MODIFY_ID, CB_MODIFY_DATE, CB_VALID, 
+    CB_MEMO, CB_SUBBANK_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CUSTOMER_BANK_ACCOUNT_TEMP
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CUSTOMER_BANK_ACCOUNT_TEMP
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.models.bank.CustomerBankAccountTemp" >
+  <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+			select
+			SQ_CUSTOMER_BANK_ACCOUNT.nextval from dual
+		</selectKey>
+    insert into CUSTOMER_BANK_ACCOUNT_TEMP (ID, CUSTOMER_ID, CB_ACCOUNT, 
+      CB_ACCOUNT_NAME, CB_ACCOUNT_TYPE, CB_BANK_CODE, 
+      CB_BANK_NAME, CB_BRANCH_NAME, CB_INPUT_ID, 
+      CB_INPUT_DATE, CB_MODIFY_ID, CB_MODIFY_DATE, 
+      CB_VALID, CB_MEMO, CB_SUBBANK_CODE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{customerId,jdbcType=DECIMAL}, #{cbAccount,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      #{cbAccountName,jdbcType=VARCHAR}, #{cbAccountType,jdbcType=DECIMAL}, #{cbBankCode,jdbcType=VARCHAR}, 
+      #{cbBankName,jdbcType=VARCHAR}, #{cbBranchName,jdbcType=VARCHAR}, #{cbInputId,jdbcType=DECIMAL}, 
+      #{cbInputDate,jdbcType=TIMESTAMP}, #{cbModifyId,jdbcType=DECIMAL}, #{cbModifyDate,jdbcType=TIMESTAMP}, 
+      #{cbValid,jdbcType=DECIMAL}, #{cbMemo,jdbcType=VARCHAR}, #{cbSubbankCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.bank.CustomerBankAccountTemp" >
+    insert into CUSTOMER_BANK_ACCOUNT_TEMP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="customerId != null" >
+        CUSTOMER_ID,
+      </if>
+      <if test="cbAccount != null" >
+        CB_ACCOUNT,
+      </if>
+      <if test="cbAccountName != null" >
+        CB_ACCOUNT_NAME,
+      </if>
+      <if test="cbAccountType != null" >
+        CB_ACCOUNT_TYPE,
+      </if>
+      <if test="cbBankCode != null" >
+        CB_BANK_CODE,
+      </if>
+      <if test="cbBankName != null" >
+        CB_BANK_NAME,
+      </if>
+      <if test="cbBranchName != null" >
+        CB_BRANCH_NAME,
+      </if>
+      <if test="cbInputId != null" >
+        CB_INPUT_ID,
+      </if>
+      <if test="cbInputDate != null" >
+        CB_INPUT_DATE,
+      </if>
+      <if test="cbModifyId != null" >
+        CB_MODIFY_ID,
+      </if>
+      <if test="cbModifyDate != null" >
+        CB_MODIFY_DATE,
+      </if>
+      <if test="cbValid != null" >
+        CB_VALID,
+      </if>
+      <if test="cbMemo != null" >
+        CB_MEMO,
+      </if>
+      <if test="cbSubbankCode != null" >
+        CB_SUBBANK_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbAccount != null" >
+        #{cbAccount,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      </if>
+      <if test="cbAccountName != null" >
+        #{cbAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbAccountType != null" >
+        #{cbAccountType,jdbcType=DECIMAL},
+      </if>
+      <if test="cbBankCode != null" >
+        #{cbBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cbBankName != null" >
+        #{cbBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbBranchName != null" >
+        #{cbBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbInputId != null" >
+        #{cbInputId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbInputDate != null" >
+        #{cbInputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cbModifyId != null" >
+        #{cbModifyId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbModifyDate != null" >
+        #{cbModifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cbValid != null" >
+        #{cbValid,jdbcType=DECIMAL},
+      </if>
+      <if test="cbMemo != null" >
+        #{cbMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="cbSubbankCode != null" >
+        #{cbSubbankCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.bank.CustomerBankAccountTemp" >
+    update CUSTOMER_BANK_ACCOUNT_TEMP
+    <set >
+      <if test="customerId != null" >
+        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbAccount != null" >
+        CB_ACCOUNT = #{cbAccount,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      </if>
+      <if test="cbAccountName != null" >
+        CB_ACCOUNT_NAME = #{cbAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbAccountType != null" >
+        CB_ACCOUNT_TYPE = #{cbAccountType,jdbcType=DECIMAL},
+      </if>
+      <if test="cbBankCode != null" >
+        CB_BANK_CODE = #{cbBankCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cbBankName != null" >
+        CB_BANK_NAME = #{cbBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbBranchName != null" >
+        CB_BRANCH_NAME = #{cbBranchName,jdbcType=VARCHAR},
+      </if>
+      <if test="cbInputId != null" >
+        CB_INPUT_ID = #{cbInputId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbInputDate != null" >
+        CB_INPUT_DATE = #{cbInputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cbModifyId != null" >
+        CB_MODIFY_ID = #{cbModifyId,jdbcType=DECIMAL},
+      </if>
+      <if test="cbModifyDate != null" >
+        CB_MODIFY_DATE = #{cbModifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cbValid != null" >
+        CB_VALID = #{cbValid,jdbcType=DECIMAL},
+      </if>
+      <if test="cbMemo != null" >
+        CB_MEMO = #{cbMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="cbSubbankCode != null" >
+        CB_SUBBANK_CODE = #{cbSubbankCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.bank.CustomerBankAccountTemp" >
+    update CUSTOMER_BANK_ACCOUNT_TEMP
+    set CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      CB_ACCOUNT = #{cbAccount,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      CB_ACCOUNT_NAME = #{cbAccountName,jdbcType=VARCHAR},
+      CB_ACCOUNT_TYPE = #{cbAccountType,jdbcType=DECIMAL},
+      CB_BANK_CODE = #{cbBankCode,jdbcType=VARCHAR},
+      CB_BANK_NAME = #{cbBankName,jdbcType=VARCHAR},
+      CB_BRANCH_NAME = #{cbBranchName,jdbcType=VARCHAR},
+      CB_INPUT_ID = #{cbInputId,jdbcType=DECIMAL},
+      CB_INPUT_DATE = #{cbInputDate,jdbcType=TIMESTAMP},
+      CB_MODIFY_ID = #{cbModifyId,jdbcType=DECIMAL},
+      CB_MODIFY_DATE = #{cbModifyDate,jdbcType=TIMESTAMP},
+      CB_VALID = #{cbValid,jdbcType=DECIMAL},
+      CB_MEMO = #{cbMemo,jdbcType=VARCHAR},
+      CB_SUBBANK_CODE = #{cbSubbankCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

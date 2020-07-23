@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.BusiBrandMapper">
+
+    <resultMap type="com.zdmoney.webservice.api.dto.busi.BusiBrandDto" id="busiBrandMap">
+        <result property="id" column="ID"/>
+        <result property="content" column="CONTENT"/>
+        <result property="quote" column="QUOTE"/>
+        <result property="imgUrl" column="IMG_URL"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="displayDate" column="DISPLAY_DATE"/>
+        <result property="addBy" column="ADD_BY"/>
+        <result property="brandType" column="BRAND_TYPE"/>
+        <result property="modifyBy" column="modify_by"/>
+        <result property="modifyDate" column="modify_date"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CONTENT,QUOTE,IMG_URL,CREATE_DATE,DISPLAY_DATE,ADD_BY,BRAND_TYPE ,modify_by ,modify_date  </sql>
+
+    <select id="queryBusiBrand" resultMap="busiBrandMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_BRAND
+        WHERE 1=1
+        <if test="content != null">
+            AND CONTENT LIKE '%'||#{content}||'%'
+        </if>
+        <if test="quote != null">
+            AND QUOTE LIKE '%'||#{quote}||'%'
+        </if>
+        <if test="addBy != null">
+            AND ADD_BY LIKE '%'||#{addBy}||'%'
+        </if>
+        <if test="brandType != null">
+            AND BRAND_TYPE = #{brandType}
+        </if>
+        <if test="displayDate != null">
+            AND to_date(#{displayDate},'yyyy/MM/dd') = DISPLAY_DATE
+        </if>
+        <if test="displayStartDate != null">
+            AND to_date(#{displayStartDate},'yyyy/MM/dd hh24:mi:ss') &lt;= DISPLAY_DATE
+        </if>
+        <if test="displayEndDate != null">
+            AND to_date(#{displayEndDate},'yyyy/MM/dd hh24:mi:ss') &gt;= DISPLAY_DATE
+        </if>
+        order by CREATE_DATE desc
+    </select>
+
+    <insert id="saveBusiBrand" parameterType="com.zdmoney.webservice.api.dto.busi.BusiBrandDto">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_BRAND.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_BRAND
+          (ID,CONTENT,QUOTE,IMG_URL,CREATE_DATE,DISPLAY_DATE,ADD_BY,BRAND_TYPE)
+        VALUES
+          (#{id},#{content},#{quote},#{imgUrl},sysdate,#{displayDate},#{addBy},#{brandType})
+    </insert>
+
+    <update id="updateBusiBrand" parameterType="com.zdmoney.webservice.api.dto.busi.BusiBrandDto">
+        UPDATE BUSI_BRAND
+        <set>
+            <if test="content != null">
+                CONTENT = #{content},
+            </if>
+            <if test="quote != null">
+                QUOTE = #{quote},
+            </if>
+            <if test="imgUrl != null">
+                IMG_URL = #{imgUrl},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="displayDate != null">
+                DISPLAY_DATE = #{displayDate},
+            </if>
+            <if test="brandType != null">
+                BRAND_TYPE = #{brandType},
+            </if>
+            <if test="modifyBy != null">
+                modify_by = #{modifyBy},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate},
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiBrandById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_BRAND WHERE ID = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="busiBrandMap" parameterType="java.lang.Long" >
+        SELECT <include refid="base_column_list"></include>
+        FROM BUSI_BRAND WHERE ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <select id="getBusiBrand" parameterType="string" resultMap="busiBrandMap">
+        SELECT * FROM BUSI_BRAND where DISPLAY_DATE = to_date(#{displayDate},'yyyy/MM/dd')
+    </select>
+
+</mapper>

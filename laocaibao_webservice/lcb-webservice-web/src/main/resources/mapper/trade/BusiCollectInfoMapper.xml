@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.trade.BusiCollectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.trade.BusiCollectInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="SUBJECT_NO" property="subjectNo" jdbcType="VARCHAR" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <insert id="saveBusiCollectInfo" parameterType="com.zdmoney.models.trade.BusiCollectInfo" useGeneratedKeys="false">
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select SEQ_BUSI_COLLECT_INFO.nextval from dual
+    </selectKey>
+    insert into BUSI_COLLECT_INFO (ID, CREATE_TIME, CODE, MSG, TYPE,SUBJECT_NO,BATCH_NO)
+    values (#{id,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{code,jdbcType=VARCHAR},
+    #{msg,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{subjectNo,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR})
+  </insert>
+
+
+  <select id="selectBusiCollectInfoByParms" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from busi_collect_info
+        where 1=1
+        <if test="type!=null and type!=''">
+          AND TYPE = #{type,jdbcType=VARCHAR}
+        </if>
+        <if test="code!=null and code!=''">
+          AND code =#{code,jdbcType=VARCHAR}
+        </if>
+        <if test="subjectNo!=null and subjectNo!=''">
+          AND SUBJECT_NO =#{subjectNo,jdbcType=VARCHAR}
+        </if>
+        order by create_time desc
+  </select>
+
+</mapper>

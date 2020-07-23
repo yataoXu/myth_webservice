@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerWhiteListMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerWhiteList" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="CUSTOMER_MOBILE" property="customerMobile" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List">
+       CUSTOMER_MOBILE,CUSTOMER_ID
+  </sql>
+
+
+  <!--根据手机号查询白名单信息  -->
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="String">
+    select
+    <include refid="Base_Column_List"></include>
+    from CUSTOMER_WHITE_LIST
+    where  CUSTOMER_MOBILE = #{phone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+  </select>
+
+
+</mapper>

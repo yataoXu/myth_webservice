@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.payChannel.BusiPayBankMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.payChannel.BusiPayBank" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <select id="selectValidBankList" resultMap="BaseResultMap">
+    select  ID,CODE,NAME
+    from busi_bank
+    where is_valid = 1
+  </select>
+
+</mapper>

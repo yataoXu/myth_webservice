@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiProductToPayMapper" >
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiProductToPay" >
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="END_DATE" property="endDate" jdbcType="DATE" />
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL" />
+        <result column="LEFT_DAYS" property="leftDays" jdbcType="DECIMAL" />
+        <result column="BUYER_NUM" property="buyerNum" jdbcType="DECIMAL" />
+        <result column="AUTHORIZED_CUSTOMER_NUM" property="authorizedCustomerNum" jdbcType="DECIMAL" />
+        <result column="AMT_TO_INVEST" property="amtToInvest" jdbcType="DECIMAL" />
+        <result column="ALL_SETTLED" property="allSettled" jdbcType="DECIMAL" />
+        <result column="DATE_TO_SETTLE" property="dateToSettle" jdbcType="DECIMAL" />
+        <result column="AUTHORIZATION_DEADLINE" property="authorizationDeadline" jdbcType="DECIMAL" />
+        <result column="RELEVANT_NEW_PRODUCT" property="relevantNewProduct" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="getBusiProductToPay" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select PRODUCT_ID,PRODUCT_NAME,END_DATE, YEAR_RATE, LEFT_DAYS  ,BUYER_NUM,AUTHORIZED_CUSTOMER_NUM,
+             AMT_TO_INVEST,ALL_SETTLED,DATE_TO_SETTLE,AUTHORIZATION_DEADLINE,RELEVANT_NEW_PRODUCT
+         from busi_product_to_pay  where PRODUCT_ID = #{productId}
+    </select>
+
+</mapper>
+

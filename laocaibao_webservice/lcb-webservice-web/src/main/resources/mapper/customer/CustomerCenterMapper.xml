@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.customer.CustomerCenterMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerCenter">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="IMG_URL" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="H5_URL" jdbcType="VARCHAR" property="h5Url" />
+    <result column="CAN_SHARE" jdbcType="VARCHAR" property="canShare" />
+    <result column="MUST_LOGIN" jdbcType="VARCHAR" property="mustLogin" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="START_DATE" jdbcType="DATE" property="startDate" />
+    <result column="END_DATE" jdbcType="DATE" property="endDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
+    <result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+</mapper>

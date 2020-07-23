@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerAddressMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.web.dto.CustomerAddressDTO">
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+        <result column="CELL_PHONE" property="cellPhone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+        <result column="CITY" property="city" jdbcType="VARCHAR" />
+        <result column="AREA" property="area" jdbcType="VARCHAR" />
+        <result column="STREET" property="street" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, CONTACT_NAME, CELL_PHONE, PROVINCE, CITY, AREA, STREET, STATUS
+    </sql>
+
+    <insert id="saveCustomerAddress" parameterType="com.zdmoney.models.customer.CustomerAddress" >
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT SEQ_CUSTOMER_ADDRESS.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into CUSTOMER_ADDRESS (ID, CUSTOMER_ID, CONTACT_NAME, CELL_PHONE, PROVINCE, CITY, AREA, STREET, STATUS, CREATE_TIME, UPDATE_TIME)
+        values (#{id}, #{customerId}, #{contactName}, #{cellPhone, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+        #{province}, #{city}, #{area}, #{street}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateCustomerAddress" parameterType="com.zdmoney.models.customer.CustomerAddress">
+        update CUSTOMER_ADDRESS
+        <set>
+        <if test="contactName != null" >
+            CONTACT_NAME = #{contactName},
+        </if>
+        <if test="cellPhone != null" >
+            CELL_PHONE = #{cellPhone, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+        </if>
+        <if test="province != null" >
+            PROVINCE = #{province},
+        </if>
+        <if test="city != null" >
+            CITY = #{city},
+        </if>
+        <if test="area != null" >
+            AREA = #{area},
+        </if>
+        <if test="street != null" >
+            STREET = #{street},
+        </if>
+        <if test="updateTime != null" >
+            UPDATE_TIME = #{updateTime}
+        </if>
+    </set>
+        where CUSTOMER_ID = #{customerId} AND ID = #{id}
+    </update>
+
+    <select id="queryCustomerAddressList" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM CUSTOMER_ADDRESS
+        WHERE STATUS = 1 AND CUSTOMER_ID = #{customerId}
+        ORDER BY ID DESC
+    </select>
+
+    <update id="deleteCustomerAddressById" parameterType="java.lang.Long">
+      update CUSTOMER_ADDRESS SET STATUS = 0 where ID = #{id}
+    </update>
+</mapper>

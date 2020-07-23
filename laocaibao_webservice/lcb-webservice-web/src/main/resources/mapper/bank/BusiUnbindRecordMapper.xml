@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.bank.BusiUnbindRecordMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.bank.BusiUnbindRecord">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="UB_BANK_CODE" jdbcType="VARCHAR" property="ubBankCode" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="UB_TELEPHONE" jdbcType="VARCHAR" property="ubTelephone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="UB_REAL_NAME" jdbcType="VARCHAR" property="ubRealName" />
+    <result column="UB_IDNUM" jdbcType="VARCHAR" property="ubIdnum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="OPER_TIME" jdbcType="TIMESTAMP" property="operTime" />
+    <result column="OPER_MAN" jdbcType="VARCHAR" property="operMan" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UN_TYPE" jdbcType="VARCHAR" property="unType" />
+  </resultMap>
+    <resultMap id="BaseVoMap" type="com.zdmoney.webservice.api.dto.customer.BusiUnbindRecordVO">
+        <result column="ID" jdbcType="DECIMAL" property="id" />
+        <result column="UB_BANK_CODE" jdbcType="VARCHAR" property="ubBankCode" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_TELEPHONE" jdbcType="VARCHAR" property="ubTelephone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_REAL_NAME" jdbcType="VARCHAR" property="ubRealName" />
+        <result column="UB_IDNUM" jdbcType="VARCHAR" property="ubIdnum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="OPER_TIME" jdbcType="TIMESTAMP" property="operTime" />
+        <result column="OPER_MAN" jdbcType="VARCHAR" property="operMan" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="UN_TYPE" jdbcType="VARCHAR" property="unType" />
+    </resultMap>
+
+    <resultMap id="unBindRecord" type="com.zdmoney.webservice.api.dto.customer.BusiUnbindRecordDto">
+        <result column="ID" jdbcType="DECIMAL" property="userId" />
+        <result column="cm_number" jdbcType="DECIMAL" property="userNo" />
+        <result column="UB_BANK_CODE" jdbcType="VARCHAR" property="ubBankCode" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="UB_TELEPHONE" jdbcType="VARCHAR" property="ubTelephone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="OPER_TIME" jdbcType="TIMESTAMP" property="recordTime" />
+    </resultMap>
+
+
+  <insert id="insertBusiUnbindRecord" parameterType="com.zdmoney.models.bank.BusiUnbindRecord">
+    <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+      select seq_busi_unbind_record.nextval from dual
+    </selectKey>
+    insert into BUSI_UNBIND_RECORD
+      (id,
+      ub_bank_code,
+      ub_telephone,
+      ub_real_name,
+      ub_idnum,
+      oper_time,
+      oper_man,
+      remark,
+      un_type)
+    values
+      (#{id},
+       #{ubBankCode, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+       #{ubTelephone, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+       #{ubRealName},
+       #{ubIdnum, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+       #{operTime},
+       #{operMan},
+       #{remark},
+       #{unType})
+  </insert>
+
+    <select id="selectUnbindRecord" resultMap="BaseVoMap" parameterType="java.util.Map" >
+        select ID, UB_BANK_CODE, UB_TELEPHONE, UB_REAL_NAME, UB_IDNUM, OPER_TIME, OPER_MAN,REMARK,un_type
+        from BUSI_UNBIND_RECORD   where un_type = '1'
+        <if test="cmCellphone != null and cmCellphone != ''">
+            AND UB_TELEPHONE = #{cmCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cmRealName != null and cmRealName != ''">
+            AND UB_REAL_NAME LIKE '%'||#{cmRealName}||'%'
+        </if>
+        <if test="cmIdnum != null and cmIdnum != ''">
+            AND UB_IDNUM = #{cmIdnum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="cbBankCode != null">
+            AND UB_BANK_CODE = #{cbBankCode,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="startDate != null">
+            AND to_char(oper_time,'yyyy-MM-dd HH:MI:SS') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND to_char(oper_time,'yyyy-MM-dd HH:MI:SS') &lt;= #{endDate}
+        </if>
+        ORDER BY oper_time desc
+    </select>
+
+    <select id="selectBankUnbindByTime"  resultMap="unBindRecord" parameterType="java.util.Map" >
+        select a.id ,a.cm_number,b.oper_time,b.UB_BANK_CODE
+        from customer_main_info a,busi_unbind_record b
+        where b.un_type = '1' and a.cm_idnum = b.ub_idnum
+
+        <if test="startDate != null">
+            AND to_date(#{startDate},'yyyy/MM/dd hh24:mi:ss') &lt;= oper_time
+        </if>
+        <if test="endDate != null">
+            AND to_date(#{endDate},'yyyy/MM/dd hh24:mi:ss') &gt;= oper_time
+        </if>
+    </select>
+
+</mapper>

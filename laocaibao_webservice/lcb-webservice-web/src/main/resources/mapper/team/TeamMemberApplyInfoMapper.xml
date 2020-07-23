@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamMemberApplyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamMemberApplyInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TEAM_ID" property="teamId" jdbcType="DECIMAL" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="DECIMAL" />
+    <result column="MEMBER_CELLPHONE" property="memberCellphone" jdbcType="VARCHAR"/>
+    <result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+    <result column="MEMBER_STATUS" property="memberStatus" jdbcType="VARCHAR" />
+    <result column="APPLY_TIME" property="applyTime" jdbcType="DATE" />
+    <result column="INVITE_ID" property="inviteId" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="TeamApplyResultMap" type="com.zdmoney.web.dto.team.TeamApplyDTO" >
+    <result column="applyId" property="applyId" jdbcType="DECIMAL" />
+    <result column="cellphone" property="cellphone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="wealthValue" property="wealthValue" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="getApplyList" resultMap="TeamApplyResultMap">
+    select ap.id as applyId, ap.member_cellphone as cellphone, nvl(cm.wealth_value, 0) as wealthValue
+      from team_member_apply_info ap
+      left join customer_main_info cm
+        on ap.member_id = cm.id
+     where ap.member_status = 0
+       and ap.team_id = #{teamId}
+       and ap.member_cellphone not in
+       (select t.member_cellphone
+          from team_member_apply_info t
+         where t.member_status = 1)
+       and ap.member_cellphone not in
+       (select m.member_cellphone
+          from team_member_info m
+         where m.member_status = 1)
+     order by wealthValue desc, ap.apply_time asc
+  </select>
+</mapper>

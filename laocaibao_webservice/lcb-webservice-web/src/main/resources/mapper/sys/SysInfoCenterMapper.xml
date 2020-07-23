@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysInfoCenterMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysInfoCenter" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="INFO_SOURCE" property="infoSource" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="PUBLISH_DATE" property="publishDate" jdbcType="DATE" />
+    <result column="PUBLISH_MAN" property="publishMan" jdbcType="VARCHAR" />
+    <result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="TOP_STATUS" property="topStatus" jdbcType="VARCHAR" />
+    <result column="HIDDEN_STATUS" property="hiddenStatus" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+      <result column="VIEW_NUM" property="viewNum" jdbcType="INTEGER"/>
+      <result column="PC_IMG_URL" property="pcImgUrl" jdbcType="VARCHAR"/>
+    <result column="IS_RECOMMENDED" property="isRecommended" jdbcType="VARCHAR"/>
+    <result column="BANNER" property="banner" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <select id="getSysInfoCenterList" resultMap="BaseResultMap">
+      <![CDATA[
+          select *
+            from (select *
+                    from SYS_INFO_CENTER t
+                   where t.top_status = 1
+                   and t.is_recommended = 0
+                   and t.status = 1
+                   and t.audit_status = 1
+                   and t.hidden_status = 0
+                   and t.publish_date < #{nowDate}
+                   order by t.publish_date desc)
+          union all
+          select *
+            from (select *
+                    from SYS_INFO_CENTER t
+                   where t.top_status = 0
+                   and t.is_recommended = 0
+                   and t.status = 1
+                   and t.audit_status = 1
+                   and t.hidden_status = 0
+                   and t.publish_date < #{nowDate}
+                   order by t.publish_date desc)
+       ]]>
+  </select>
+
+  <select id="getRecommendedBanner" resultMap="BaseResultMap">
+    <![CDATA[
+          select *
+                    from SYS_INFO_CENTER t
+                   where t.is_recommended = 1
+                   and t.status = 1
+                   and t.audit_status = 1
+                   and t.hidden_status = 0
+                   and t.publish_date < #{nowDate}
+                   order by t.publish_date desc
+
+       ]]>
+  </select>
+
+    <select id="getSysInfoCenterListForEdu" resultMap="BaseResultMap">
+        <![CDATA[
+          select *
+            from (select *
+                    from SYS_INFO_CENTER t
+                   where t.top_status = 1
+                   and t.status = 1
+                   and t.audit_status = 1
+                   and t.hidden_status = 0
+                   and t.publish_date < #{nowDate}
+                   order by t.publish_date desc)
+          union all
+          select *
+            from (select *
+                    from SYS_INFO_CENTER t
+                   where t.top_status = 0
+                   and t.status = 1
+                   and t.audit_status = 1
+                   and t.hidden_status = 0
+                   and t.publish_date < #{nowDate}
+                   order by t.publish_date desc)
+       ]]>
+    </select>
+</mapper>

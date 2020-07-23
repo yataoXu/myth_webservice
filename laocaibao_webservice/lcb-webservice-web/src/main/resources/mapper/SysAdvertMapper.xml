@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysAdvertMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysAdvert">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="DETAIL" property="detail" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="START_DATE" property="startDate" jdbcType="TIMESTAMP"/>
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="AUDIT_STATUS" property="auditStatus" jdbcType="VARCHAR"/>
+        <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+        <result column="AUDITOR" property="auditor" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, TITLE, DETAIL, CREATE_DATE, START_DATE, END_DATE, CREATOR, AUDIT_STATUS, AUDIT_DATE,
+        AUDITOR, STATUS, IMG_URL
+    </sql>
+
+    <select id="selectAdvertList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_ADVERT
+        <![CDATA[
+        where START_DATE < sysdate and END_DATE > sysdate and status = 1
+        ]]>
+    </select>
+
+</mapper>

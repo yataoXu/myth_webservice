@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.wdty.WdtyLoanUserMapper">
+
+    <resultMap type="com.zdmoney.models.wdty.WdtyLoanUser" id="wdtyLoanUserMap">
+        <result property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="userid" column="USERID"/>
+        <result property="account" column="ACCOUNT"/>
+        <result property="add_time" column="ADD_TIME"/>
+        <result property="dataType" column="DATA_TYPE"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,USERNAME,USERID,ACCOUNT,ADD_TIME,DATA_TYPE    </sql>
+
+
+    <select id="queryWdtyLoanUserByInfo" resultMap="wdtyLoanUserMap" parameterType="java.util.Map">
+        select *
+        from (select u.*, rownum r
+        from (select u.*
+        from laocaibao.wdty_loan_user u
+        INNER join laocaibao.wdty_loan_info t
+        on t.id = u.id
+        <if test="time_from != null">
+            AND to_date(t.end_time,'yyyy-MM-dd hh24:mi:ss') &gt;= to_date(#{time_from},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="time_to != null">
+            AND to_date(t.end_time,'yyyy-MM-dd hh24:mi:ss') &lt;= to_date(#{time_to},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        ) u
+        where rownum &lt;= #{pageNo} * #{pageSize})
+        where r &gt; (#{pageNo}-1) * #{pageSize}
+    </select>
+
+    <select id="queryWdtyLoanUser" resultMap="wdtyLoanUserMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM WDTY_LOAN_USER
+    </select>
+
+    <insert id="saveWdtyLoanUser" parameterType="com.zdmoney.models.wdty.WdtyLoanUser">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_WDTY_LOAN_USER.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO WDTY_LOAN_USER
+          (ID,USERNAME,USERID,ACCOUNT,ADD_TIME,DATA_TYPE)
+        VALUES
+          (#{id},#{username},#{userid},#{account},#{addTime},#{dataType})
+    </insert>
+
+    <update id="updateWdtyLoanUser" parameterType="com.zdmoney.models.wdty.WdtyLoanUser">
+        UPDATE WDTY_LOAN_USER
+        <set>
+            <if test="username != null">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null">
+                USERID = #{userid},
+            </if>
+            <if test="account != null">
+                ACCOUNT = #{account},
+            </if>
+            <if test="addTime != null">
+                ADD_TIME = #{addTime},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeWdtyLoanUserById" parameterType="java.lang.Long">
+        DELETE FROM WDTY_LOAN_USER WHERE ID = #{id}
+    </delete>
+
+    <select id="countWdzyUserByDate" resultType="java.lang.Integer">
+        select count(1)
+          from laocaibao.wdty_loan_user t
+         where to_char(t.create_date, 'yyyy-MM-dd') =
+               to_char(sysdate, 'yyyy-MM-dd')
+    </select>
+
+    <insert id="insertLastDayWdzjUserData">
+        insert into laocaibao.wdty_loan_user
+          select *
+            from (
+
+                  select case t.product_id
+                            when 0 then
+                             t.subject_no || '_' || t.plan_id || '_' ||
+                             to_char(t.interest_start_date, 'yyyy-mm-dd')
+                            else
+                             t.product_id || ''
+                          end id,
+                          to_char(t.customer_id) username,
+                          to_char(t.customer_id) userid,
+                          to_char(t.order_amt, 'fm99999999990.00') account,
+                          to_char(t.confirm_payment_date, 'yyyy-mm-dd hh24:mi:ss') add_time,
+                          case
+                            when t.product_type = 3 then
+                             1
+                            when t.product_type = 5 and t.debt_type = 1 then
+                             3
+                            when t.product_type = 5 and t.debt_type = 2 then
+                             4
+                            ELSE
+                             0
+                          end data_type,
+                          sysdate create_date
+                    from laocaibao.busi_order_sub t
+                   where t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+                     and t.product_type in (3, 5)
+                     and to_char(t.interest_start_date, 'yyyy-mm-dd') =
+                         to_char(sysdate - 1, 'yyyy-mm-dd'))
+    </insert>
+</mapper>

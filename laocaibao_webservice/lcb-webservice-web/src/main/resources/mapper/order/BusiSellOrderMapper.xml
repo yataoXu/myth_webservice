@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.order.BusiSellOrderMapper" >
+	<resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiSellOrder" >
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+		<result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR" />
+		<result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL" />
+		<result column="SELL_ORDER_AMT" property="sellOrderAmt" jdbcType="DECIMAL" />
+		<result column="SELL_ORDER_TIME" property="sellOrderTime" jdbcType="TIMESTAMP" />
+		<result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="PAY_OPER" property="payOper" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="BANK_ACCOUNT_ID" property="bankAccountId" jdbcType="DECIMAL" />
+		<result column="CURR_TERM" property="currTerm" jdbcType="DECIMAL" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List" >
+    ID, ORDER_ID, CUSTOMER_ID, CUSTOMER_NAME, ORDER_AMT, SELL_ORDER_AMT,
+    SELL_ORDER_TIME, PAY_TIME, PAY_OPER, STATUS,BANK_ACCOUNT_ID,CURR_TERM
+	</sql>
+
+
+	<select id="findSellOrderByOrderId" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from BUSI_SELL_ORDER
+		  where  CUSTOMER_ID= #{0} and ORDER_ID = #{1}  order by  CURR_TERM desc
+	</select>
+
+
+</mapper>

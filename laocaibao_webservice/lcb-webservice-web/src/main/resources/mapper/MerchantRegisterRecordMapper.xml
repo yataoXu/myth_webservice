@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.MerchantRegisterRecordMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.MerchantRegisterRecord">
+
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MERCHANT_NO" jdbcType="OTHER" property="merchantNo" />
+    <result column="CUSTOMER_NO" jdbcType="OTHER" property="customerNo" />
+    <result column="REGISTER_DATE" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="VALID_CODE" jdbcType="OTHER" property="validCode" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,164 @@
+create table team_main_info(
+      id                     number(18)    not null,
+      team_name              varchar2(50)  not null,
+      slogan                 varchar2(200) not null,
+      captain_id             number(18)    not null,
+      captain_cellphone      varchar2(20)  not null,
+      captain_name           varchar2(20)  not null,
+      wealth_value           number(18,4),
+      team_status            number(1) not null,
+      remark                 varchar2(200),
+      create_time            date default sysdate,
+      dissolve_time          date
+);
+create table team_member_apply_info(
+      id            	      number(18)   not null,
+      team_id                 number(18)   not null,
+      member_id               number(18)   not null,
+      member_cellphone        varchar2(20),
+      member_name             varchar2(20),
+      member_status           varchar2(20) not null,
+      apply_time              date         default sysdate,
+      invite_id               number(18),
+      remark                  varchar2(200)
+);
+create table team_member_info(
+      id	                  number(18)   not null,
+      team_id	              number(18)   not null,
+      member_id	              number(18)   not null,
+      member_cellphone	      varchar2(20),
+      member_name	          varchar2(20),
+      member_status	          varchar2(20) not null,
+      enqueue_time	          date         not null,
+      leave_time	          date
+      invite_id	              number(18),
+      remark	              varchar2(200)
+);
+create table team_task(
+      id	                   number(18)     not null,
+      task_name	               varchar2(20)   not null,
+      task_desc	               varchar2(200)  not null,
+      invest_term	           number(10),
+      invest_amt	           number(10),
+      team_num	               number(10),
+      task_type	               varchar2(20),
+      invest_type	           varchar2(20),
+      reward_type	           varchar2(20),
+      add_interest_coupon_id   varchar2(100),
+      lcb_amt	               number(10),
+      task_status	           number(1)      not null,
+      show_status	           number(1)      not null,
+      start_time	           date,
+      end_time	               date,
+      invest_task_type	       number(1)      not null,
+      carete_time	           date           default sysdate
+);
+create table team_task_flow(
+      id	                    number(18)    not null,
+      task_id	                number(18)    not null,
+      cm_number	                varchar2(20)  not null,
+      reward_amt	            number(10)    not null,
+      reward_type	            varchar2(20)  not null,
+      create_time	            date          default sysdate,
+      receive_status	        varchar2(20)  not null,
+      last_receive_time	        date,
+      recevie_time	            date,
+      recevie_seri	            varchar2(20)
+);
+create table team_member_month_invest_flow(
+      id	                            number(18)   not null,
+      member_id	                        number(18)   not null,
+      team_id	                        number(18),
+      invest_time	                    varchar2(6)  not null,
+      invest_amt	                    number(18,4) not null,
+      receive_lcb_amt	                number(10)   not null,
+      receive_add_interest_coupon_num	number(10)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+队伍总表			team_main_info
+id			id	number(18)
+队名			team_name	varchar2(50)
+口号			slogan	varchar2(200)
+队长id			captain_id	number(18)
+队长手机号			captain_cellphone	varchar2(20)
+队长姓名			captain_name	varchar2(20)
+队伍财富值			wealth_value	number(18,4)
+队伍状态	启用、禁用		team_status	number(1)
+备注			remark	varchar2(200)
+创建时间			create_time	date
+解散时间			dissolve_time	date
+
+队员申请表			team_member_apply_info
+id			id	number(18)
+队伍id			team_id	number(18)
+队员id			member_id	number(18)
+队员手机号			member_cellphone	varchar2(20)
+队员姓名			member_name	varchar2(20)
+队员状态	审核中、已拒绝、已审核		member_status	varchar2(20)
+申请入队时间			apply_time	date
+邀请人id			invite_id	number(18)
+备注			remark	varchar2(200)
+
+队员表			team_member_info
+id			id	number(18)
+队伍id			team_id	number(18)
+队员id			member_id	number(18)
+队员手机号			member_cellphone	varchar2(20)
+队员姓名			member_name	varchar2(20)
+队员状态	正常、离队		member_status	varchar2(20)
+审核入队时间			enqueue_time	date
+离队时间			leave_time	date
+邀请人id			invite_id	number(18)
+备注			remark	varchar2(200)
+
+团队任务表			team_task
+id			id	number(18)
+任务名			task_name	varchar2(20)
+任务描述			task_desc	varchar2(200)
+投资期限			invest_term	number(10)
+投资金额			invest_amt	number(10)
+队伍人数		仅新手任务有效	team_num	number(10)
+任务类型	每日、每月		task_type	varchar2(20)
+投资类型	单笔、累计		invest_type	varchar2(20)
+奖励类型	捞财币、加息券		reward_type	varchar2(20)
+奖励加息券id		仅奖励类型是加息券有效	add_interest_coupon_id	varchar2(100)
+奖励捞财币数量		仅奖励类型是捞财币有效	lcb_amt	number(10)
+任务状态	上架、下架		task_status	number(1)
+任务启用状态	启用、禁用		show_status	number(1)
+任务开始时间			start_time	date
+任务结束时间			end_time	date
+队员是否需要注资领取	是、否		invest_task_type	number(1)
+创建时间			carete_time	date
+
+团队任务流水表			team_task_flow
+id			id	number(18)
+任务id			task_id	number(18)
+用户id			cm_customer	varchar2(20)
+奖励数量			reward_amt	number(10)
+奖励类型	捞财币、加息券		reward_type	varchar2(20)
+创建时间			create_time	date
+任务发放状态	已领取、未领取		receive_status	varchar2(20)
+最后领取时间			last_receive_time	date
+领取时间			recevie_time	date
+领取流水号			recevie_seri	varchar2(20)
+
+队员每月投资流水表			team_member_month_invest_flow
+id			id	number(18)
+队员id			member_id	number(18)
+队伍id			team_id	number(18)
+投资日期（年月）			invest_time	varchar2(6)
+累计投资金额			invest_amt	number(18,4)
+当月领取捞财宝数量			receive_lcb_amt	number(10)
+当月领取加息券数量			receive_add_interest_coupon_num	number(10)

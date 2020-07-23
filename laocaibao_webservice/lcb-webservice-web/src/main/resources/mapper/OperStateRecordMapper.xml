@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.OperStateRecordMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.OperStateRecord" >
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="oper_type" property="operType" jdbcType="VARCHAR" />
+        <result column="keyword" property="keyword" jdbcType="VARCHAR" />
+        <result column="current_state" property="currentState" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="extra_info" property="extraInfo" jdbcType="VARCHAR" />
+        <result column="spare_field" property="spareField" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="AllColumn">
+        ID,oper_type,keyword,current_state,create_time,extra_info,spare_field
+    </sql>
+
+    <insert id="save" parameterType="com.zdmoney.models.OperStateRecord">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_oper_state_record.nextval from dual
+        </selectKey>
+        insert into OPER_STATE_RECORD(ID,oper_type,keyword,current_state,create_time,extra_info,spare_field)
+        values(#{id,jdbcType=DECIMAL},#{operType,jdbcType=VARCHAR},#{keyword,jdbcType=VARCHAR},#{currentState,jdbcType=VARCHAR},
+        sysdate,#{extraInfo,jdbcType=VARCHAR},#{spareField,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByCondition" parameterType="com.zdmoney.models.OperStateRecord">
+        update OPER_STATE_RECORD
+        <set>
+            <if test="currentState != null"> current_state = #{currentState,jdbcType=VARCHAR},</if>
+            <if test="extraInfo != null"> extra_info = #{extraInfo,jdbcType=VARCHAR},</if>
+        </set>
+        <where>
+            <if test="operType != null">and oper_type = #{operType,jdbcType=VARCHAR}</if>
+            <if test="keyword != null">and keyword = #{keyword,jdbcType=VARCHAR}</if>
+            <if test="id != null">and id = #{id,jdbcType=DECIMAL}</if>
+        </where>
+    </update>
+    <select id="selectByTypeAndKeyword" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="AllColumn"/>
+        from OPER_STATE_RECORD
+        where oper_type = #{operType,jdbcType=VARCHAR} and keyword = #{keyword,jdbcType=VARCHAR}
+    </select>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysAnnouncementMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysAnnouncement" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANNOUNCEMENT_TYPE" property="announcementType" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="BEGIN_DATE" property="beginDate" jdbcType="TIMESTAMP" />
+    <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="OPEN_LOGIN" property="openLogin" jdbcType="VARCHAR" />
+    <result column="PUB_MAN" property="pubMan" jdbcType="VARCHAR" />
+    <result column="PUB_DATE" property="pubDate" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="PUSH_MESSAGE_STATUS" property="pushMessageStatus" jdbcType="DECIMAL" />
+    <result column="AUDIT_STATUS" property="auditStatus" jdbcType="DECIMAL" />
+    <result column="AUDIT_MAN" property="auditMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ANNOUNCEMENT_TYPE, CREATE_DATE, BEGIN_DATE, END_DATE, OPEN_LOGIN, PUB_MAN, PUB_DATE,
+    CREATOR, STATUS, TITLE, CONTENT, PUSH_MESSAGE_STATUS, AUDIT_STATUS,AUDIT_MAN
+  </sql>
+
+   <select id="getSysAnnouncementList" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select
+    <include refid="Base_Column_List" />
+     from SYS_ANNOUNCEMENT where 1=1
+	 <if test="pushMessageStatus != null">
+      and PUSH_MESSAGE_STATUS = #{pushMessageStatus}
+    </if>
+     <if test="status != null">
+      and STATUS = #{status}
+    </if>
+     <if test="auditStatus != null">
+      and AUDIT_STATUS = #{auditStatus}
+    </if>
+       <![CDATA[ and sysdate >= BEGIN_DATE and sysdate <= END_DATE +1 ]]>
+<!--  <if test="beginDate != null">
+        and (BEGIN_DATE is null or sysdate &gt;= BEGIN_DATE)
+    </if>
+    <if test="endDate != null">
+        and (END_DATE is null or sysdate &lt;= END_DATE)
+    </if>  -->
+    order by PUB_DATE desc
+  </select>
+
+  <select id="selectMaxDate" resultType="java.util.Date" parameterType="String">
+    <![CDATA[
+      select max(pub_date)
+      from SYS_ANNOUNCEMENT
+      where STATUS = 1
+      and AUDIT_STATUS = 1
+      and sysdate >= BEGIN_DATE
+      and sysdate <= END_DATE + 1
+    ]]>
+    <!--SELECT MAX(t.PUB_DATE) FROM sys_announcement t WHERE  t.begin_date &lt; to_date(#{msgDate},'yyyy/mm/dd hh24:mi:ss') AND t.end_date &gt; to_date(#{msgDate},'yyyy/mm/dd hh24:mi:ss') AND t.status='1'-->
+      </select>
+    </mapper>

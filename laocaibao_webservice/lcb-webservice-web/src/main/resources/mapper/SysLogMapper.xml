@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysLog" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MODEL_NAME" property="modelName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="LOG_TYPE" property="logType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MODEL_NAME, CREATE_DATE, CONTENT, OPERATOR, LOG_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SYS_LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.models.sys.SysLog" >
+   <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_LOG.nextval from dual
+    </selectKey>
+    insert into SYS_LOG (ID, MODEL_NAME, CREATE_DATE, 
+      CONTENT, OPERATOR, LOG_TYPE
+      )
+    values (#{id,jdbcType=DECIMAL}, #{modelName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{content,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.sys.SysLog" >
+   <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_SYS_LOG.nextval from dual
+    </selectKey>
+    insert into SYS_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="modelName != null" >
+        MODEL_NAME,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="logType != null" >
+        LOG_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="modelName != null" >
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="logType != null" >
+        #{logType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.sys.SysLog" >
+    update SYS_LOG
+    <set >
+      <if test="modelName != null" >
+        MODEL_NAME = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="logType != null" >
+        LOG_TYPE = #{logType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.sys.SysLog" >
+    update SYS_LOG
+    set MODEL_NAME = #{modelName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      LOG_TYPE = #{logType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+
+
+
+
+
+  <resultMap type="com.zdmoney.models.sys.SysRequestLog" id="sysRequestLogMap">
+    <result property="transNo" column="TRANS_NO" jdbcType="VARCHAR"/>
+    <result property="methodCode" column="METHOD_CODE" jdbcType="VARCHAR"/>
+    <result property="reqParams" column="REQ_PARAMS" jdbcType="VARCHAR"/>
+    <result property="rspResult" column="RSP_RESULT" jdbcType="VARCHAR"/>
+    <result property="rspTime" column="RSP_TIME" jdbcType="DECIMAL"/>
+    <result property="status" column="STATUS" jdbcType="DECIMAL"/>
+    <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+    <result property="modifyTime" column="MODIFY_TIME" jdbcType="TIMESTAMP"/>
+    <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <insert id="saveSysRequestLog" parameterType="com.zdmoney.models.sys.SysRequestLog">
+    INSERT INTO SYS_REQUEST_LOG
+    (TRANS_NO,METHOD_CODE,REQ_PARAMS,RSP_RESULT,RSP_TIME,STATUS,CREATE_TIME,MODIFY_TIME,REMARK)
+    VALUES
+    (#{transNo},#{methodCode},#{reqParams},#{rspResult},#{rspTime},#{status},#{createTime},#{modifyTime},#{remark})
+  </insert>
+
+
+</mapper>

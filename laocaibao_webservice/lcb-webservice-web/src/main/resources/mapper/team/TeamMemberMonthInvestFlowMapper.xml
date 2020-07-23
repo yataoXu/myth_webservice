@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamMemberMonthInvestFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamMemberMonthInvestFlow" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="DECIMAL" />
+    <result column="TEAM_ID" property="teamId" jdbcType="DECIMAL" />
+    <result column="INVEST_TIME" property="investTime" jdbcType="VARCHAR" />
+    <result column="INVEST_AMT" property="investAmt" jdbcType="DECIMAL" />
+    <result column="RECEIVE_LCB_AMT" property="receiveLcbAmt" jdbcType="DECIMAL" />
+    <result column="RECEIVE_ADD_INTERESTCOUPON_NUM" property="receiveAddInterestcouponNum" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="selectTeamMonthInvestAmt" resultType="DECIMAL" parameterType="java.util.Map">
+    select nvl(sum(invest_amt),0)　from team_member_month_invest_flow where team_id=#{teamId} and invest_time=#{curMonth}
+  </select>
+</mapper>

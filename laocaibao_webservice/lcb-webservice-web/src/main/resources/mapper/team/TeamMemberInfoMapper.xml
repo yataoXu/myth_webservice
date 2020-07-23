@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamMemberInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamMemberInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TEAM_ID" property="teamId" jdbcType="DECIMAL" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="DECIMAL" />
+    <result column="MEMBER_CELLPHONE" property="memberCellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR" />
+    <result column="MEMBER_STATUS" property="memberStatus" jdbcType="VARCHAR" />
+    <result column="ENQUEUE_TIME" property="enqueueTime" jdbcType="DATE" />
+    <result column="LEAVE_TIME" property="leaveTime" jdbcType="TIMESTAMP" />
+    <result column="INVITE_ID" property="inviteId" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MEMBER_NUMBER" property="memberNumber" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <update id="updateCellphoneByMemberId" parameterType="com.zdmoney.models.team.TeamMemberInfo" >
+    update TEAM_MEMBER_INFO SET
+    MEMBER_CELLPHONE = #{memberCellphone,javaType=com.zdmoney.common.handler.SecurityString} where MEMBER_ID = #{memberId,jdbcType=DECIMAL}
+  </update>
+
+  <select id="findTeamMemberInfo" resultMap="BaseResultMap" parameterType="map">
+    select * from TEAM_MEMBER_INFO
+    where 1=1
+    <if test="memberId != null || memberId != ''">
+      and MEMBER_ID = #{memberId,jdbcType=DECIMAL}
+    </if>
+    <if test="memberStatus != null || memberStatus != ''">
+      and MEMBER_STATUS = #{memberStatus,jdbcType=DECIMAL}
+    </if>
+  </select>
+</mapper>

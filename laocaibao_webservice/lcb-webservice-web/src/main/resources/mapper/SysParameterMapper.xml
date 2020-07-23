@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysParameterMapper">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysParameter">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="PR_TYPENAME" property="prTypename" jdbcType="VARCHAR"/>
+        <result column="PR_TYPE" property="prType" jdbcType="VARCHAR"/>
+        <result column="PR_NAME" property="prName" jdbcType="VARCHAR"/>
+        <result column="PR_VALUE" property="prValue" jdbcType="VARCHAR"/>
+        <result column="PR_ISEDIT" property="prIsedit" jdbcType="CHAR"/>
+        <result column="PR_STATE" property="prState" jdbcType="CHAR"/>
+        <result column="PR_PARENT_ID" property="prParentId" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="getSysParameterWithoutCache" resultMap="BaseResultMap" parameterType="string" useCache="false">
+        select  *
+        from SYS_PARAMETER where pr_type = #{prType}
+    </select>
+
+    <select id="getDefaultSysParameterWithoutCache" resultMap="BaseResultMap" parameterType="string" useCache="false">
+        select  *
+        from SYS_PARAMETER where pr_type = #{prType} and pr_isedit='1'
+    </select>
+
+    <select id="getSysParameterPrs" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select  * from SYS_PARAMETER where pr_type = #{prType} and pr_name = #{prName}
+    </select>
+</mapper>

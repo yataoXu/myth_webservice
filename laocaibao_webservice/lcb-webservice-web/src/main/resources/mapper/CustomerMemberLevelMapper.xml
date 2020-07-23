@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.CustomerMemberLevelMapper">
+
+    <resultMap type="com.zdmoney.models.customer.CustomerMemberLevel" id="customerMemberLevelMap">
+        <result property="id" column="ID" jdbcType="DECIMAL"/>
+        <result property="customerId" column="CUSTOMER_ID" jdbcType="DECIMAL"/>
+        <result property="initAmt" column="INIT_AMT"  jdbcType="DECIMAL"/>
+        <result property="endAmt" column="END_AMT" jdbcType="DECIMAL"/>
+        <result property="initLevel" column="INIT_LEVEL" jdbcType="VARCHAR"/>
+        <result property="endLevel" column="END_LEVEL" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CUSTOMER_ID,INIT_AMT,END_AMT,INIT_LEVEL,END_LEVEL    </sql>
+
+    <select id="queryCustomerMemberLevel" resultMap="customerMemberLevelMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM CUSTOMER_MEMBER_LEVEL
+        where 1=1
+        <if test="customerId != null">
+            and CUSTOMER_ID = #{customerId}
+        </if>
+    </select>
+
+    <insert id="saveCustomerMemberLevel" parameterType="com.zdmoney.models.customer.CustomerMemberLevel">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_CUSTOMER_MEMBER_LEVEL.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO CUSTOMER_MEMBER_LEVEL
+          (ID,CUSTOMER_ID,INIT_AMT,END_AMT,INIT_LEVEL,END_LEVEL)
+        VALUES
+          (#{id},#{customerId},#{initAmt},#{endAmt},#{initLevel},#{endLevel})
+    </insert>
+
+    <update id="updateCustomerMemberLevel" parameterType="com.zdmoney.models.customer.CustomerMemberLevel">
+        UPDATE CUSTOMER_MEMBER_LEVEL
+        <set>
+            <if test="customerId != null">
+                CUSTOMER_ID = #{customerId},
+            </if>
+            <if test="initAmt != null">
+                INIT_AMT = #{initAmt},
+            </if>
+            <if test="endAmt != null">
+                END_AMT = #{endAmt},
+            </if>
+            <if test="initLevel != null">
+                INIT_LEVEL = #{initLevel},
+            </if>
+            <if test="endLevel != null">
+                END_LEVEL = #{endLevel}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeCustomerMemberLevelById" parameterType="java.lang.Long">
+        DELETE FROM CUSTOMER_MEMBER_LEVEL WHERE ID = #{id}
+    </delete>
+
+    <select id="getCustomerIdByOrder" resultType="string">
+      SELECT
+        DISTINCT bo.customer_id
+      FROM
+        BUSI_ORDER bo join laocaibao.customer_main_info t on bo.customer_id = t.id
+      WHERE bo.STATUS IN('0','9','17','18')
+      AND t.cm_valid=0
+    </select>
+
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamMainInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamMainInfo" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TEAM_NAME" property="teamName" jdbcType="VARCHAR" />
+    <result column="TEAM_NUM" property="teamNum" jdbcType="DECIMAL" />
+    <result column="SLOGAN" property="slogan" jdbcType="VARCHAR" />
+    <result column="CAPTAIN_ID" property="captainId" jdbcType="DECIMAL" />
+    <result column="CAPTAIN_CELLPHONE" property="captainCellphone" jdbcType="VARCHAR"/>
+    <result column="CAPTAIN_NAME" property="captainName" jdbcType="VARCHAR" />
+    <result column="WEALTH_VALUE" property="wealthValue" jdbcType="DECIMAL" />
+    <result column="TEAM_STATUS" property="teamStatus" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="DISSOLVE_TIME" property="dissolveTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="TeamListResultMap" type="com.zdmoney.web.dto.team.TeamListDTO" >
+    <result column="id" property="teamId" jdbcType="DECIMAL" />
+    <result column="team_name" property="teamName" jdbcType="VARCHAR" />
+    <result column="team_num" property="teamNum" jdbcType="DECIMAL" />
+    <result column="sumInvestAmt" property="monthInvestAmt" jdbcType="DECIMAL" />
+    <result column="limitNum" property="limitNum" jdbcType="DECIMAL" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+  </resultMap>
+
+    <resultMap id="annualBillMap" type="com.zdmoney.models.customer.AnnualBill">
+        <result column="CM_INPUT_DATE" property="registerDate"/>
+        <result column="FIRST_INVEST_TIME" property="firstInvestDate"/>
+        <result column="INVEST_TOTAL_NUM" property="investTotal"/>
+        <result column="INVEST_AMOUNT" property="investAmount"/>
+        <result column="INVEST_INCOME" property="investIncome"/>
+        <result column="RED_BAG_AMOUNT" property="redBagAmount"/>
+        <result column="USED_RED_BAG" property="useRedBagAmount"/>
+        <result column="VOUCHER_NUM" property="voucherTotal"/>
+        <result column="USED_VOUCHER_NUM" property="useVoucherCount"/>
+        <result column="MAX_INVEST_TIME" property="maxInvestDate"/>
+        <result column="MAX_INVEST_AMOUNT" property="maxInvestAmount"/>
+        <result column="WELFARE_NUM" property="welfareCount"/>
+        <result column="WELFARE_AMOUNT" property="economizeAmount"/>
+        <result column="INVITE_NUM" property="friendCount"/>
+        <result column="INVITE_AMOUNT" property="integralTotal"/>
+    </resultMap>
+
+  <select id="getTeamList" resultMap="TeamListResultMap" parameterType="java.util.Map">
+      select t.id,
+             t.team_name,
+             t.team_num,
+             (select nvl(sum(f.invest_amt), 0)
+                from team_member_month_invest_flow f
+               where f.team_id = t.id
+                and f.invest_time = #{sDate}) as sumInvestAmt,
+             #{teamUpperLimit} as limitNum
+        from team_main_info t
+       where 1 = 1
+          <if test="searchType != 1">
+            and t.team_num  &lt; #{teamUpperLimit}
+          </if>
+          <if test="searchStr!=null and searchStr!=''">
+          and (team_name like '%'||#{searchStr}||'%' or captain_cellphone like '%'||#{searchStr, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}||'%')
+          </if>
+       order by sumInvestAmt desc, t.team_num desc, t.create_time asc
+  </select>
+
+    <sql id="vw_invest">
+        select
+        t.id id,
+        t.team_name,
+        t.team_num,
+        t.captain_cellphone,
+        (select nvl(sum(f.invest_amt), 0)
+        from team_member_month_invest_flow f
+        where f.team_id = t.id
+        and f.invest_time =  #{curMonth}) as sumInvestAmt,
+        #{teamUpperLimit} as limitNum
+        from team_main_info t  where
+        <![CDATA[
+	  	t.team_num>=3 and t.team_num <= #{teamUpperLimit}
+	  ]]>
+    </sql>
+
+    <select id="getTeamRankList" resultMap="TeamListResultMap" parameterType="java.util.Map">
+        select * from (
+        SELECT a.*, (SELECT COUNT(sumInvestAmt) FROM (<include refid="vw_invest"/>) WHERE sumInvestAmt>a.sumInvestAmt)+1
+        as no
+        FROM (<include refid="vw_invest"/>) a
+        ORDER BY no, a.id
+        )
+        where 1=1
+        <if test="searchStr!=null and searchStr!=''">
+            and (team_name like '%'||#{searchStr}||'%' or captain_cellphone like '%'||#{searchStr, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}||'%')
+        </if>
+    </select>
+
+    <select id="queryAnnualBill2016" parameterType="Long" resultMap="annualBillMap">
+      select * from dm_user_year_account where id = #{customerId}
+    </select>
+
+    <select id="findTeamMainInfo" resultMap="TeamListResultMap" parameterType="java.util.Map">
+        select * from team_main_info where 1=1
+        <if test="teamName!=null and teamName!=''">
+            and (team_name like '%'||#{teamName}||'%')
+        </if>
+    </select>
+</mapper>

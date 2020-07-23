@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.lycj.LycjLoanInfoMapper">
+
+    <resultMap type="com.zdmoney.models.lycj.LycjLoanInfo" id="lycjLoanInfoMap">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="username" column="USERNAME"/>
+        <result property="userid" column="USERID"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="borrowPeriod" column="BORROW_PERIOD"/>
+        <result property="interest" column="INTEREST"/>
+        <result property="assetType" column="ASSET_TYPE"/>
+        <result property="repayType" column="REPAY_TYPE"/>
+        <result property="percentage" column="PERCENTAGE"/>
+        <result property="bidState" column="BID_STATE"/>
+        <result property="verifyTime" column="VERIFY_TIME"/>
+        <result property="reverifyTime" column="REVERIFY_TIME"/>
+        <result property="productType" column="PRODUCT_TYPE"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="planId" column="PLAN_ID"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,TITLE,USERNAME,USERID,AMOUNT,BORROW_PERIOD || '天' AS BORROW_PERIOD,INTEREST,ASSET_TYPE,REPAY_TYPE,PERCENTAGE,BID_STATE,VERIFY_TIME,REVERIFY_TIME,PRODUCT_TYPE,DATA_TYPE,PLAN_ID    </sql>
+
+    <select id="queryLycjLoanInfo" resultMap="lycjLoanInfoMap" parameterType="java.util.Map">
+        select * from (
+        SELECT
+        rownum RN,<include refid="base_column_list"></include>
+        FROM LYCJ_LOAN_INFO WHERE SUBSTR(VERIFY_TIME,0,10)=#{dateTime}
+        ) where RN > (#{pageNo}-1)*#{pageSize} and RN &lt;= #{pageNo} * #{pageSize}
+    </select>
+
+    <insert id="saveLycjLoanInfo" parameterType="com.zdmoney.models.lycj.LycjLoanInfo">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_LYCJ_LOAN_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO LYCJ_LOAN_INFO
+          (ID,TITLE,USERNAME,USERID,AMOUNT,BORROW_PERIOD,INTEREST,ASSET_TYPE,REPAY_TYPE,PERCENTAGE,BID_STATE,VERIFY_TIME,REVERIFY_TIME,PRODUCT_TYPE,DATA_TYPE,PLAN_ID)
+        VALUES
+          (#{id},#{title},#{username},#{userid},#{amount},#{borrowPeriod},#{interest},#{assetType},#{repayType},#{percentage},#{bidState},#{verifyTime},#{reverifyTime},#{productType},#{dataType},#{planId})
+    </insert>
+
+    <update id="updateLycjLoanInfo" parameterType="com.zdmoney.models.lycj.LycjLoanInfo">
+        UPDATE LYCJ_LOAN_INFO
+        <set>
+            <if test="title != null">
+                TITLE = #{title},
+            </if>
+            <if test="username != null">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null">
+                USERID = #{userid},
+            </if>
+            <if test="amount != null">
+                AMOUNT = #{amount},
+            </if>
+            <if test="borrowPeriod != null">
+                BORROW_PERIOD = #{borrowPeriod},
+            </if>
+            <if test="interest != null">
+                INTEREST = #{interest},
+            </if>
+            <if test="assetType != null">
+                ASSET_TYPE = #{assetType},
+            </if>
+            <if test="repayType != null">
+                REPAY_TYPE = #{repayType},
+            </if>
+            <if test="percentage != null">
+                PERCENTAGE = #{percentage},
+            </if>
+            <if test="bidState != null">
+                BID_STATE = #{bidState},
+            </if>
+            <if test="verifyTime != null">
+                VERIFY_TIME = #{verifyTime},
+            </if>
+            <if test="reverifyTime != null">
+                REVERIFY_TIME = #{reverifyTime},
+            </if>
+            <if test="productType != null">
+                PRODUCT_TYPE = #{productType},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType},
+            </if>
+            <if test="planId != null">
+                PLAN_ID = #{planId}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeLycjLoanInfoById" parameterType="java.lang.Long">
+        DELETE FROM LYCJ_LOAN_INFO WHERE ID = #{id}
+    </delete>
+</mapper>

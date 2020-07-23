@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.trade.BusiTradeFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.trade.BusiTradeFlow" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TRD_AMT" property="trdAmt" jdbcType="DECIMAL" />
+    <result column="TRD_TYPE" property="trdType" jdbcType="VARCHAR" />
+    <result column="TRD_DATE" property="trdDate" jdbcType="TIMESTAMP" />
+    <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR"/>
+    <result column="customer_id" property="customerId" jdbcType="DECIMAL"/>
+    <result column="PAY_SERI_NO" property="paySeriNo" jdbcType="VARCHAR"/>
+    <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    <result column="ACCOUNT_SERI_NO" property="accountSeriNo" jdbcType="VARCHAR"/>
+    <result column="tpp_seri_no" property="tppSeriNo" jdbcType="VARCHAR"/>
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR"/>
+    <result column="BANK_CARD_NUM" property="bankCardNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="BANK_CARD_ID" property="bankCardId" jdbcType="DECIMAL"/>
+    <result column="FLOW_DETAIL_ID" property="flowDetailId" jdbcType="DECIMAL"/>
+    <result column="APPLICANT_TYPE" property="applicantType" jdbcType="VARCHAR"/>
+    <result column="SERVICE_CHARGE" property="serviceCharge" jdbcType="DECIMAL"/>
+    <result column="TYPE" property="type" jdbcType="DECIMAL"/>
+    <result column="JOB_FLAG" property="jobFlag" jdbcType="DECIMAL"/>
+  </resultMap>
+
+
+  <resultMap id="TrandeFlowDto" type="com.zdmoney.webservice.api.dto.Asset.BusiTradeFlowDTO" >
+    <result column="TRD_AMT" property="trdAmt" jdbcType="DECIMAL" />
+    <result column="TRD_DATE" property="trdDate" jdbcType="VARCHAR" />
+    <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR"/>
+  </resultMap>
+
+    <resultMap id="TrandeFlowsDto" type="com.zdmoney.webservice.api.dto.channel.WithdrawFlowsDto" >
+        <result column="TRD_AMT" property="withdrawAmount" jdbcType="DECIMAL" />
+        <result column="TRD_DATE" property="tradeDate" jdbcType="VARCHAR" />
+        <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="TrandeFlowsDtoForWacai" type="com.zdmoney.webservice.api.dto.credit.wacai.WithdrawDto" >
+        <result column="TRD_AMT" property="withdrawAmount" jdbcType="DECIMAL" />
+        <result column="TRD_DATE" property="tradeDate" jdbcType="VARCHAR" />
+        <result column="FLOW_NUM" property="flowNum" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+  <resultMap id="operResultMap" type="com.zdmoney.models.trade.BusiOperationDataStatistics" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="STATISTICS_TIME" property="statisticsTime" jdbcType="VARCHAR" />
+    <result column="CUMULATIVE_TURNOVER" property="cumulativeTurnover" jdbcType="DECIMAL" />
+    <result column="DEAL_TOTAL" property="dealTotal" jdbcType="DECIMAL" />
+    <result column="DEAL_REMAINING_SUM" property="dealRemainingSum" jdbcType="DECIMAL" />
+    <result column="TURNOVER_YEAR" property="turnoverYear" jdbcType="DECIMAL" />
+    <result column="TOTAL_ANNUAL_TURNOVER" property="totalAnnualTurnover" jdbcType="DECIMAL" />
+    <result column="PER_CUSTOMER_TRANSACTION" property="perCustomerTransaction" jdbcType="DECIMAL" />
+    <result column="MAX_SINGLE_INVEST" property="maxSingleInvest" jdbcType="DECIMAL" />
+    <result column="INVEST_TOTAL" property="investTotal" jdbcType="DECIMAL" />
+    <result column="TOTAL_MEMBERS" property="totalMembers" jdbcType="DECIMAL" />
+    <result column="ACTIVE_USERS" property="activeUsers" jdbcType="DECIMAL" />
+    <result column="BOY" property="boy" jdbcType="DECIMAL" />
+    <result column="GIRL" property="girl" jdbcType="DECIMAL" />
+    <result column="TWENTY" property="twenty" jdbcType="DECIMAL" />
+    <result column="THIRTY" property="thirty" jdbcType="DECIMAL" />
+    <result column="FIFTY" property="fifty" jdbcType="DECIMAL" />
+    <result column="FORTY" property="forty" jdbcType="DECIMAL" />
+    <result column="SIXTY" property="sixty" jdbcType="DECIMAL" />
+    <result column="OTHER_AGE" property="otherAge" jdbcType="DECIMAL" />
+    <result column="OPERATION_NAME" property="operationName" jdbcType="VARCHAR" />
+    <result column="OPERATION_TIME" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="INVEST_TOTAL_PERCENT" property="investTotalPercent" jdbcType="DECIMAL" />
+    <result column="MAX_SINGLE_INVEST_PERCENT" property="maxSingleInvestPercent" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <resultMap id="tradeResultMap" type="com.zdmoney.models.trade.BusiTradeConcentration" >
+    <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+    <result column="INVEST_AMOUNT" property="investAmount" jdbcType="DECIMAL" />
+    <result column="INVEST_PERCENT" property="investPercent" jdbcType="DECIMAL" />
+    <result column="OPERATION_DATA_ID" property="operationDataId" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TRD_AMT, TRD_TYPE, TRD_DATE,FLOW_NUM,customer_id,PAY_SERI_NO,STATUS,ACCOUNT_SERI_NO,tpp_seri_no,BANK_NAME,BANK_CARD_NUM,BANK_CARD_ID,APPLICANT_TYPE, SERVICE_CHARGE, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUSI_TRADE_FLOW
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.models.trade.BusiTradeFlow" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select SEQ_BUSI_TRADE_FLOW.nextval from dual
+    </selectKey>
+    insert into BUSI_TRADE_FLOW (ID, TRD_AMT, TRD_TYPE, 
+      TRD_DATE,FLOW_NUM,customer_id,PAY_SERI_NO,STATUS,ACCOUNT_SERI_NO,tpp_seri_no,bank_name,bank_card_num,bank_card_id,applicant_type,flow_detail_id, type, service_charge, job_flag)
+    values (#{id,jdbcType=DECIMAL}, #{trdAmt,jdbcType=DECIMAL}, #{trdType,jdbcType=VARCHAR}, 
+      #{trdDate,jdbcType=TIMESTAMP},#{flowNum,jdbcType=VARCHAR},
+      #{customerId,jdbcType=DECIMAL},#{paySeriNo,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},
+      #{accountSeriNo,jdbcType=VARCHAR},#{tppSeriNo,jdbcType=VARCHAR},#{bankName,jdbcType=VARCHAR},#{bankCardNum,jdbcType=VARCHAR, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      #{bankCardId,jdbcType=DECIMAL},#{applicantType,jdbcType=VARCHAR}, #{flowDetailId,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{serviceCharge,jdbcType=DECIMAL}, #{jobFlag,jdbcType=DECIMAL}
+    )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.trade.BusiTradeFlow" >
+    update BUSI_TRADE_FLOW
+    <set >
+      <if test="trdAmt != null" >
+        TRD_AMT = #{trdAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="trdType != null" >
+        TRD_TYPE = #{trdType,jdbcType=VARCHAR},
+      </if>
+      <if test="trdDate != null" >
+        TRD_DATE = #{trdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flowNum != null">
+        FLOW_NUM = #{flowNum,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="paySeriNo != null">
+        PAY_SERI_NO = #{paySeriNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="accountSeriNo != null">
+        ACCOUNT_SERI_NO = #{accountSeriNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tppSeriNo != null">
+        tpp_seri_no = #{tppSeriNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        bank_name= #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardNum != null">
+        bank_card_num= #{bankCardNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      </if>
+      <if test="bankCardId != null">
+        BANK_CARD_ID= #{bankCardId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantType != null">
+        applicant_type= #{applicantType,jdbcType=VARCHAR},
+      </if>
+      <if test="flowDetailId != null">
+        flow_detail_id= #{flowDetailId,jdbcType=VARCHAR},
+      </if>
+        <if test="jobFlag != null">
+            job_flag= #{jobFlag,jdbcType=DECIMAL},
+        </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByCondition" parameterType="com.zdmoney.models.trade.BusiTradeFlow" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_TRADE_FLOW
+    where 1=1
+    <if test="id != null">
+      and ID = #{id,jdbcType=DECIMAL}
+    </if>
+    <if test="trdAmt != null" >
+      and TRD_AMT = #{trdAmt,jdbcType=DECIMAL}
+    </if>
+    <if test="trdType != null" >
+      and TRD_TYPE = #{trdType,jdbcType=VARCHAR}
+    </if>
+    <if test="trdDate != null" >
+      and TRD_DATE = #{trdDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="flowNum != null">
+      and FLOW_NUM = #{flowNum,jdbcType=VARCHAR}
+    </if>
+    <if test="customerId != null">
+      and customer_id = #{customerId,jdbcType=DECIMAL}
+    </if>
+    <if test="paySeriNo != null">
+      and PAY_SERI_NO =#{paySeriNo,jdbcType=DECIMAL}
+    </if>
+    <if test="status != null">
+      and status = #{status,jdbcType=DECIMAL}
+    </if>
+    <if test="accountSeriNo != null">
+      and ACCOUNT_SERI_NO = #{accountSeriNo,jdbcType=VARCHAR}
+    </if>
+    <if test="applicantType != null">
+      and applicant_type= #{applicantType,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!--查询提现中金额-->
+  <select id="selectWithdrawBalance" resultType="DECIMAL" parameterType="java.lang.Long">
+    select nvl(sum(t.trd_amt),0) from busi_trade_flow t where t.trd_type = 1 and STATUS in(0,2,6,7)
+    and t.customer_id = #{customerId}
+  </select>
+
+  <select id="selectWithdrawTimesByCustomerId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select count(customer_id) as cnt
+    from busi_trade_flow t
+    where t.customer_id = #{customerId}
+    and t.trd_type = 1
+    and to_char(t.trd_date,'yyyyMmdd') = to_char(sysdate,'yyyyMMdd')
+  </select>
+
+  <select id="getRechargeStatusByFlowNum" resultType="java.lang.String" parameterType="java.lang.String">
+      select f.status
+    from busi_trade_flow f
+   where f.trd_type = 0
+     and f.flow_num = #{flowNum}
+  </select>
+
+  <select id="findTradeConcentrationList" parameterType="Long" resultMap="tradeResultMap">
+    select * from BUSI_TRADE_CONCENTRATION where OPERATION_DATA_ID = #{id}
+  </select>
+
+  <select id="findTradeConcentrationByFlownum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  <include refid="Base_Column_List" />
+      from BUSI_TRADE_FLOW
+      where trd_type = 1
+      and flow_num = #{flownum}
+  </select>
+
+  <select id="findOperationDataStatistics" parameterType="Long" resultMap="operResultMap">
+    <![CDATA[
+    SELECT * FROM (
+      select * from operation_data_statistics order by statistics_time desc
+    ) WHERE ROWNUM < 2
+    ]]>
+  </select>
+
+  <update id="expireRechargeRequest" parameterType="java.util.Map" >
+    <![CDATA[
+        update BUSI_TRADE_FLOW  set STATUS = #{status}
+        where  TRD_TYPE=#{tradeType} and  (TRD_DATE+7)<=#{currTime} and STATUS in ('0','2')
+     ]]>
+  </update>
+
+  <select id="queryTradeFlow" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from BUSI_TRADE_FLOW where flow_num = #{flowNum}
+  </select>
+
+  <select id="selectRecentTradeFlow" parameterType="java.util.Map" resultMap="TrandeFlowDto">
+  SELECT TRD_AMT, to_char(TRD_DATE, 'yyyy-MM-dd hh24:mi:ss') as TRD_DATE,FLOW_NUM FROM BUSI_TRADE_FLOW  WHERE
+    <![CDATA[
+    ROWNUM <= 100
+    and STATUS = 1
+    and TRD_TYPE = 1
+    and customer_id=#{customerId}
+    and TRD_DATE >= to_date(#{trdDate},'yyyy/mm/dd hh24:mi:ss')
+    ORDER BY TRD_DATE DESC
+     ]]>
+  </select>
+
+    <select id="selectRecentTradeFlows" parameterType="java.lang.Long" resultMap="TrandeFlowsDto">
+        SELECT TRD_AMT, to_char(TRD_DATE, 'yyyy-MM-dd hh24:mi:ss') as TRD_DATE,FLOW_NUM,STATUS FROM BUSI_TRADE_FLOW  WHERE
+        <![CDATA[
+            TRD_TYPE = 1
+            and customer_id=#{customerId,jdbcType=DECIMAL}
+            ORDER BY TRD_DATE DESC
+        ]]>
+    </select>
+
+    <select id="selectRecentTradeFlowsForWacai" parameterType="java.lang.Long" resultMap="TrandeFlowsDtoForWacai">
+        SELECT TRD_AMT, to_char(TRD_DATE, 'yyyy-MM-dd hh24:mi:ss') as TRD_DATE,FLOW_NUM,STATUS FROM BUSI_TRADE_FLOW  WHERE
+        <![CDATA[
+            TRD_TYPE = 1
+            and customer_id=#{customerId,jdbcType=DECIMAL}
+            ORDER BY TRD_DATE DESC
+        ]]>
+    </select>
+  <select id="selectByStatusTrddate" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_TRADE_FLOW
+    where 1=1
+    <if test="trdType != null">
+      and TRD_TYPE = #{trdType,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and STATUS = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="trdDateStart != null">
+      <![CDATA[
+        and TRD_DATE >= #{trdDateStart,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="trdDateEnd != null">
+      <![CDATA[
+        and TRD_DATE <= #{trdDateEnd,jdbcType=TIMESTAMP}
+      ]]>
+    </if>
+    <if test="customerId != null">
+      and customer_id = #{customerId,jdbcType=VARCHAR}
+    </if>
+    <if test="jobFlag != null">
+      and job_flag = #{jobFlag,jdbcType=DECIMAL}
+    </if>
+  </select>
+
+
+  <update id="updateStatusOfBusiTradeFlow" parameterType="java.util.Map" >
+        update BUSI_TRADE_FLOW  set STATUS = #{status}
+        where id = #{id}
+            <if test=" initStatus!=null ">
+                and STATUS in
+                <foreach collection="initStatus" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+  </update>
+
+
+
+</mapper>

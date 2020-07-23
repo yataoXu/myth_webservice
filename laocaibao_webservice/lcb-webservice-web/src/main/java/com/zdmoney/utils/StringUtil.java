@@ -1,0 +1,357 @@
+package com.zdmoney.utils;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StringUtil {
+	
+	public static boolean isEmpty(Object obj){
+		return "".equalsIgnoreCase(parseString(obj));
+	}
+	
+	/**
+	 * 过滤空对象
+	 * @param obj
+	 * @return
+	 */
+	public static String parseString(Object obj){
+		return parseString(obj, "");
+	}
+	
+	/**
+	 * 过滤空对象
+	 * @param obj
+	 * @return
+	 */
+	public static String parseString(Object obj,String str){
+		boolean flag = false;
+		if(obj == null){
+			flag = true;
+		}
+		if(flag == false){
+			if("null".equalsIgnoreCase(obj.toString()) || "".equalsIgnoreCase(obj.toString())){
+				flag = true;
+			}
+		}
+		if(flag){
+			return str;
+		}else{
+			return obj.toString().trim();
+		}
+	}
+	
+	/**
+	 * 转换Long类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Long parseLong(Object obj){
+		return parseLong(obj,null);
+	}
+	
+	/**
+	 * 转换Long类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Long parseLong(Object obj,Long value){
+		if(isEmpty(obj)){
+			return value;
+		}
+		String str = parseString(obj);
+		return Long.parseLong(str);
+	}
+	
+	/**
+	 * 转换Integer类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Integer parseInteger(Object obj){
+		return parseInteger(obj,null);
+	}
+	
+	/**
+	 * 转换Integer类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Integer parseInteger(Object obj,Integer value){
+		if(isEmpty(obj)){
+			return value;
+		}
+		String str = parseString(obj);
+		return Integer.valueOf(str);
+	}
+	
+	/**
+	 * 转换Double类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Double parseDouble(Object obj){
+		return parseDouble(obj,null);
+	}
+	
+	/**
+	 * 转换Double类型 
+	 * @param obj
+	 * @return
+	 */
+	public static Double parseDouble(Object obj,Double data){
+		String str = parseString(obj);
+		if("".equalsIgnoreCase(str)){
+			if(isEmpty(data)){
+				return null;
+			}
+			return data;
+		}
+		return Double.parseDouble(str);
+	}
+	
+	/**
+	 * 转换Double类型 
+	 * @param obj
+	 * @return
+	 */
+	public static String formatDate(Date date,String format){
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		if(date == null){
+			return "";
+		}
+		try{
+			return sdf.format(date);
+		}catch(Exception ex){
+			return "";
+		}
+	}
+	
+	/**
+	 * 转换Date类型 
+	 * @param obj
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date parseDate(Object obj,String format) throws ParseException{
+		String str = parseString(obj);
+		if("".equalsIgnoreCase(str)){
+			return null;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.parse(str);
+	}
+	
+	/**
+	 * 过滤回车符
+	 * @param value
+	 * @return
+	 */
+	public static String filterEnter(String value){
+		value = parseString(value);
+		value = value.replaceAll("\r", "");
+		value = value.replaceAll("\n", "<br/>");
+		return value;
+	}
+	
+	public static boolean checkDate(String date){
+		String eL = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(\\s(((0?[0-9])|([1][0-9])|([2][0-3]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$";
+		Pattern p = Pattern.compile(eL);
+		Matcher m = p.matcher(date);
+		boolean b = m.matches();
+		return b;
+	}
+	
+	/**
+	 * 过滤掉SQL中包含 1 = 1 部分内容
+	 * @param sql
+	 * @return
+	 */
+	public static String filterSQL(String sql){
+		Pattern pattern1 = Pattern.compile("[\\s]*(.+)[\\s]*=[\\s]*\\1[\\s]+((and)|(or))[\\s]+",Pattern.CASE_INSENSITIVE);
+		Pattern pattern2 = Pattern.compile("[\\s]*((and)|(or))[\\s]+(.+)[\\s]*=[\\s]*\\4[\\)]",Pattern.CASE_INSENSITIVE);
+		Pattern pattern3 = Pattern.compile("[\\s]*((and)|(or))[\\s]+(.+)[\\s]*=[\\s]*\\4[\\s]+",Pattern.CASE_INSENSITIVE);
+		Pattern pattern4 = Pattern.compile("[\\s]*where[\\s]+(.*)[\\s]*=[\\s]*\\1[\\)]",Pattern.CASE_INSENSITIVE);
+		Pattern pattern5 = Pattern.compile("[\\s]*where[\\s]+(.*)[\\s]*=[\\s]*\\1[\\s]+",Pattern.CASE_INSENSITIVE);
+		
+		String str = sql;
+		str = " " + str;
+		str = str + " ";
+		
+		Matcher matcher = pattern1.matcher(str);
+		while (matcher.find()) {
+			str = matcher.replaceAll(" ");
+		}
+		matcher = pattern2.matcher(str);
+		while (matcher.find()) {
+			str = matcher.replaceAll(" ) ");
+		}
+		matcher = pattern3.matcher(str);
+		while (matcher.find()) {
+			str = matcher.replaceAll(" ");
+		}
+		matcher = pattern4.matcher(str);
+		while (matcher.find()) {
+			str = matcher.replaceAll(" ) ");
+		}
+		matcher = pattern5.matcher(str);
+		while (matcher.find()) {
+			str = matcher.replaceAll(" ");
+		}
+		return str.trim();
+	}
+	
+	public static boolean checkFloat(String str){
+		boolean b = str.matches("^(([0-9]+\\.[0-9]+)|([0-9]*))$");
+		return b;
+	}
+	
+	public static boolean checkNumber(String str){
+		boolean b = str.matches("[\\d]+");
+		return b;
+	}
+	
+	public static String getRandomNum() {
+		String t=String.valueOf(System.currentTimeMillis());
+		t=t.substring(t.length()-5,t.length());
+		String rad = "0123456789";
+	    StringBuffer result = new StringBuffer();
+	    java.util.Random rand = new java.util.Random();
+	    int length = 27;
+	    for (int i = 0; i < length; i++) {
+	        int randNum = rand.nextInt(10);
+	        result.append(rad.substring(randNum, randNum + 1));
+	    }
+		return t+result;
+	}
+	
+	public static String getRandomNumByLength(int length){
+		String rad = "0123456789";
+		java.util.Random rand = new java.util.Random();
+		StringBuffer result = new StringBuffer();
+		if(length>0){
+			for (int i = 0; i < length; i++) {
+		        int randNum = rand.nextInt(10);
+		        result.append(rad.substring(randNum, randNum + 1));
+		    }
+		} 
+		return result.toString();
+	}
+
+
+
+	/**
+	 * 精确小数位数
+	 * @param dou 小数
+	 * @param num1 位数
+	 * @param num2 1.四舍五入 2.舍去小数
+	 * @return
+	 */
+	public static Double exactDouble(Double dou,int num1,int num2){
+		if(isEmpty(dou)){
+			return null;
+		}
+		int roundingMode = 4;
+		BigDecimal bigDec = new BigDecimal(dou);
+		bigDec = bigDec.setScale(10,roundingMode);
+		dou = bigDec.doubleValue();
+		
+//		bigDec = new BigDecimal(dou);
+//		if(num2 == 1){
+//			roundingMode = 4;
+//		}else{
+//			roundingMode = 3;
+//		}
+//		bigDec = bigDec.setScale(num1,3);
+//		return bigDec.doubleValue();
+		
+		int tmpNum = 1;
+		for(int i=0;i<num1;i++){
+			tmpNum *= 10;
+		}
+		if(num2 == 1){
+			return StringUtil.parseDouble((Math.round(dou*tmpNum)/1.0D/tmpNum));
+		}else if(num2 == 2){
+			return (Math.floor(dou*tmpNum)/tmpNum);
+		}else{
+			return null;
+		}
+	}
+	
+	/**精确小数位数
+	 * 直接保留多少位小数
+	 * */
+	public static BigDecimal exactNumber(Double d,int num){
+		return new BigDecimal(d).setScale(num,BigDecimal.ROUND_HALF_UP);
+	}
+	
+	public static Object viewZero(Object o){
+		if(Double.parseDouble(String.valueOf(o))==0){
+			return "0";
+		}else{
+			return o;
+		}
+	}
+	
+	/**根绝长度截取字符串
+	 * */
+	public static String subStrByLength(String str,int length){
+		if(null == str)
+			return "";
+		else if(str.length()>length)
+			return str.substring(0, length);
+		else
+			return str;
+	}
+
+	/**
+	 * 手机和身份证脱敏处理
+	 * type 0:手机 139****1111
+	 *      1：身份证 3424********1793
+	 * @return
+	 */
+	public static String subStr(String str,Integer type){
+		if (str != null && type == 0) {
+			return StringUtils.left(str, 3).concat(StringUtils.
+					removeStart(StringUtils.leftPad(StringUtils.right(str, 4), str.length(), "*"),"***"));
+		}
+
+		if (str != null && type == 1) {
+			int length = str.length();
+			return StringUtils.left(str, 4).concat(StringUtils.
+					removeStart(StringUtils.leftPad(StringUtils.right(str, 4), length, "*"), "******"));
+		}
+		return "";
+	}
+	
+	public static void main(String []args){
+		
+		System.out.println(getRandomNumByLength(8));
+		System.out.println(filterSQL("(select * from dual where 1=1 ) SELECT '' REAL_NAME,T.MOBILE,'' CUST_ID FROM JUNHONG_SENDSMS_MOBILE T WHERE 1 = 1 AND (LENGTH(T.MOBILE) = 11 OR LENGTH(T.MOBILE) = 12) and 1 = 12 or 22  = 22 order by id desc  (select * from dual where 1=2 and 12 = 123 or 12 = 12 order by id desc where 1 = 1 ) "));
+		
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

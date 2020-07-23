@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.lottey.LotteryInvitationRecordMapper" >
+  
+  <select id="countByCmNumAndTypeNo" resultType="java.lang.Integer">
+    SELECT
+	  count(*)
+    FROM
+        T_LOT_INVITATION_RECORD
+    WHERE
+        COUPON_TYPE = #{couponType}
+    AND CM_NUMBER = #{cmNumber}
+    AND TYPE_NO = #{typeNo}
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.models.lottey.LotteryInvitationRecord">
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select
+      SEQ_T_LOT_INVITATION_RECORD.nextval from dual
+    </selectKey>
+    insert into T_LOT_INVITATION_RECORD
+    ( ID,TYPE_NO,CM_NUMBER,CM_CELLPHONE,CM_NAME,INVEST_NAME,INVEST_PHONE,AMOUNT,INVEST_ID,COUPON_TYPE,CREATE_DATE,MODIFY_DATE )
+    values (#{id,jdbcType=DECIMAL}, #{typeNo,jdbcType=VARCHAR},#{cmNumber,jdbcType=VARCHAR},#{cmCellPhone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}, #{cmName,jdbcType=VARCHAR},
+    #{investName,jdbcType=VARCHAR}, #{investPhone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}, #{amount,jdbcType=INTEGER},
+    #{investId,jdbcType=INTEGER}, #{couponType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+    #{modifyDate,jdbcType=TIMESTAMP})
+  </insert>
+</mapper>

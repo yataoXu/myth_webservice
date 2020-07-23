@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.order.BusiOrderReinvestLogMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiOrderReinvestLog">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ORDER_ID" jdbcType="DECIMAL" property="orderId" />
+    <result column="CUSTOMER_ID" jdbcType="DECIMAL" property="customerId" />
+    <result column="SOURCE_RATE" jdbcType="DECIMAL" property="sourceRate" />
+    <result column="CURRENT_RATE" jdbcType="DECIMAL" property="currentRate" />
+    <result column="SOURCE_END_DATE" jdbcType="DATE" property="sourceEndDate" />
+    <result column="CURRENT_END_DATE" jdbcType="DATE" property="currentEndDate" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="REINVEST_TYPE" jdbcType="VARCHAR" property="reinvestType" />
+    <result column="REINVEST_RATE" jdbcType="DECIMAL" property="reinvestRate" />
+    <result column="REINVEST_DAYS" jdbcType="DECIMAL" property="reinvestDays" />
+    <result column="REINVEST_AMT" jdbcType="DECIMAL" property="reinvestAmt" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.zdmoney.models.order.BusiOrderReinvestLog" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select
+      SEQ_BUSI_ORDER_REINVEST_LOG.nextval from dual
+    </selectKey>
+    insert into BUSI_ORDER_REINVEST_LOG (ID,ORDER_ID,CUSTOMER_ID,SOURCE_RATE,
+    CURRENT_RATE,SOURCE_END_DATE,CURRENT_END_DATE,CREATE_TIME,MODIFY_TIME,REINVEST_TYPE,REINVEST_RATE,REINVEST_DAYS,REINVEST_AMT)
+    values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{customerId,jdbcType=DECIMAL},
+    #{sourceRate,jdbcType=DECIMAL}, #{currentRate,jdbcType=DECIMAL},#{sourceEndDate,jdbcType=DATE},#{currentEndDate,jdbcType=DATE},
+    #{createTime,jdbcType=TIMESTAMP},#{modifyTime,jdbcType=TIMESTAMP}, #{reinvestType,jdbcType=VARCHAR}, #{reinvestRate,jdbcType=DECIMAL},
+    #{reinvestDays,jdbcType=DECIMAL}, #{reinvestAmt,jdbcType=DECIMAL}   )
+  </insert>
+
+  <select id="selectBusiOrderReinvestLogByCustomerId" resultMap="BaseResultMap"
+          parameterType="java.lang.Long">
+        select *  from BUSI_ORDER_REINVEST_LOG
+         where ORDER_ID = #{orderId}
+    </select>
+</mapper>

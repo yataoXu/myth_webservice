@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.sys.SysIconMapper">
+
+    <resultMap type="com.zdmoney.webservice.api.dto.sys.SysIconDto" id="sysIconMap">
+        <result property="id" column="ID"/>
+        <result property="location" column="LOCATION"/>
+        <result property="defaultIconUrl" column="COMMON_URL"/>
+        <result property="checkedIconUrl" column="CLICK_URL"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,LOCATION,COMMON_URL,CLICK_URL</sql>
+
+    <select id="querySysIcon" resultMap="sysIconMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM SYS_ICON WHERE version is NULL order by LOCATION ASC
+    </select>
+
+    <update id="updateSysIcon" parameterType="com.zdmoney.webservice.api.dto.sys.SysIconDto">
+        UPDATE SYS_ICON
+        <set>
+            <if test="defaultIconUrl != null">
+                COMMON_URL = #{defaultIconUrl},
+            </if>
+            <if test="checkedIconUrl != null">
+                CLICK_URL = #{checkedIconUrl},
+            </if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <update id="deleteIcon">
+        update sys_icon set common_url='',click_url='' where version is null
+    </update>
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.sys.SysHttpMessageMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysHttpMessage">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="SENDMESSAGE" jdbcType="VARCHAR" property="sendmessage" />
+    <result column="HANDLERMESSAGE" jdbcType="VARCHAR" property="handlermessage" />
+    <result column="TEMP1" jdbcType="VARCHAR" property="temp1" />
+    <result column="TEMP2" jdbcType="VARCHAR" property="temp2" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="ORDER_NUM" jdbcType="VARCHAR" property="orderNum" />
+    <result column="STR_TYPE" jdbcType="VARCHAR" property="strType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SENDMESSAGE, HANDLERMESSAGE, TEMP1, TEMP2, CREATE_DATE, ORDER_NUM, STR_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_HTTP_MESSAGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from SYS_HTTP_MESSAGE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.models.sys.SysHttpMessage">
+  	<selectKey keyProperty="id" order="BEFORE" resultType="Long">
+       select SEQ_SYS_HTTP_MESSAGE.nextval from dual
+    </selectKey>
+    insert into SYS_HTTP_MESSAGE (ID, SENDMESSAGE, HANDLERMESSAGE, 
+      TEMP1, TEMP2, CREATE_DATE, 
+      ORDER_NUM, STR_TYPE)
+    values (#{id,jdbcType=DECIMAL}, #{sendmessage,jdbcType=VARCHAR}, #{handlermessage,jdbcType=VARCHAR}, 
+      #{temp1,jdbcType=VARCHAR}, #{temp2,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{orderNum,jdbcType=VARCHAR}, #{strType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.sys.SysHttpMessage">
+    insert into SYS_HTTP_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sendmessage != null">
+        SENDMESSAGE,
+      </if>
+      <if test="handlermessage != null">
+        HANDLERMESSAGE,
+      </if>
+      <if test="temp1 != null">
+        TEMP1,
+      </if>
+      <if test="temp2 != null">
+        TEMP2,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM,
+      </if>
+      <if test="strType != null">
+        STR_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="sendmessage != null">
+        #{sendmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="handlermessage != null">
+        #{handlermessage,jdbcType=VARCHAR},
+      </if>
+      <if test="temp1 != null">
+        #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null">
+        #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="strType != null">
+        #{strType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.sys.SysHttpMessage">
+    update SYS_HTTP_MESSAGE
+    <set>
+      <if test="sendmessage != null">
+        SENDMESSAGE = #{sendmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="handlermessage != null">
+        HANDLERMESSAGE = #{handlermessage,jdbcType=VARCHAR},
+      </if>
+      <if test="temp1 != null">
+        TEMP1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null">
+        TEMP2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="strType != null">
+        STR_TYPE = #{strType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.sys.SysHttpMessage">
+    update SYS_HTTP_MESSAGE
+    set SENDMESSAGE = #{sendmessage,jdbcType=VARCHAR},
+      HANDLERMESSAGE = #{handlermessage,jdbcType=VARCHAR},
+      TEMP1 = #{temp1,jdbcType=VARCHAR},
+      TEMP2 = #{temp2,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+      STR_TYPE = #{strType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <update id="updateByOrderNumAndStrType" parameterType = "com.zdmoney.models.sys.SysHttpMessage">
+ 	update SYS_HTTP_MESSAGE
+ 	 <set>
+      <if test="sendmessage != null">
+        SENDMESSAGE = #{sendmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="handlermessage != null">
+        HANDLERMESSAGE = #{handlermessage,jdbcType=VARCHAR},
+      </if>
+      <if test="temp1 != null">
+        TEMP1 = #{temp1,jdbcType=VARCHAR},
+      </if>
+      <if test="temp2 != null">
+        TEMP2 = #{temp2,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where
+    <if test="orderNum != null and strType != null">
+    	order_num = #{orderNum}
+     	and str_type = #{strType}
+    </if>
+  </update>
+</mapper>

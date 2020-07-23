@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerDetailInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerDetailInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+    <result column="CD_EMAIL" property="cdEmail" jdbcType="VARCHAR" />
+    <result column="CD_NICK" property="cdNick" jdbcType="VARCHAR" />
+    <result column="CD_INPUT_ID" property="cdInputId" jdbcType="DECIMAL" />
+    <result column="CD_INPUT_DATE" property="cdInputDate" jdbcType="TIMESTAMP" />
+    <result column="CD_MODIFY_ID" property="cdModifyId" jdbcType="VARCHAR" />
+    <result column="CD_MODIFY_DATE" property="cdModifyDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTOMER_ID, CD_EMAIL, CD_NICK, CD_INPUT_ID, CD_INPUT_DATE, CD_MODIFY_ID, CD_MODIFY_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from CUSTOMER_DETAIL_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <!-- <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from CUSTOMER_DETAIL_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete> -->
+  <insert id="insert" parameterType="com.zdmoney.models.customer.CustomerDetailInfo" >
+    insert into CUSTOMER_DETAIL_INFO (ID, CUSTOMER_ID, CD_EMAIL, 
+      CD_NICK, CD_INPUT_ID, CD_INPUT_DATE, 
+      CD_MODIFY_ID, CD_MODIFY_DATE)
+    values (#{id,jdbcType=DECIMAL}, #{customerId,jdbcType=DECIMAL}, #{cdEmail,jdbcType=VARCHAR}, 
+      #{cdNick,jdbcType=VARCHAR}, #{cdInputId,jdbcType=DECIMAL}, #{cdInputDate,jdbcType=TIMESTAMP}, 
+      #{cdModifyId,jdbcType=VARCHAR}, #{cdModifyDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.customer.CustomerDetailInfo" >
+    insert into CUSTOMER_DETAIL_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="customerId != null" >
+        CUSTOMER_ID,
+      </if>
+      <if test="cdEmail != null" >
+        CD_EMAIL,
+      </if>
+      <if test="cdNick != null" >
+        CD_NICK,
+      </if>
+      <if test="cdInputId != null" >
+        CD_INPUT_ID,
+      </if>
+      <if test="cdInputDate != null" >
+        CD_INPUT_DATE,
+      </if>
+      <if test="cdModifyId != null" >
+        CD_MODIFY_ID,
+      </if>
+      <if test="cdModifyDate != null" >
+        CD_MODIFY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdEmail != null" >
+        #{cdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="cdNick != null" >
+        #{cdNick,jdbcType=VARCHAR},
+      </if>
+      <if test="cdInputId != null" >
+        #{cdInputId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdInputDate != null" >
+        #{cdInputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdModifyId != null" >
+        #{cdModifyId,jdbcType=VARCHAR},
+      </if>
+      <if test="cdModifyDate != null" >
+        #{cdModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.customer.CustomerDetailInfo" >
+    update CUSTOMER_DETAIL_INFO
+    <set >
+      <if test="customerId != null" >
+        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdEmail != null" >
+        CD_EMAIL = #{cdEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="cdNick != null" >
+        CD_NICK = #{cdNick,jdbcType=VARCHAR},
+      </if>
+      <if test="cdInputId != null" >
+        CD_INPUT_ID = #{cdInputId,jdbcType=DECIMAL},
+      </if>
+      <if test="cdInputDate != null" >
+        CD_INPUT_DATE = #{cdInputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cdModifyId != null" >
+        CD_MODIFY_ID = #{cdModifyId,jdbcType=VARCHAR},
+      </if>
+      <if test="cdModifyDate != null" >
+        CD_MODIFY_DATE = #{cdModifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.customer.CustomerDetailInfo" >
+    update CUSTOMER_DETAIL_INFO
+    set CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      CD_EMAIL = #{cdEmail,jdbcType=VARCHAR},
+      CD_NICK = #{cdNick,jdbcType=VARCHAR},
+      CD_INPUT_ID = #{cdInputId,jdbcType=DECIMAL},
+      CD_INPUT_DATE = #{cdInputDate,jdbcType=TIMESTAMP},
+      CD_MODIFY_ID = #{cdModifyId,jdbcType=VARCHAR},
+      CD_MODIFY_DATE = #{cdModifyDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

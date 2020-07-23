@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.euroCup.EuroMatchScheduleMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.euroCup.EuroMatchSchedule">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="MATCH_DATE" property="matchDate" jdbcType="TIMESTAMP"/>
+        <result column="MATCH_TYPE" property="matchType" jdbcType="VARCHAR"/>
+        <result column="HOME_TEAM" property="homeTeam" jdbcType="VARCHAR"/>
+        <result column="AWAY_TEAM" property="awayTeam" jdbcType="VARCHAR"/>
+        <result column="PIN_HOME" property="pinHome" jdbcType="VARCHAR"/>
+        <result column="PIN_AWAY" property="pinAway" jdbcType="VARCHAR"/>
+        <result column="MATCH_REWARD" property="matchReward" jdbcType="VARCHAR"/>
+        <result column="MATCH_RESULT" property="matchResult" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="scheduleMap" type="com.zdmoney.web.dto.euroCup.EuroMatchScheduleDTO">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="MATCH_TYPE" property="matchType" jdbcType="VARCHAR"/>
+        <result column="HOME_TEAM" property="homeTeam" jdbcType="VARCHAR"/>
+        <result column="AWAY_TEAM" property="awayTeam" jdbcType="VARCHAR"/>
+        <result column="PIN_HOME" property="pinHome" jdbcType="VARCHAR"/>
+        <result column="PIN_AWAY" property="pinAway" jdbcType="VARCHAR"/>
+        <result column="MATCH_REWARD" property="matchReward" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getLastMatchDate" resultType="date" parameterType="java.util.Date">
+    <![CDATA[
+        select max(match_date) from euro_match_schedule t where to_char(t.match_date,'yyyymmdd') < to_char(#{currentDate},'yyyymmdd')
+        ]]>
+  </select>
+
+    <select id="getNextMatchDate" resultType="date" parameterType="java.util.Date">
+        <![CDATA[
+        select min(match_date) from euro_match_schedule t where to_char(t.match_date,'yyyymmdd') > to_char(#{currentDate},'yyyymmdd')
+        ]]>
+    </select>
+
+    <select id="getNextScheduleList" resultMap="scheduleMap" parameterType="string">
+        select * from euro_match_schedule t where to_char(t.match_date,'yyyymmdd') = #{nextDateStr} order by match_date
+    </select>
+
+</mapper>

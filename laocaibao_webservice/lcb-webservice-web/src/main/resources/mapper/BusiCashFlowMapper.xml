@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.BusiCashFlowMapper">
+
+    <resultMap type="com.zdmoney.models.BusiCashFlow" id="busiCashFlowMap">
+        <result property="id" column="ID"/>
+        <result property="cmNumber" column="CM_NUMBER"/>
+        <result property="cmName" column="CM_NAME"/>
+        <result property="cmPhone" column="CM_PHONE"/>
+        <result property="cashNo" column="CASH_NO"/>
+        <result property="cashSource" column="CASH_SOURCE"/>
+        <result property="cashAmt" column="CASH_AMT"/>
+        <result property="trdDate" column="TRD_DATE"/>
+        <result property="flowNum" column="FLOW_NUM"/>
+        <result property="accountSeriNo" column="ACCOUNT_SERI_NO"/>
+        <result property="status" column="STATUS"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CM_NUMBER,CM_NAME,CM_PHONE,CASH_NO,CASH_SOURCE,CASH_AMT,TRD_DATE,FLOW_NUM,ACCOUNT_SERI_NO,STATUS    </sql>
+
+    <select id="queryBusiCashFlow" resultMap="busiCashFlowMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_CASH_FLOW
+    </select>
+
+    <insert id="saveBusiCashFlow" parameterType="com.zdmoney.models.BusiCashFlow">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_CASH_FLOW.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_CASH_FLOW
+          (ID,CM_NUMBER,CM_NAME,CM_PHONE,CASH_NO,CASH_SOURCE,CASH_AMT,TRD_DATE,FLOW_NUM,ACCOUNT_SERI_NO,STATUS)
+        VALUES
+          (#{id},#{cmNumber},#{cmName},#{cmPhone},#{cashNo},#{cashSource},#{cashAmt},#{trdDate},#{flowNum},#{accountSeriNo},#{status})
+    </insert>
+
+    <update id="updateBusiCashFlow" parameterType="com.zdmoney.models.BusiCashFlow">
+        UPDATE BUSI_CASH_FLOW
+        <set>
+            <if test="cmNumber != null">
+                CM_NUMBER = #{cmNumber},
+            </if>
+            <if test="cmName != null">
+                CM_NAME = #{cmName},
+            </if>
+            <if test="cmPhone != null">
+                CM_PHONE = #{cmPhone},
+            </if>
+            <if test="cashNo != null">
+                CASH_NO = #{cashNo},
+            </if>
+            <if test="cashSource != null">
+                CASH_SOURCE = #{cashSource},
+            </if>
+            <if test="cashAmt != null">
+                CASH_AMT = #{cashAmt},
+            </if>
+            <if test="trdDate != null">
+                TRD_DATE = #{trdDate},
+            </if>
+            <if test="flowNum != null">
+                FLOW_NUM = #{flowNum},
+            </if>
+            <if test="accountSeriNo != null">
+                ACCOUNT_SERI_NO = #{accountSeriNo},
+            </if>
+            <if test="status != null">
+                STATUS = #{status}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiCashFlowById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_CASH_FLOW WHERE ID = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <description>JMS简单应用配置</description>
+    <bean id="mqConfig" class="com.zdmoney.mq.client.config.MqConfig">
+        <property name="address" value="${rocketmq.serverAddress}"/><!-- mq.serverAddress为MQ服务地址，开发环境为：172.17.34.136:9876-->
+    </bean>
+
+    <!-- 生产者 -->
+    <bean abstract="true" id="abstractRocketProducer" class="com.zdmoney.mq.client.producer.MqProducer">
+        <property name="mqConfig" ref="mqConfig"/>
+    </bean>
+    <!-- 赠送福利消息生产者 -->
+    <bean id="welfareMsgProducer" parent="abstractRocketProducer">
+        <property name="group" value="WEBSERVICE_WELFARE_4_2"/>
+        <property name="topic" value="WEBSERVICE_WELFARE_4_2"/>
+        <property name="tag" value="welfare_4_2"/>
+    </bean>
+
+    <!-- 数据采集消息生产者 -->
+    <bean id="dataCollectingMsgProducer" parent="abstractRocketProducer">
+        <property name="group" value="WEBSERVICE_COLLECTING_DATA"/>
+        <property name="topic" value="WEBSERVICE_COLLECTING_DATA"/>
+        <property name="tag" value="COLLECTING_DATA"/>
+    </bean>
+
+    <!-- 挖财注册信息确认通知标的 -->
+    <bean id="wacaiInfoconfirmNotice" parent="abstractRocketProducer">
+        <property name="group" value="WEBSERVICE_WACAI_INFOCONFIRM_NOTICE"/>
+        <property name="topic" value="WEBSERVICE_WACAI_INFOCONFIRM_NOTICE"/>
+        <property name="tag" value="WACAI_INFOCONFIRM_NOTICE"/>
+    </bean>
+</beans>

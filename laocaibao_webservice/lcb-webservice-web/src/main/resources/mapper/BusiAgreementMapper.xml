@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiAgreementMapper">
+    <resultMap id="InvestAgreementVoMap" type="com.zdmoney.vo.InvestAgreementVo">
+        <id column="cm_real_name" property="userName" jdbcType="VARCHAR"/>
+        <id column="cm_idnum" property="idNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <id column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <id column="order_amt" property="joinAmount" jdbcType="VARCHAR"/>
+        <id column="year_rate" property="yearRate" jdbcType="VARCHAR"/>
+        <id column="principalinterest" property="totalAmount" jdbcType="VARCHAR"/>
+        <id column="order_time" property="orderDate" jdbcType="VARCHAR"/>
+        <id column="interest_day" property="interestDay" jdbcType="VARCHAR"/>
+        <id column="interest_start_date" property="interestStartDate" jdbcType="VARCHAR"/>
+        <id column="interest_end_date" property="interestEndDate" jdbcType="VARCHAR"/>
+        <id column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectContractInvestAgreemenet" resultType="com.zdmoney.vo.ContractInvestAgreementVo" parameterType="java.lang.Long">
+       select
+        t.ORDER_NUM as orderNum,
+        '*' || substr(t.CUSTOMER_NAME, 2, 4) as customerName,
+        substr(c.cm_idnum, 1, 1) || '****************' ||substr(c.cm_idnum, length(c.cm_idnum), 1) as investIdNum,
+        bp.product_name as productName,
+        '*' || substr(bpc.borrower_name, 2,length(bpc.borrower_name)) as borrowName,
+        substr(bpc.id_no, 1, 1) || '****************' ||substr(bpc.id_no, length(bpc.id_no), 1) as borrowerIdNo,
+        bpc.borrow_purpose as borrowPurpose,
+        t.YEAR_RATE as yearRate,
+        t.ORDER_AMT as orderAmt,
+        t.PRINCIPALINTEREST as principalInterest,
+        t.ORDER_TIME as orderTime,
+        t.INTEREST_START_DATE as interestStartDate,
+        t.INTEREST_END_DATE as interestEndDate
+        from busi_order t
+        inner join customer_main_info c
+        on t.CUSTOMER_ID = c.id
+        inner join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        inner join busi_product_contract bpc
+        on bp.contract_id = bpc.id
+        where t.ID = #{order}
+    </select>
+
+
+    <select id="selectInvestAgreemenet" resultMap="InvestAgreementVoMap" parameterType="java.lang.Long">
+        select a.ORDER_NUM,
+               '*' || substr(c.cm_real_name, 2, 4) as cm_real_name,
+               c.cm_idnum as cm_idnum,
+               b.product_name,
+               trunc(a.order_amt, 2) as order_amt,
+               a.year_rate_str as year_rate,
+               trunc(a.principalinterest, 2) as principalinterest,
+               to_char(a.order_time, 'yyyy-mm-dd hh24:mi:ss') as order_time,
+               to_char(a.interest_start_date, 'yyyy-mm-dd') as interest_start_date,
+               to_char(a.interest_end_date, 'yyyy-mm-dd') as interest_end_date,
+               (a.interest_end_date-a.interest_start_date)+1 AS interest_day
+          from laocaibao.busi_order a
+         inner join laocaibao.busi_product b
+            on a.product_id = b.id
+         inner join laocaibao.customer_main_info c
+            on a.customer_id = c.id
+        where a.id = #{id,jdbcType=DECIMAL}
+
+  </select>
+
+    <resultMap id="IntercreditorAgreementVoMap" type="com.zdmoney.vo.IntercreditorAgreementVo">
+        <id column="lender_name" property="borrower" jdbcType="VARCHAR"/>
+        <id column="lender_idno" property="borrowerIdNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <id column="amount" property="borrowAmount" jdbcType="VARCHAR"/>
+        <id column="amount" property="payAmount" jdbcType="VARCHAR"/>
+        <id column="yt" property="borrowByUse" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectIntercreditorAgreement" resultMap="IntercreditorAgreementVoMap" parameterType="java.lang.Long">
+       select '*'||substr(t.lender_name,2,length(t.lender_name)) as lender_name,
+                t.lender_idno as lender_idno,
+                t.ch_amount as amount,t.yt from laocaibao.at_ch t
+        where t.order_id  = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <select id="selectInvestLoanAgreement" resultType="com.zdmoney.web.dto.agreement.SubjectInvestAgrementDTO" parameterType="java.lang.Long">
+        select
+        t.order_num as orderNum,
+        bp.product_name as productName,
+        '*'||substr(bpc.borrower_name,2,length(bpc.borrower_name)) as borrowerName,
+        substr(bpc.id_no,1,1)||'****************'||substr(bpc.id_no,length(bpc.id_no),1) as idNo,
+        bpc.borrow_purpose as borrowPurpose,
+        t.ORDER_AMT as orderAmt,
+        t.YEAR_RATE as yearRate,
+        t.PRINCIPALINTEREST as principalInterest,
+        t.ORDER_TIME as orderTime,
+        t.INTEREST_START_DATE as interestStartDate,
+        bpc.last_expire as lastExpireDate,
+        '*'||substr(bpc.transferor_name,2,length(bpc.transferor_name)) as transName,
+        substr(bpc.transferorid_no,1,1)||'****************'||substr(bpc.transferorid_no,length(bpc.transferorid_no),1) as transIdNo,
+        '*'||substr(cmi.cm_real_name,2,length(cmi.cm_real_name)) as investName,
+        substr(cmi.cm_idnum,1,1)||'****************'||substr(cmi.cm_idnum,length(cmi.cm_idnum),1) as investIdNo,
+        trunc(t.INTEREST_END_DATE)-trunc(t.INTEREST_START_DATE)+1 as payDays,
+        t.PRINCIPALINTEREST - t.ORDER_AMT as interest
+        from busi_order t
+        left join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        left join busi_product_contract bpc
+        on bp.contract_id = bpc.id
+        left join customer_main_info cmi
+        on t.CUSTOMER_ID = cmi.id
+        where t.id = #{orderId}
+    </select>
+
+    <select id="selectSubjectLoanAgreeemnt" resultType="com.zdmoney.vo.SubjectLoanAgreementVo" parameterType="java.lang.Long">
+        select
+        t.ORDER_NUM as orderNum,
+        '*'||substr(bpc.borrower_name,2,length(bpc.borrower_name)) as borrowerName,
+        bpc.id_no as idNo,
+        '*'||substr(t.CUSTOMER_NAME,2,length(t.CUSTOMER_NAME)) as customerName,
+        cmi.cm_number as cmNumber,
+        t.ORDER_AMT as orderAmt,
+        t.INTEREST_START_DATE as interestStartDate,
+        t.INTEREST_END_DATE as interestEndDate,
+        t.PRINCIPALINTEREST as principalInterest,
+        bpc.borrow_purpose as borrowPurpose,
+        bp.PRODUCT_PRINCIPAL as totalInvestAmt,
+        bp.year_rate as yearRate,
+        bpc.last_expire as lastExpire,
+        bpc.pay_end_time as payEndTime,
+        bpc.bank_card_no as bankCardNo,
+        bpc.bank_name as bankName
+        from busi_order t
+        left join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        left join busi_product_contract bpc
+        on bp.contract_id = bpc.id
+        left join customer_main_info cmi
+        on t.CUSTOMER_ID = cmi.id
+        where t.id = #{orderId}
+    </select>
+
+</mapper>

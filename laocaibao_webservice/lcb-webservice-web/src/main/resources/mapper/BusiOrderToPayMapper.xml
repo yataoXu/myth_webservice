@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiOrderToPayMapper" >
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiOrderToPay" >
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="PRINCIPAL_INTEREST" property="principalInterest" jdbcType="DECIMAL" />
+        <result column="EXIT_DATE" property="exitDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="getBusiOrdertToPay" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select ID ,ORDER_NO,PRODUCT_ID,PRINCIPAL_INTEREST ,EXIT_DATE
+         from BUSI_ORDER_TO_PAY  where ORDER_NO = #{orderNo}
+    </select>
+
+</mapper>

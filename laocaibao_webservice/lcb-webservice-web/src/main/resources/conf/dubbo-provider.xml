@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:apollo="http://www.ctrip.com/schema/apollo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.ctrip.com/schema/apollo http://www.ctrip.com/schema/apollo.xsd">
+
+    <apollo:config/>
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}"/>
+    <dubbo:provider port="${dubbo.protocol.port5.0}" timeout="10000" protocol="dubbo"/>
+
+    <!--用户相关接口-->
+    <dubbo:service ref="userService" interface="com.zdmoney.webservice.api.facade.IUserFacadeService" version="1.0.1"/>
+    <!--产品相关接口-->
+    <dubbo:service ref="productService" interface="com.zdmoney.webservice.api.facade.IProductFacadeService" version="1.0"/>
+    <!--app相关接口-->
+    <dubbo:service ref="appService" interface="com.zdmoney.webservice.api.facade.IAppFacadeService" version="1.0"/>
+</beans>

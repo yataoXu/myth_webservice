@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiAddupCustomerOrderMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiAddupCustomerOrder">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_NO" property="customerNo" jdbcType="VARCHAR"/>
+        <result column="YEAR_MONTH" property="yearMonth" jdbcType="VARCHAR"/>
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="ORDER_NUM" property="orderNum" jdbcType="DECIMAL"/>
+        <result column="INVITE_FIRST_INVEST" property="inviteFirstInvest" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, CUSTOMER_NO, YEAR_MONTH, ORDER_AMT, ORDER_NUM,INVITE_FIRST_INVEST
+    </sql>
+
+    <select id="selctBusiAddupCustomerOrder" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM busi_addup_customer_order
+        where 1=1
+        <if test="customerNo != null">
+            and CUSTOMER_NO = #{customerNo}
+        </if>
+        <if test="yearMonth != null">
+            and YEAR_MONTH = #{yearMonth}
+        </if>
+    </select>
+    <insert id="insert" parameterType="com.zdmoney.models.BusiAddupCustomerOrder">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_BUSI_ADDUP_CUSTOMER_ORDER.nextval from dual
+        </selectKey>
+        insert into BUSI_ADDUP_CUSTOMER_ORDER
+        (ID, CUSTOMER_NO, YEAR_MONTH,
+        ORDER_AMT, ORDER_NUM,INVITE_FIRST_INVEST)
+        values (#{id,jdbcType=DECIMAL},
+                 #{customerNo,jdbcType=VARCHAR},
+                 #{yearMonth,jdbcType=VARCHAR},
+        #{orderAmt,jdbcType=DECIMAL}, #{orderNum,jdbcType=DECIMAL},#{inviteFirstInvest,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.zdmoney.models.BusiAddupCustomerOrder">
+        insert into BUSI_ADDUP_CUSTOMER_ORDER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="customerNo != null">
+                CUSTOMER_NO,
+            </if>
+            <if test="yearMonth != null">
+                YEAR_MONTH,
+            </if>
+            <if test="orderAmt != null">
+                ORDER_AMT,
+            </if>
+            <if test="orderNum != null">
+                ORDER_NUM,
+            </if>
+            <if test="inviteFirstInvest != null">
+                INVITE_FIRST_INVEST,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="customerNo != null">
+                #{customerNo,jdbcType=VARCHAR},
+            </if>
+            <if test="yearMonth != null">
+                #{yearMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAmt != null">
+                #{orderAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="orderNum != null">
+                #{orderNum,jdbcType=DECIMAL},
+            </if>
+            <if test="inviteFirstInvest !=null">
+                #{inviteFirstInvest,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateBusiAddupCustomerOrder" parameterType="com.zdmoney.vo.BusiAddupCustomerOrderVo">
+    update BUSI_ADDUP_CUSTOMER_ORDER
+    set order_amt = order_amt + #{orderAmt,jdbcType=DECIMAL},
+         order_num = order_num + #{orderNum,jdbcType=DECIMAL}
+    where YEAR_MONTH = #{yearMonth,jdbcType=DECIMAL}
+           and CUSTOMER_NO = #{customerNo,jdbcType=DECIMAL}
+  </update>
+
+    <update id="updateInviteUserCount" parameterType="map">
+        update BUSI_ADDUP_CUSTOMER_ORDER
+        set INVITE_FIRST_INVEST = INVITE_FIRST_INVEST+1
+        where CUSTOMER_NO = #{customerNo}
+        and YEAR_MONTH = #{yearMonth}
+    </update>
+</mapper>

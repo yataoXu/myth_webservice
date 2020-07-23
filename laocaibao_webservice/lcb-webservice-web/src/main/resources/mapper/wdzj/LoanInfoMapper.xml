@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.wdzj.LoanInfoMapper" >
+   <resultMap id="baseMap" type="com.zdmoney.webservice.api.dto.wdzj.LoanInfoVo" >
+       <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+	    <result column="title" 		 property="title" jdbcType="VARCHAR" />
+	    <result column="amount" 		 property="amount" jdbcType="DOUBLE" />
+	    <result column="schedule" 		 property="schedule" jdbcType="VARCHAR" />
+	    <result column="interest_rate" 		 property="interestRate" jdbcType="VARCHAR" />
+	    <result column="deadline" 		 property="deadline" jdbcType="INTEGER" />
+	    <result column="deadline_unit" 		 property="deadlineUnit" jdbcType="VARCHAR" />
+	    <result column="reward" 		 property="reward" jdbcType="DOUBLE" />
+	    <result column="type" 		 property="type" jdbcType="VARCHAR" />
+	    <result column="repayment_type" 		 property="repaymentType" jdbcType="INTEGER" />
+	    <result column="province" 		 property="province" jdbcType="VARCHAR" />
+	    <result column="city" 		 property="city" jdbcType="VARCHAR" />
+	    <result column="user_name" 		 property="userName" jdbcType="VARCHAR" />
+	    <result column="user_avatar_url" 		 property="userAvatarUrl" jdbcType="VARCHAR" />
+	    <result column="amount_used_desc" 		 property="amountUsedDesc" jdbcType="VARCHAR" />
+	    <result column="revenue" 		 property="revenue" jdbcType="DOUBLE" />
+	    <result column="loan_url" 		 property="loanUrl" jdbcType="VARCHAR" />
+	    <result column="success_time" 		 property="successTime" jdbcType="VARCHAR" />
+	    <result column="publish_time" 		 property="publishTime" jdbcType="VARCHAR" />
+	    <result column="plate_type" 		 property="plateType" jdbcType="VARCHAR" />
+	    <result column="guarantors_type" property="guarantorsType" jdbcType="VARCHAR" />
+	    <result column="is_agency" property="isAgency" jdbcType="VARCHAR" />
+	   <result column="transfer_status" 		 property="transferType" jdbcType="INTEGER" />
+	   <result column="plan_id" 		 property="planId" jdbcType="VARCHAR" />
+	   <result column="data_type" 		 property="dataType" jdbcType="VARCHAR" />
+	   <collection property="subscribes" ofType="com.zdmoney.webservice.api.dto.wdzj.LoanUserVo">
+		   <result column="subscribe_user_name" property="subscribeUserName" jdbcType="VARCHAR" />
+		   <result column="amount1" 		 property="amount" jdbcType="DOUBLE" />
+		   <result column="valid_amount" 		 property="validAmount" jdbcType="DOUBLE" />
+		   <result column="add_date" 		 property="addDate" jdbcType="VARCHAR" />
+		   <result column="status" 		 property="status" jdbcType="INTEGER" />
+		   <result column="type1" 		 property="type" jdbcType="INTEGER" />
+		   <result column="source_type" 		 property="sourceType" jdbcType="INTEGER" />
+		   <result column="data_type" 		 property="dataType" jdbcType="VARCHAR" />
+		   <result column="rd" 		 property="rd" jdbcType="INTEGER" />
+	   </collection>
+  </resultMap>
+
+	<resultMap id="loanInfoMap" type="com.zdmoney.webservice.api.dto.wdzj.LoanInfoData" >
+		<result column="project_id" property="projectId" jdbcType="VARCHAR" />
+		<result column="title" 		 property="title" jdbcType="VARCHAR" />
+		<result column="amount" 		 property="amount" jdbcType="DOUBLE" />
+		<result column="schedule" 		 property="schedule" jdbcType="VARCHAR" />
+		<result column="interest_rate" 		 property="interestRate" jdbcType="VARCHAR" />
+		<result column="deadline" 		 property="deadline" jdbcType="INTEGER" />
+		<result column="deadline_unit" 		 property="deadlineUnit" jdbcType="VARCHAR" />
+		<result column="reward" 		 property="reward" jdbcType="DOUBLE" />
+		<result column="type" 		 property="type" jdbcType="VARCHAR" />
+		<result column="repayment_type" 		 property="repaymentType" jdbcType="INTEGER" />
+		<result column="province" 		 property="province" jdbcType="VARCHAR" />
+		<result column="city" 		 property="city" jdbcType="VARCHAR" />
+		<result column="user_name" 		 property="userName" jdbcType="VARCHAR" />
+		<result column="user_avatar_url" 		 property="userAvatarUrl" jdbcType="VARCHAR" />
+		<result column="amount_used_desc" 		 property="amountUsedDesc" jdbcType="VARCHAR" />
+		<result column="revenue" 		 property="revenue" jdbcType="DOUBLE" />
+		<result column="loan_url" 		 property="loanUrl" jdbcType="VARCHAR" />
+		<result column="success_time" 		 property="successTime" jdbcType="VARCHAR" />
+		<result column="transfer_type" 		 property="transferType" jdbcType="INTEGER" />
+		<result column="plan_id" 		 property="planId" jdbcType="VARCHAR" />
+		<result column="data_type" 		 property="dataType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="preapy" type="com.zdmoney.webservice.api.dto.wdzj.PreapyVo">
+		<result column="projectId" 		 property="projectId" jdbcType="VARCHAR" />
+		<result column="deadline" 		 property="deadline" jdbcType="INTEGER" />
+		<result column="deadlineUnit" 		 property="deadlineUnit" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="loanUserMap" type="com.zdmoney.webservice.api.dto.wdzj.LoanUserVo" >
+		<result column="subscribe_user_name" property="subscribeUserName" jdbcType="VARCHAR" />
+		<result column="amount" 		 property="amount" jdbcType="DOUBLE" />
+		<result column="valid_amount" 		 property="validAmount" jdbcType="DOUBLE" />
+		<result column="add_date" 		 property="addDate" jdbcType="VARCHAR" />
+		<result column="status" 		 property="status" jdbcType="INTEGER" />
+		<result column="type" 		 property="type" jdbcType="INTEGER" />
+		<result column="source_type" 		 property="sourceType" jdbcType="INTEGER" />
+		<result column="product_type" 		 property="productType" jdbcType="INTEGER" />
+		<result column="project_id" 		 property="projectId" jdbcType="INTEGER" />
+		<result column="data_type" 		 property="dataType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<insert id="saveLoanUser" parameterType="java.util.List" useGeneratedKeys="false">
+		insert into laocaibao.wdzj_loan_user
+		(project_id,
+		subscribe_user_name,
+		amount,
+		valid_amount,
+		add_date,
+		status,
+		type,
+		source_type,data_type)
+		SELECT  A.*
+		FROM(
+		<foreach collection="list" item="item" index="index" separator="UNION ALL">
+			SELECT
+			#{item.projectId} project_id,
+			#{item.subscribeUserName} subscribe_user_name,
+			#{item.amount} amount,
+			#{item.validAmount} valid_amount,
+			#{item.addDate} add_date,
+			#{item.status} status,
+			#{item.type} type,
+			#{item.sourceType} source_type,
+			#{item.dataType} data_type
+			FROM dual
+		</foreach>
+		)A
+	</insert>
+
+	<insert id="saveLoanInfo" parameterType="java.util.List" useGeneratedKeys="false">
+		INSERT INTO laocaibao.wdzj_loan_info
+		(project_id,
+		title,
+		amount,
+		schedule,
+		interest_rate,
+		deadline,
+		deadline_unit,
+		reward,
+		type,
+		repayment_type,
+		user_name,
+		loan_url,
+		success_time,
+		data_type,
+		transfer_status,
+		plan_id)
+		SELECT  A.*
+		FROM(
+		<foreach collection="list" item="item" index="index" separator="UNION ALL">
+			SELECT
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.title,jdbcType=VARCHAR},
+			#{item.amount,jdbcType=DOUBLE},
+			#{item.schedule,jdbcType=VARCHAR},
+			#{item.interestRate,jdbcType=VARCHAR},
+			#{item.deadline,jdbcType=INTEGER},
+			#{item.deadlineUnit,jdbcType=VARCHAR},
+			#{item.reward,jdbcType=DOUBLE},
+			#{item.type,jdbcType=VARCHAR},
+			#{item.repaymentType,jdbcType=INTEGER},
+			#{item.userName,jdbcType=VARCHAR},
+			#{item.loanUrl,jdbcType=VARCHAR},
+			#{item.successTime,jdbcType=VARCHAR},
+			#{item.dataType,jdbcType=INTEGER},
+			#{item.transferType,jdbcType=INTEGER},
+			#{item.planId,jdbcType=VARCHAR}
+			FROM dual
+		</foreach>
+		)A
+	</insert>
+
+	<select id="getLoanInfo" parameterType="java.util.Map" resultMap="baseMap">
+		SELECT t.*,tt.subscribe_user_name,tt.amount as amount1, tt.valid_amount , tt.add_date,tt.status,tt.type as type1 ,tt.source_type,ABS(MOD(DBMS_RANDOM.RANDOM,100)) rd FROM LAOCAIBAO.WDZJ_LOAN_INFO t LEFT JOIN LAOCAIBAO.WDZJ_LOAN_USER tt on tt.project_id=t.project_id WHERE EXISTS
+		(   SELECT * FROM (
+			SELECT * FROM
+			(
+				SELECT A.*, ROWNUM RN
+					FROM (SELECT a.project_id FROM LAOCAIBAO.WDZJ_LOAN_INFO a WHERE 1=1
+						<if test="date != null" >
+							AND substr(a.SUCCESS_TIME,0,10) = #{date}
+						</if>
+						ORDER BY a.project_id DESC
+				) A
+				WHERE ROWNUM &lt;= #{pageNo}*#{pageSize}
+			)
+			WHERE RN &gt; (#{pageNo}-1)*#{pageSize} ) p where p.project_id=t.project_id
+		)
+	</select>
+
+	<select id="getTotalSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from ( SELECT count(1) FROM LAOCAIBAO.WDZJ_LOAN_INFO a WHERE 1=1
+		<if test="date != null">
+			AND substr(a.SUCCESS_TIME,0,10) = #{date}
+		</if> group by a.project_id
+		)
+	</select>
+
+	<select id="getLoanAmount" parameterType="com.zdmoney.webservice.api.dto.wdzj.LoanInfoDto" resultType="java.lang.Double">
+		SELECT sum(AMOUNT) FROM LAOCAIBAO.WDZJ_LOAN_INFO WHERE 1=1
+		<if test="date != null" >
+			AND substr(SUCCESS_TIME,0,10) = #{date}
+		</if>
+	</select>
+
+	<select id="getLastMoney" resultType="java.lang.String">
+		select sum(t.amount)
+		  from wdzj_loan_info t
+		 where substr(t.success_time, 0, 10) = to_char(sysdate - 1, 'yyyy-MM-dd')
+	</select>
+
+    <select id="getOrderLastMoney" resultType="java.lang.String">
+		select sum(t.order_amt)
+          from laocaibao.busi_order_sub t
+         where to_char(t.interest_start_date, 'yyyy-mm-dd') =
+               to_char(sysdate - 1, 'yyyy-mm-dd')
+           and ((t.product_type = '5' and
+                t.status in ('0', '9', '10', '14', '16', '17', '18', '19')) or
+                (t.product_type = '3' and t.status in (0, 9, 10, 14, 16)))
+	</select>
+
+	<select id="getLoanUser" resultMap="loanUserMap" parameterType="java.lang.String" >
+		SELECT *
+		from LAOCAIBAO.WDZJ_LOAN_USER
+		where project_id = #{project_id}
+	</select>
+
+	<select id="countSplitInfo" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT count(1)
+		from LAOCAIBAO.WDZJ_LOAN_INFO
+		where data_type = #{data_type}
+	</select>
+
+	<select id="countSplitUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		SELECT count(1)
+		from LAOCAIBAO.WDZJ_LOAN_USER
+		where data_type = #{data_type}
+	</select>
+
+	<select id="countWdzjData" resultType="java.lang.Integer">
+		select count(1)
+		  from wdzj_loan_info
+		 where substr(success_time, 0, 10) = to_char(sysdate-1, 'yyyy-MM-dd')
+	</select>
+
+	<!--个贷 ,理财计划非转让标的,理财计划转让标的-->
+	<select id="getLoanInfoData" resultMap="loanInfoMap" parameterType="java.util.Map">
+            (
+              select to_char(bp.id) project_id,
+                   bp.product_name title,
+                   bp.total_invest_amt amount,
+                   '100' schedule,
+                   bp.year_rate * 100 || '%' interest_rate,
+                   trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 deadline,
+                   '天' deadline_unit,
+                   0 reward,
+                   case bp.is_transfer
+                     when '0' then
+                      '信用标'
+                     else
+                      '债权转让标'
+                   end type,
+                   2 repayment_type,
+                   info.id user_name,
+                   '' loan_url,
+                   to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') success_time,
+                   to_number(bp.is_transfer) transfer_type,
+                   1 data_type,
+                   bp.id plan_id
+              from (select t.product_id, t.debtor_num
+                      from laocaibao.busi_order_sub t
+                     where (t.product_type = '3')
+                       and t.status in (0, 9, 10, 14, 16)
+                     group by t.product_id, t.debtor_num) a
+              join laocaibao.busi_product_sub bp
+                on a.product_id = bp.id
+              join laocaibao.customer_main_info info
+                on a.debtor_num = info.cm_number
+             where to_char(bp.interest_start_date, 'yyyy-MM-dd') = to_char(sysdate - 1, 'yyyy-MM-dd')
+         )
+         union
+         (
+             select to_char(bp.id) project_id,
+                    bp.product_name title,
+                    a.amt amount,
+                    '100' schedule,
+                    bp.year_rate * 100 || '%' interest_rate,
+                    trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 deadline,
+                    '天' deadline_unit,
+                    0 reward,
+                    '信用标' type,
+                    2 repayment_type,
+                    info.id user_name,
+                    '' loan_url,
+                    to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') success_time,
+                    0 transfer_type,
+                    3 data_type,
+                    a.plan_id
+               from (select t.product_id, t.debtor_num, t.plan_id,t.subject_no,sum(t.order_amt) amt
+                              from laocaibao.busi_order_sub t
+                             where t.product_type = '5'
+                               and t.debt_type = 1
+                               and t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+                             group by t.product_id, t.debtor_num, t.plan_id,t.subject_no) a
+                      join laocaibao.busi_product_sub bp
+                        on a.product_id = bp.id
+                      join laocaibao.busi_product_contract bpc
+                        on a.subject_no = bpc.subject_no
+                      join laocaibao.customer_main_info info
+                        on a.debtor_num = info.cm_number
+              where to_char(bp.interest_start_date, 'yyyy-MM-dd') = to_char(sysdate - 1, 'yyyy-MM-dd')
+         )
+         union
+         (
+             select a.subject_no||'_' ||a.plan_id||'_'||a.interest_start_date project_id,
+                    a.subject_no||'_' ||a.plan_id||'_'||a.interest_start_date title,
+                    a.amount amount,
+                    '100' schedule,
+                    bpc.year_rate * 100 || '%' interest_rate,
+                    trunc(bpc.interest_end_date) -
+                    trunc(to_date(a.interest_start_date, 'yyyy-MM-dd')) + 1 deadline,
+                    '天' deadline_unit,
+                    0 reward,
+                    '债权转让标' type,
+                    2 repayment_type,
+                    info.id user_name,
+                    '' loan_url,
+                    to_char(to_date(a.interest_start_date, 'yyyy-MM-dd'),
+                            'yyyy-MM-dd hh24:mi:ss') success_time,
+                    0 transfer_type,
+                    4 data_type,
+                    a.plan_id
+               from (select sum(t.order_amt) amount,
+							   t.subject_no,
+							   to_char(t.interest_start_date, 'yyyy-MM-dd') interest_start_date,
+							   t.debtor_num,
+							   t.plan_id
+						  from laocaibao.busi_order_sub t
+						 where t.product_type = 5
+						   and t.debt_type = 2
+						   and t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+						 group by t.subject_no,
+								  to_char(t.interest_start_date, 'yyyy-MM-dd'),
+								  t.debtor_num,
+								  t.plan_id) a
+				  left join laocaibao.busi_product_contract bpc
+					on a.subject_no = bpc.subject_no
+				  left join laocaibao.customer_main_info info
+					on a.debtor_num = info.cm_number
+              where a.interest_start_date = to_char(sysdate - 1, 'yyyy-MM-dd')
+          )
+	</select>
+
+	<!--提前结清数据-->
+	<select id="earlyRepaymentData" parameterType="java.util.Map" resultMap="preapy">
+		select c.project_id projectId,(a.ahead_pay_date-to_date(c.success_time,'yyyy-MM-dd hh24:mi:ss')) deadline,c.deadline_unit  deadlineUnit FROM laocaibao.busi_product_contract a
+			left join laocaibao.busi_product_sub b on a.subject_no=b.subject_no
+			left join laocaibao.wdzj_loan_info c on to_char(b.id)=c.project_id
+			where a.ahead_pay_date is not null and c.type='信用标' and to_char(a.ahead_pay_date,'yyyy-MM-dd')=#{startDate}
+	</select>
+
+	<!--理财计划转让标的-->
+	<select id="getLoanTransferData" resultMap="loanInfoMap" parameterType="java.util.Map">
+		select a.subject_no||interest_start_date project_id,
+
+		a.subject_no||interest_start_date title,
+
+		a.amount,
+
+		100 schedule,
+
+		a.year_rate * 100 || '%' interestRate,
+
+		trunc(to_date(interest_end_date,'yyyy-MM-dd'))- trunc(to_date(interest_start_date,'yyyy-MM-dd')) +1 deadline,
+
+		'0' deadline_unit,
+		0 reward,
+		'0' type,
+
+		2  repaymentType,
+
+		info.id userName ,
+
+		'' loan_url,
+
+		to_char(to_date(interest_start_date,'yyyy-MM-dd'), 'yyyy-MM-dd hh24:mi:ss') successTime,
+
+		0  transfer_type,
+		plan_id
+
+		from
+
+		(select  t.year_rate,sum(t.order_amt) amount,t.subject_no,to_char(t.interest_start_date, 'yyyy-MM-dd') interest_start_date,to_char(t.interest_end_date, 'yyyy-MM-dd') interest_end_date,t.debtor_num,t.plan_id from laocaibao.busi_order_sub t where t.product_type=5 and t.debt_type=2 and t.status in (0,9,10,14,16,17,18,19) group by t.subject_no,t.year_rate,to_char(t.interest_start_date, 'yyyy-MM-dd'),to_char(t.interest_end_date, 'yyyy-MM-dd'),t.debtor_num) a
+
+		left join laocaibao.customer_main_info info on a.debtor_num=info.cm_number
+
+		<if test="isFirst == 0" >
+			WHERE  a.interest_start_date=to_char(sysdate-1,'yyyy-mm-dd')
+		</if>
+	</select>
+
+	<!--优选-->
+	<select id="getPreferenceData" parameterType="java.util.Map" resultMap="loanInfoMap">
+		select bp.id project_id,
+
+       bp.product_name title,
+
+       bp.total_invest_amt amount,
+
+       100 schedule,
+
+       bp.year_rate * 100 || '%' interestRate,
+
+       trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 deadline,
+       '0' deadline_unit,
+       0 reward,
+       '0' type,
+
+       case bp.repay_type
+         when '1' then
+          1
+         else
+          2
+       end repaymentType,
+
+       '438205' || bp.id userName,
+
+       '' loan_url,
+
+       to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') successTime,
+       '0' transfer_type,
+		bp.id plan_id
+
+  from (select t.product_id
+          from laocaibao.busi_order t
+         where t.product_type = 1
+           and t.status in (0, 9, 10)
+         group by t.product_id) a
+
+  join laocaibao.busi_product bp
+    on a.product_id = bp.id
+    <if test="isFirst == 0">
+		and to_char(bp.interest_start_date, 'yyyy-mm-dd') = to_char(sysdate - 1, 'yyyy-mm-dd')
+	</if>
+	</select>
+
+	<!--投标信息-->
+	<select id="getLoanUserData" resultMap="loanUserMap" parameterType="java.util.Map">
+		select
+			 case t.product_id
+			   when 0 then
+				t.subject_no||'_'||t.plan_id||'_'||to_char(t.interest_start_date, 'yyyy-mm-dd')
+			   else
+				t.product_id||''
+			 end project_id,
+
+			 t.customer_id subscribe_user_name,
+
+			 t.order_amt amount,
+
+			 t.order_amt valid_amount,
+
+			 to_char(t.confirm_payment_date, 'yyyy-mm-dd hh24:mi:ss') add_date,
+			 1 status,
+			 0 type,
+
+			 case t.cm_open_platform
+
+			   when 'WEB' then
+
+				1
+
+			   else
+
+				3
+
+			 end source_type,
+			 t.product_type,
+			case when t.product_type=3 then 1
+			when t.product_type=5 and  t.debt_type=1 then 3
+			when t.product_type=5 and  t.debt_type=2 then 4
+			ELSE 0
+			end data_type
+			  from laocaibao.busi_order_sub t
+
+			 where t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+			<if test="isSplit != 1" >
+				and t.product_type in (1, 2) AND t.order_amt > 83896.57
+			</if>
+			<if test="isSplit == 1" >
+				and t.product_type in (3, 5)
+			</if>
+			<if test="isFirst == 0" >
+				and  to_char(t.interest_start_date, 'yyyy-mm-dd')=to_char(sysdate-1,'yyyy-mm-dd')
+			</if>
+	</select>
+
+	<select id="getBusiProductInfo" resultMap="loanInfoMap" parameterType="java.lang.String">
+			select bp.id project_id,
+
+			   bp.product_name title,
+
+			   bp.total_invest_amt amount,
+
+			   100 schedule,
+
+			   bp.year_rate * 100 || '%' interestRate,
+
+			   trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 deadline,
+			   '0' deadline_unit,
+			   0 reward,
+			   '0' type,
+
+			   case bp.repay_type
+				 when '1' then
+				  1
+				 else
+				  2
+			   end repaymentType,
+
+			   '' userName,
+
+			   '' loan_url,
+
+			   to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') successTime,
+			   '0' transfer_type
+
+		  from laocaibao.busi_product bp where bp.id=#{productId}
+	</select>
+
+	<select id="getBusiProductSubInfo" resultMap="loanInfoMap" parameterType="java.lang.String">
+			  select bp.id project_id,
+
+				 bp.product_name title,
+
+				 bp.total_invest_amt amount,
+
+				 100 schedule,
+
+				 bp.year_rate * 100 || '%' interestRate,
+
+				 trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 deadline,
+
+				 '0' deadline_unit,
+				 0 reward,
+				 '0' type,
+
+				 case bp.repay_type
+				   when '1' then
+					1
+				   else
+					2
+				 end repaymentType,
+
+				 '' userName,
+
+				 '' loan_url,
+
+				 to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') successTime,
+				 bp.is_transfer transfer_type
+
+			from laocaibao.busi_product_sub bp where bp.id = #{productId}
+	</select>
+</mapper>

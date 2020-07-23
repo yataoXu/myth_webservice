@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiMatchSucInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiMatchSucInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CAPITAL_CODE" property="capitalCode" jdbcType="VARCHAR" />
+    <result column="CAPITAL_AMOUNT" property="capitalAmount" jdbcType="DECIMAL" />
+    <result column="CAPITAL_TYPE" property="capitalType" jdbcType="VARCHAR" />
+    <result column="LEDGER_ID" property="ledgerId" jdbcType="VARCHAR" />
+    <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+    <result column="FINANCE_ID" property="financeId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TOTAL_TERM" property="totalTerm" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="EARNINGS_RATE" property="earningsRate" jdbcType="DECIMAL" />
+    <result column="PRODUCT_CODE" property="productCode" jdbcType="VARCHAR" />
+    <result column="SUBJECT_NO" property="subjectNo" jdbcType="VARCHAR" />
+    <result column="SUBJECT_AMT" property="subjectAmt" jdbcType="VARCHAR" />
+    <result column="LOAN_CUSTOMER_NO" property="loanCustomerNo" jdbcType="VARCHAR" />
+    <result column="LOAN_CUSTOMER_NAME" property="loanCustomerName" jdbcType="VARCHAR" />
+    <result column="DEBT_TYPE" property="debtType" jdbcType="VARCHAR" />
+    <result column="INIT_ORDER_NUM" property="initOrderNum" jdbcType="VARCHAR" />
+    <result column="MATCH_ORDER_CODE" property="matchOrderCode" jdbcType="VARCHAR" />
+    <result column="MAN_FINANCE_ID" property="manFinanceId" jdbcType="VARCHAR" />
+    <result column="BORROWER_DATE" property="borrowerDate" jdbcType="TIMESTAMP" />
+    <result column="DEBT_WORTH" property="debtWorth" jdbcType="DECIMAL" />
+    <result column="INTEREST" property="interest" jdbcType="DECIMAL" />
+    <result column="FINANCE_NUM" property="financeNum" jdbcType="DECIMAL" />
+    <result column="TRANSFER_NUM" property="transferNum" jdbcType="DECIMAL" />
+    <result column="MASTER_ID" property="masterId" jdbcType="DECIMAL" />
+    <result column="OPER_STATUS" property="operStatus" jdbcType="VARCHAR" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CAPITAL_CODE, CAPITAL_AMOUNT, CAPITAL_TYPE, LEDGER_ID, PRIORITY, FINANCE_ID, 
+    STATUS, TOTAL_TERM, CREATE_TIME, EARNINGS_RATE, PRODUCT_CODE, SUBJECT_NO, SUBJECT_AMT, 
+    LOAN_CUSTOMER_NO, LOAN_CUSTOMER_NAME, DEBT_TYPE, INIT_ORDER_NUM, MATCH_ORDER_CODE,MAN_FINANCE_ID,
+     BORROWER_DATE, DEBT_WORTH, INTEREST,FINANCE_NUM,TRANSFER_NUM, MASTER_ID,OPER_STATUS,BATCH_NO
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_SUC_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectByMasterId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_SUC_INFO
+    where MASTER_ID =  #{masterId,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_SUC_INFO
+    <where>
+      <if test="masterId!=null">
+        MASTER_ID = #{masterId,jdbcType=DECIMAL}
+      </if>
+      <if test="operStatus!=null">
+        and OPER_STATUS = #{operStatus}
+      </if>
+      <if test="initOrderNo!=null">
+        and INIT_ORDER_NUM = #{initOrderNo}
+      </if>
+      <if test="batchNo!=null">
+        and BATCH_NO = #{batchNo}
+      </if>
+      <if test="capitalCode!=null">
+        and CAPITAL_CODE = #{capitalCode}
+      </if>
+      <if test="productId!=null">
+        and PRODUCT_CODE = #{productId}
+      </if>
+      <if test="financeId!=null">
+        and FINANCE_ID = #{financeId}
+      </if>
+      <if test="list!=null">
+        and FINANCE_ID in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and create_time &gt;= to_date(#{startDate},'yyyy-MM-dd')
+      </if>
+    <if test="endDate != null and endDate != ''">
+        and create_time &lt;= to_date(#{endDate},'yyyy-MM-dd')
+    </if>
+    </where>
+  </select>
+
+  <insert id="insert" parameterType="com.zdmoney.models.BusiMatchSucInfo" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select  SEQ_BUSI_MATCH_SUC_INFO.nextval from dual
+    </selectKey>
+    insert into BUSI_MATCH_SUC_INFO (ID, CAPITAL_CODE, CAPITAL_AMOUNT, 
+      CAPITAL_TYPE, LEDGER_ID, PRIORITY, 
+      FINANCE_ID, STATUS, TOTAL_TERM, 
+      CREATE_TIME, EARNINGS_RATE, PRODUCT_CODE, 
+      SUBJECT_NO, SUBJECT_AMT, LOAN_CUSTOMER_NO, 
+      LOAN_CUSTOMER_NAME, DEBT_TYPE, INIT_ORDER_NUM, 
+      MATCH_ORDER_CODE, MAN_FINANCE_ID, BORROWER_DATE, 
+      DEBT_WORTH, INTEREST, FINANCE_NUM,
+    TRANSFER_NUM,MASTER_ID,OPER_STATUS,BATCH_NO)
+    values (#{id,jdbcType=DECIMAL}, #{capitalCode,jdbcType=VARCHAR}, #{capitalAmount,jdbcType=DECIMAL}, 
+      #{capitalType,jdbcType=VARCHAR}, #{ledgerId,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, 
+      #{financeId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{totalTerm,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{earningsRate,jdbcType=DECIMAL}, #{productCode,jdbcType=VARCHAR}, 
+      #{subjectNo,jdbcType=VARCHAR}, #{subjectAmt,jdbcType=VARCHAR}, #{loanCustomerNo,jdbcType=VARCHAR}, 
+      #{loanCustomerName,jdbcType=VARCHAR}, #{debtType,jdbcType=VARCHAR}, #{initOrderNum,jdbcType=VARCHAR}, 
+      #{matchOrderCode,jdbcType=VARCHAR}, #{manFinanceId,jdbcType=VARCHAR}, #{borrowerDate,jdbcType=TIMESTAMP}, 
+      #{debtWorth,jdbcType=DECIMAL}, #{interest,jdbcType=DECIMAL}, #{financeNum,jdbcType=VARCHAR},
+      #{transferNum,jdbcType=VARCHAR},#{masterId,jdbcType=DECIMAL},#{operStatus,jdbcType=VARCHAR},#{batchNo,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.BusiMatchSucInfo" >
+    update BUSI_MATCH_SUC_INFO
+    set CAPITAL_CODE = #{capitalCode,jdbcType=VARCHAR},
+      CAPITAL_AMOUNT = #{capitalAmount,jdbcType=DECIMAL},
+      CAPITAL_TYPE = #{capitalType,jdbcType=VARCHAR},
+      LEDGER_ID = #{ledgerId,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=VARCHAR},
+      FINANCE_ID = #{financeId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TOTAL_TERM = #{totalTerm,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      EARNINGS_RATE = #{earningsRate,jdbcType=DECIMAL},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      SUBJECT_NO = #{subjectNo,jdbcType=VARCHAR},
+      SUBJECT_AMT = #{subjectAmt,jdbcType=VARCHAR},
+      LOAN_CUSTOMER_NO = #{loanCustomerNo,jdbcType=VARCHAR},
+      LOAN_CUSTOMER_NAME = #{loanCustomerName,jdbcType=VARCHAR},
+      DEBT_TYPE = #{debtType,jdbcType=VARCHAR},
+      INIT_ORDER_NUM = #{initOrderNum,jdbcType=VARCHAR},
+      MATCH_ORDER_CODE = #{matchOrderCode,jdbcType=VARCHAR},
+      MAN_FINANCE_ID = #{manFinanceId,jdbcType=VARCHAR},
+      BORROWER_DATE = #{borrowerDate,jdbcType=TIMESTAMP},
+      DEBT_WORTH = #{debtWorth,jdbcType=DECIMAL},
+      INTEREST = #{interest,jdbcType=DECIMAL},
+      FINANCE_NUM = #{financeNum,jdbcType=DECIMAL},
+      TRANSFER_NUM = #{transferNum,jdbcType=DECIMAL},
+      OPER_STATUS=#{operStatus,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <update id="updateByMap" parameterType="java.util.Map" >
+    update BUSI_MATCH_SUC_INFO set OPER_STATUS=#{operStatus,jdbcType=VARCHAR}
+    <where>
+      <if test="masterId!=null">
+        MASTER_ID = #{masterId,jdbcType=DECIMAL}
+      </if>
+      <if test="financeId!=null">
+        and FINANCE_ID = #{financeId,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </update>
+</mapper>

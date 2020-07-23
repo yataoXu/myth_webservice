@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.BusiCashTicketConfigMapper">
+
+    <resultMap type="com.zdmoney.models.BusiCashTicketConfig" id="busiCashTicketConfigMap">
+        <result property="id" column="ID"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="period" column="PERIOD"/>
+        <result property="investMinAmount" column="INVEST_MIN_AMOUNT"/>
+        <result property="investMinPeriod" column="INVEST_MIN_PERIOD"/>
+        <result property="investMaxAmount" column="INVEST_MAX_AMOUNT"/>
+        <result property="investMaxPeriod" column="INVEST_MAX_PERIOD"/>
+        <result property="ticketType" column="TICKET_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="modifyBy" column="MODIFY_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="modifyTime" column="MODIFY_TIME"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,AMOUNT,PERIOD,INVEST_MIN_AMOUNT,INVEST_MIN_PERIOD,INVEST_MAX_AMOUNT,INVEST_MAX_PERIOD,TICKET_TYPE,STATUS,CREATE_BY,MODIFY_BY,CREATE_TIME,MODIFY_TIME    </sql>
+
+    <select id="queryBusiCashTicketConfig" resultMap="busiCashTicketConfigMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_CASH_TICKET_CONFIG
+    </select>
+
+    <insert id="saveBusiCashTicketConfig" parameterType="com.zdmoney.models.BusiCashTicketConfig">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_CASH_TICKET_CONFIG.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_CASH_TICKET_CONFIG
+          (ID,AMOUNT,PERIOD,INVEST_MIN_AMOUNT,INVEST_MIN_PERIOD,INVEST_MAX_AMOUNT,INVEST_MAX_PERIOD,TICKET_TYPE,STATUS,CREATE_BY,MODIFY_BY,CREATE_TIME,MODIFY_TIME)
+        VALUES
+          (#{id},#{amount},#{period},#{investMinAmount},#{investMinPeriod},#{investMaxAmount},#{investMaxPeriod},#{ticketType},#{status},#{createBy},#{modifyBy},#{createTime},#{modifyTime})
+    </insert>
+
+    <update id="updateBusiCashTicketConfig" parameterType="com.zdmoney.models.BusiCashTicketConfig">
+        UPDATE BUSI_CASH_TICKET_CONFIG
+        <set>
+            <if test="amount != null">
+                AMOUNT = #{amount},
+            </if>
+            <if test="period != null">
+                PERIOD = #{period},
+            </if>
+            <if test="investMinAmount != null">
+                INVEST_MIN_AMOUNT = #{investMinAmount},
+            </if>
+            <if test="investMinPeriod != null">
+                INVEST_MIN_PERIOD = #{investMinPeriod},
+            </if>
+            <if test="investMaxAmount != null">
+                INVEST_MAX_AMOUNT = #{investMaxAmount},
+            </if>
+            <if test="investMaxPeriod != null">
+                INVEST_MAX_PERIOD = #{investMaxPeriod},
+            </if>
+            <if test="ticketType != null">
+                TICKET_TYPE = #{ticketType},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="createBy != null">
+                CREATE_BY = #{createBy},
+            </if>
+            <if test="modifyBy != null">
+                MODIFY_BY = #{modifyBy},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime},
+            </if>
+            <if test="modifyTime != null">
+                MODIFY_TIME = #{modifyTime}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiCashTicketConfigById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_CASH_TICKET_CONFIG WHERE ID = #{id}
+    </delete>
+
+    <!--根据类型查询现金券-->
+    <select id="queryBusiCashTickets" resultMap="busiCashTicketConfigMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_CASH_TICKET_CONFIG where  TICKET_TYPE =#{ticketType} and STATUS=1
+    </select>
+
+    <update id="updateCashTicketStatus" >
+         update busi_cash_ticket_config set
+              status =#{status,jdbcType=VARCHAR},
+              MODIFY_BY = #{modifyBy,jdbcType=VARCHAR},
+              MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+          where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <resultMap type="com.zdmoney.webservice.api.dto.welfare.BusiCashTicketConfigDto" id="BaseResultMap">
+        <result property="id" column="ID"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="period" column="PERIOD"/>
+        <result property="investMinAmount" column="INVEST_MIN_AMOUNT"/>
+        <result property="investMinPeriod" column="INVEST_MIN_PERIOD"/>
+        <result property="investMaxAmount" column="INVEST_MAX_AMOUNT"/>
+        <result property="investMaxPeriod" column="INVEST_MAX_PERIOD"/>
+        <result property="ticketType" column="TICKET_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="modifyBy" column="MODIFY_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="modifyTime" column="MODIFY_TIME"/>
+    </resultMap>
+
+    <select id="getCashTicketList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from busi_cash_ticket_config
+        where 1=1
+        <if test="ticketType != null">
+            and TICKET_TYPE = #{ticketType}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+    </select>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.webservice.api.dto.welfare.BusiCashTicketConfigDto">
+        update busi_cash_ticket_config
+        <set >
+            <if test="amount != null" >
+                AMOUNT = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="period != null" >
+                PERIOD = #{period,jdbcType=DECIMAL},
+            </if>
+            <if test="investMinAmount != null" >
+                INVEST_MIN_AMOUNT = #{investMinAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="investMinPeriod != null" >
+                INVEST_MIN_PERIOD = #{investMinPeriod,jdbcType=DECIMAL},
+            </if>
+            <if test="createBy != null" >
+                CREATE_BY = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyBy != null" >
+                MODIFY_BY = #{modifyBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null" >
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ticketType != null" >
+                TICKET_TYPE = #{ticketType,jdbcType=VARCHAR},
+            </if>
+            <if test="investMaxAmount != null" >
+                INVEST_MAX_AMOUNT = #{investMaxAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="investMaxPeriod != null" >
+                INVEST_MAX_PERIOD = #{investMaxPeriod,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+
+    <insert id="insert" parameterType="com.zdmoney.webservice.api.dto.welfare.BusiCashTicketConfigDto" >
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_busi_cash_ticket_config.nextval from dual
+        </selectKey>
+        insert into busi_cash_ticket_config (ID, AMOUNT, PERIOD,
+        INVEST_MIN_AMOUNT, INVEST_MIN_PERIOD, CREATE_BY,
+        MODIFY_BY, CREATE_TIME, MODIFY_TIME,TICKET_TYPE,STATUS,INVEST_MAX_PERIOD,INVEST_MAX_AMOUNT
+        )
+        values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{period,jdbcType=DECIMAL},
+        #{investMinAmount,jdbcType=DECIMAL}, #{investMinPeriod,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR},
+        #{modifyBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+        #{ticketType,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{investMaxPeriod,jdbcType=DECIMAL},#{investMaxAmount,jdbcType=DECIMAL}
+        )
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select * from busi_cash_ticket_config
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+
+
+
+</mapper>

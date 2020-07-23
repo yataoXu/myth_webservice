@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.SysOperateTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.SysOperateTask" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, SERIAL_NO
+  </sql>
+  <select id="selectBySerialNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATE_TASK
+    where SERIAL_NO = #{serialNo,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from SYS_OPERATE_TASK
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SYS_OPERATE_TASK
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.models.SysOperateTask" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select  SEQ_SYS_OPERATE_TASK.nextval from dual
+    </selectKey>
+    insert into SYS_OPERATE_TASK (ID, SERIAL_NO)
+    values (#{id,jdbcType=DECIMAL}, #{serialNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.SysOperateTask" >
+    insert into SYS_OPERATE_TASK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="serialNo != null" >
+        SERIAL_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.SysOperateTask" >
+    update SYS_OPERATE_TASK
+    <set >
+      <if test="serialNo != null" >
+        SERIAL_NO = #{serialNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.SysOperateTask" >
+    update SYS_OPERATE_TASK
+    set SERIAL_NO = #{serialNo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

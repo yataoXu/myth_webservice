@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.payment.PaymentPlanMapper">
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.payment.PaymentPlan" >
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CURR_TERM" property="currTerm" jdbcType="DECIMAL" />
+        <result column="TERM" property="term" jdbcType="DECIMAL" />
+        <result column="PRINCIPAL" property="principal" jdbcType="DECIMAL" />
+        <result column="INTEREST" property="interest" jdbcType="DECIMAL" />
+        <result column="PRINCIPAL_INTEREST" property="principalInterest" jdbcType="DECIMAL" />
+        <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+        <result column="REPAY_STATUS" property="repayStatus" jdbcType="VARCHAR" />
+        <result column="REPAY_DAY" property="repayDay" jdbcType="TIMESTAMP" />
+        <result column="REAL_TIME" property="realTime" jdbcType="TIMESTAMP" />
+
+    </resultMap>
+    <select id="selectPaymentPlanById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select CURR_TERM,TERM, PRINCIPAL,INTEREST  ,PRINCIPAL_INTEREST ,ORDER_NUM ,REPAY_STATUS
+        from BUSI_ORDER_PAY_PLAN where ORDER_NUM=#{orderNum} order by curr_term
+    </select>
+
+    <select id="selectPaymentPlansById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select CURR_TERM,TERM, PRINCIPAL,INTEREST  ,PRINCIPAL_INTEREST ,ORDER_NUM,REPAY_STATUS,REAL_TIME,REPAY_DAY
+        from BUSI_ORDER_PAY_PLAN where ORDER_NUM=#{orderNum}  order by curr_term asc
+    </select>
+
+    <!--查询提前结清的订单-->
+    <select id="selectEarlyPayPlan" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select CURR_TERM,TERM, PRINCIPAL,INTEREST  ,PRINCIPAL_INTEREST ,ORDER_NUM,REPAY_STATUS,REAL_TIME,REPAY_DAY
+         from BUSI_ORDER_PAY_PLAN where ORDER_NUM=#{orderNum}  and repay_status = 8 order by curr_term asc
+    </select>
+
+    <select id="selectOrderRepayByCustomerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+         select t.principal, t.interest, t.principal_interest
+              from BUSI_ORDER_PAY_PLAN t
+              left join busi_order tt
+                on tt.ORDER_NUM = t.order_num
+             where tt.customer_id = #{customerId}
+               and tt.STATUS in (#{status})
+               and t.repay_status =  #{repayStatus}
+
+    </select>
+    <select id="selectRepayInfoByCustomerId" resultMap="BaseResultMap" parameterType="java.lang.String">
+         select t.principal, t.interest, t.principal_interest
+              from BUSI_ORDER_PAY_PLAN t
+              left join busi_order tt
+                on tt.ORDER_NUM = t.order_num
+             where tt.customer_id = #{customerId}
+               and tt.STATUS in (0,9,10, 14,16)
+               and t.repay_status =3
+    </select>
+
+    <!--统计用户转让订单或者标的订单的历史收益-->
+    <select id="selectHistoryInterestByCustomerId" resultType="decimal" parameterType="java.lang.Long">
+         select  nvl(sum(interest),0)
+         from BUSI_ORDER_PAY_PLAN t left join busi_order tt on tt.ORDER_NUM = t.order_num
+          where tt.customer_id = #{customerId}
+          and tt.STATUS in (0,9,10, 14,16) and (tt.PRODUCT_TYPE!=1 or tt.TRANSFER_TYPE=1) and t.repay_status=3
+    </select>
+
+    <!--统计用户单笔转让订单或者标的订单的历史收益-->
+    <select id="selectHistoryOrderInterestByCustomerId" resultType="com.zdmoney.vo.UserRepaymentVo" parameterType="java.util.Map">
+        select nvl(sum(interest),0)   as receivedInterest,
+               nvl(sum(principal),0)  as receivedPrincipal
+         from BUSI_ORDER_PAY_PLAN t left join busi_order tt
+          on tt.ORDER_NUM = t.order_num
+          where tt.customer_id = #{customerId}
+          and tt.STATUS in (0,9,10, 14,16)
+          and (tt.PRODUCT_TYPE!=1 or tt.TRANSFER_TYPE=1)
+          and t.repay_status=3
+          and t.order_num=#{orderNum}
+    </select>
+
+    <update id="updateByMap"  parameterType="java.util.Map">
+        update busi_order_pay_plan
+        <set>
+            <if test="status != null" >
+                REPAY_STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="realTime != null" >
+                REAL_TIME = #{realTime},
+            </if>
+        </set>
+        <where>
+            <if test="orderNum != null" >
+                ORDER_NUM= #{orderNum,jdbcType=VARCHAR}
+            </if>
+            <if test="initStatus != null" >
+                and REPAY_STATUS=#{initStatus}
+            </if>
+            <if test="currentTerms != null">
+                and CURR_TERM in
+                <foreach collection="currentTerms" separator="," open="(" close=")" item="currentTerm">
+                    #{currentTerm}
+                </foreach>
+            </if>
+        </where>
+    </update>
+
+    <select id="getTotalPrincipal" resultType="java.math.BigDecimal" parameterType="java.lang.String" >
+        select nvl(sum(PRINCIPAL), 0)  from BUSI_ORDER_PAY_PLAN a where REPAY_STATUS in ('2', '3') and a.order_num in (
+        select b.init_order_no from busi_debt_transfer b where b.ORIGIN_ORDER_NO=#{originOrderNo})
+    </select>
+
+    <!-- 查询当前时间之前未还款信息-->
+    <select id="selectPayPlansByCurrentTime" resultMap="BaseResultMap" parameterType="java.lang.String">
+        <![CDATA[
+            select CURR_TERM,TERM, PRINCIPAL,INTEREST  ,PRINCIPAL_INTEREST ,ORDER_NUM,REPAY_STATUS
+              from BUSI_ORDER_PAY_PLAN where ORDER_NUM=#{0}   and repay_status in (1, 2)
+            and repay_day <=  to_date(#{1},'yyyy/mm/dd')
+         ]]>
+    </select>
+
+    <!-- 根据时间，订单号查还款信息-->
+    <select id="selectPayPlansByDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+        <![CDATA[
+            select CURR_TERM,TERM, PRINCIPAL,INTEREST  ,PRINCIPAL_INTEREST ,ORDER_NUM,REPAY_STATUS
+            from BUSI_ORDER_PAY_PLAN where ORDER_NUM=#{orderNum}
+            and repay_day =  to_date(#{sDate},'yyyy/mm/dd')
+         ]]>
+    </select>
+
+    <select id="queryPayPlanCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1) from busi_subject_pay_plan where subject_no = #{subjectNo}
+    </select>
+</mapper>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.order.BusiOrderTempMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiOrderTemp">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="ORDER_NUM" property="orderId" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL"/>
+        <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL"/>
+        <result column="INTEREST_START_DATE" property="interestStartDate" jdbcType="TIMESTAMP"/>
+        <result column="INTEREST_END_DATE" property="interestEndDate" jdbcType="TIMESTAMP"/>
+        <result column="PRINCIPALINTEREST" property="principalinterest" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR"/>
+        <result column="INVITE_CODE" property="inviteCode" jdbcType="VARCHAR"/>
+        <result column="CONFIRM_PAYMENT_DATE" property="confirmPaymentDate" jdbcType="TIMESTAMP"/>
+        <result column="PAY_SER_NUM" property="paySerNum" jdbcType="VARCHAR"/>
+        <result column="BANK_ACCOUNT_ID" property="bankAccountId" jdbcType="DECIMAL"/>
+        <result column="CM_OPEN_MECHANISM" property="cmOpenMechanism" jdbcType="VARCHAR"/>
+        <result column="CM_OPEN_PLATFORM" property="cmOpenPlatform" jdbcType="VARCHAR"/>
+        <result column="CM_TOGATHER_TYPE" property="cmTogatherType" jdbcType="VARCHAR"/>
+        <result column="CM_OPEN_CHANNEL" property="cmOpenChannel" jdbcType="VARCHAR"/>
+        <result column="CM_REGISTER_VERSION" property="cmRegisterVersion" jdbcType="VARCHAR"/>
+        <result column="IS_FIRST_ORDER" property="isFirstOrder" jdbcType="DECIMAL"/>
+        <result column="original_rate" property="originalRate" jdbcType="DECIMAL"/>
+        <result column="invte_rate" property="inviteRate" jdbcType="DECIMAL"/>
+        <result column="action_rate" property="actionRate" jdbcType="DECIMAL"/>
+        <result column="YEAR_RATE_STR" jdbcType="VARCHAR" property="yearRateStr"/>
+        <result column="day_profit" property="dayProfit" jdbcType="DECIMAL"/>
+        <result column="raise_day_profit" property="raiseDayProfit" jdbcType="DECIMAL"/>
+        <result column="raise_days" property="raiseDays" jdbcType="DECIMAL"/>
+        <result column="close_days" property="closeDays" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_TYPE" property="productType" jdbcType="INTEGER"/>
+        <result column="SUBJECT_STATUS" property="subjectStatus" jdbcType="VARCHAR"/>
+        <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_TYPE" property="transferType" jdbcType="VARCHAR"/>
+        <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP"/>
+        <result column="RAISE_RATE_INCOME" property="raiseRateIncome" jdbcType="DECIMAL"/>
+        <result column="COUPON_AMOUNT" property="couponAmount" jdbcType="DECIMAL"/>
+        <result column="INTEGRAL_AMOUNT" property="integralAmount" jdbcType="DECIMAL"/>
+        <result column="CASH_AMOUNT" property="cashAmount" jdbcType="DECIMAL"/>
+        <result column="DEBTOR_NUM" property="debtorNum" jdbcType="VARCHAR"/>
+        <result column="DEBTOR_NAME" property="debtorName" jdbcType="VARCHAR"/>
+        <result column="EXIT_CLICK_DATE" property="exitClickDate" jdbcType="TIMESTAMP"/>
+        <result column="HOLDER_TYPE" property="holderType" jdbcType="VARCHAR"/>
+        <result column="RE_INVEST_COUNT" property="reinvestCount" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ORDER_NUM, CUSTOMER_ID, ORDER_AMT, PRODUCT_ID, ORDER_TIME, STATUS, YEAR_RATE, 
+    INTEREST_START_DATE, INTEREST_END_DATE, PRINCIPALINTEREST, CUSTOMER_NAME, INVITE_CODE, 
+    CONFIRM_PAYMENT_DATE, PAY_SER_NUM, BANK_ACCOUNT_ID, CM_OPEN_MECHANISM, CM_OPEN_PLATFORM, 
+    CM_TOGATHER_TYPE, CM_OPEN_CHANNEL, CM_REGISTER_VERSION, IS_FIRST_ORDER,ORIGINAL_RATE,
+    INVTE_RATE,ACTION_RATE,YEAR_RATE_STR,DAY_PROFIT,RAISE_DAY_PROFIT,RAISE_DAYS,CLOSE_DAYS,
+    PRODUCT_TYPE,SUBJECT_STATUS,PAY_TYPE,TRANSFER_TYPE,MODIFY_DATE,RAISE_RATE_INCOME,
+    COUPON_AMOUNT,INTEGRAL_AMOUNT,CASH_AMOUNT,DEBTOR_NUM,DEBTOR_NAME,EXIT_CLICK_DATE,HOLDER_TYPE,RE_INVEST_COUNT
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <select id="selectViewByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+    <select id="selectViewByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        where ORDER_NUM = #{orderId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BUSI_ORDER
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+    <insert id="insert" parameterType="com.zdmoney.models.order.BusiOrderTemp">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select
+            SQ_BUSI_ORDER.nextval from dual
+        </selectKey>
+        insert into BUSI_ORDER (ID, ORDER_NUM, CUSTOMER_ID,
+        ORDER_AMT, PRODUCT_ID, ORDER_TIME,
+        STATUS, YEAR_RATE, INTEREST_START_DATE,
+        INTEREST_END_DATE, PRINCIPALINTEREST, CUSTOMER_NAME,
+        INVITE_CODE, CONFIRM_PAYMENT_DATE, PAY_SER_NUM,
+        BANK_ACCOUNT_ID, CM_OPEN_MECHANISM, CM_OPEN_PLATFORM,
+        CM_TOGATHER_TYPE, CM_OPEN_CHANNEL, CM_REGISTER_VERSION,
+        IS_FIRST_ORDER,ORIGINAL_RATE,INVTE_RATE,ACTION_RATE,YEAR_RATE_STR,
+        DAY_PROFIT,RAISE_DAY_PROFIT,RAISE_DAYS,CLOSE_DAYS,PRODUCT_TYPE,SUBJECT_STATUS,PAY_TYPE,TRANSFER_TYPE,MODIFY_DATE,
+        RAISE_RATE_INCOME,COUPON_AMOUNT,INTEGRAL_AMOUNT,CASH_AMOUNT,DEBTOR_NUM,DEBTOR_NAME,HOLDER_TYPE, PRODUCT_NAME,USER_LABEL,USER_LEVEL,MEMBER_LEVEL)
+        values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=VARCHAR}, #{customerId,jdbcType=DECIMAL},
+        #{orderAmt,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{orderTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=VARCHAR}, #{yearRate,jdbcType=DECIMAL}, #{interestStartDate,jdbcType=TIMESTAMP},
+        #{interestEndDate,jdbcType=TIMESTAMP}, #{principalinterest,jdbcType=DECIMAL}, #{customerName,jdbcType=VARCHAR},
+        #{inviteCode,jdbcType=VARCHAR}, #{confirmPaymentDate,jdbcType=TIMESTAMP}, #{paySerNum,jdbcType=VARCHAR},
+        #{bankAccountId,jdbcType=DECIMAL}, #{cmOpenMechanism,jdbcType=VARCHAR}, #{cmOpenPlatform,jdbcType=VARCHAR},
+        #{cmTogatherType,jdbcType=VARCHAR}, #{cmOpenChannel,jdbcType=VARCHAR}, #{cmRegisterVersion,jdbcType=VARCHAR},
+        #{isFirstOrder,jdbcType=DECIMAL},#{originalRate,jdbcType=DECIMAL},#{inviteRate,jdbcType=DECIMAL},
+        #{actionRate,jdbcType=DECIMAL},#{yearRateStr,jdbcType=VARCHAR},#{dayProfit,jdbcType=DECIMAL},
+        #{raiseDayProfit,jdbcType=DECIMAL},#{raiseDays,jdbcType=DECIMAL},#{closeDays,jdbcType=DECIMAL},#{productType,jdbcType=INTEGER},
+        #{subjectStatus,jdbcType=VARCHAR},#{payType,jdbcType=VARCHAR},#{transferType,jdbcType=VARCHAR},#{modifyDate,jdbcType=TIMESTAMP},
+        #{raiseRateIncome,jdbcType=DECIMAL},#{couponAmount,jdbcType=DECIMAL},#{integralAmount,jdbcType=DECIMAL},#{cashAmount,jdbcType=DECIMAL},
+        #{debtorNum,jdbcType=VARCHAR},#{debtorName,jdbcType=VARCHAR},#{holderType,jdbcType=VARCHAR},#{productName,jdbcType=VARCHAR},#{userLabel,jdbcType=VARCHAR},#{userLevel,jdbcType=VARCHAR},#{memberLevel,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.order.BusiOrderTemp">
+        update BUSI_ORDER
+        <set>
+            <if test="orderId != null">
+                ORDER_NUM = #{orderId,jdbcType=VARCHAR},MODIFY_DATE = sysdate,
+            </if>
+            <if test="customerId != null">
+                CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAmt != null">
+                ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="productId != null">
+                PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderTime != null">
+                ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="yearRate != null">
+                YEAR_RATE = #{yearRate,jdbcType=DECIMAL},
+            </if>
+            <if test="interestStartDate != null">
+                INTEREST_START_DATE = #{interestStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interestEndDate != null">
+                INTEREST_END_DATE = #{interestEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="principalinterest != null">
+                PRINCIPALINTEREST = #{principalinterest,jdbcType=DECIMAL},
+            </if>
+            <if test="customerName != null">
+                CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                INVITE_CODE = #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmPaymentDate != null">
+                CONFIRM_PAYMENT_DATE = #{confirmPaymentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paySerNum != null">
+                PAY_SER_NUM = #{paySerNum,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccountId != null">
+                BANK_ACCOUNT_ID = #{bankAccountId,jdbcType=DECIMAL},
+            </if>
+            <if test="cmOpenMechanism != null">
+                CM_OPEN_MECHANISM = #{cmOpenMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenPlatform != null">
+                CM_OPEN_PLATFORM = #{cmOpenPlatform,jdbcType=VARCHAR},
+            </if>
+            <if test="cmTogatherType != null">
+                CM_TOGATHER_TYPE = #{cmTogatherType,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenChannel != null">
+                CM_OPEN_CHANNEL = #{cmOpenChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="cmRegisterVersion != null">
+                CM_REGISTER_VERSION = #{cmRegisterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isFirstOrder != null">
+                IS_FIRST_ORDER = #{isFirstOrder,jdbcType=DECIMAL},
+            </if>
+            <if test="originalRate != null">
+                original_rate = #{originalRate,jdbcType=DECIMAL},
+            </if>
+            <if test="inviteRate != null">
+                invte_rate = #{inviteRate,jdbcType=DECIMAL},
+            </if>
+            <if test="actionRate != null">
+                action_rate = #{actionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="yearRateStr != null">
+                year_rate_str = #{yearRateStr,jdbcType=VARCHAR},
+            </if>
+
+            <if test="dayProfit != null">
+                day_profit = #{dayProfit,jdbcType=DECIMAL},
+            </if>
+
+            <if test="raiseDayProfit != null">
+                raise_day_profit = #{raiseDayProfit,jdbcType=DECIMAL},
+            </if>
+
+            <if test="raiseDays != null">
+                raise_days = #{raiseDays,jdbcType=DECIMAL},
+            </if>
+
+            <if test="closeDays != null">
+                close_days = #{closeDays,jdbcType=DECIMAL},
+            </if>
+            <if test="productType != null">
+                PRODUCT_TYPE = #{productType,jdbcType=INTEGER},
+            </if>
+            <if test="subjectStatus != null">
+                SUBJECT_STATUS = #{subjectStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="transferType != null">
+                TRANSFER_TYPE = #{transferType,jdbcType=VARCHAR},
+            </if>
+            <if test="raiseRateIncome != null">
+                RAISE_RATE_INCOME = #{raiseRateIncome,jdbcType=DECIMAL},
+            </if>
+            <if test="couponAmount != null">
+                COUPON_AMOUNT = #{couponAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="integralAmount != null">
+                INTEGRAL_AMOUNT = #{integralAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="cashAmount != null">
+                CASH_AMOUNT = #{cashAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="debtorNum != null">
+                DEBTOR_NUM = #{debtorNum,jdbcType=VARCHAR},
+            </if>
+            <if test="debtorName != null">
+                DEBTOR_NAME = #{debtorName,jdbcType=VARCHAR},
+            </if>
+            <if test="exitClickDate != null">
+                EXIT_CLICK_DATE= #{exitClickDate,jdbcType=VARCHAR},
+            </if>
+                MODIFY_DATE =  sysdate
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.order.BusiOrderTemp">
+    update BUSI_ORDER
+    set ORDER_NUM = #{orderId,jdbcType=VARCHAR},
+      CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+      PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      YEAR_RATE = #{yearRate,jdbcType=DECIMAL},
+      INTEREST_START_DATE = #{interestStartDate,jdbcType=TIMESTAMP},
+      INTEREST_END_DATE = #{interestEndDate,jdbcType=TIMESTAMP},
+      PRINCIPALINTEREST = #{principalinterest,jdbcType=DECIMAL},
+      CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+      INVITE_CODE = #{inviteCode,jdbcType=VARCHAR},
+      CONFIRM_PAYMENT_DATE = #{confirmPaymentDate,jdbcType=TIMESTAMP},
+      PAY_SER_NUM = #{paySerNum,jdbcType=VARCHAR},
+      BANK_ACCOUNT_ID = #{bankAccountId,jdbcType=DECIMAL},
+      CM_OPEN_MECHANISM = #{cmOpenMechanism,jdbcType=VARCHAR},
+      CM_OPEN_PLATFORM = #{cmOpenPlatform,jdbcType=VARCHAR},
+      CM_TOGATHER_TYPE = #{cmTogatherType,jdbcType=VARCHAR},
+      CM_OPEN_CHANNEL = #{cmOpenChannel,jdbcType=VARCHAR},
+      CM_REGISTER_VERSION = #{cmRegisterVersion,jdbcType=VARCHAR},
+      IS_FIRST_ORDER = #{isFirstOrder,jdbcType=DECIMAL},
+      YEAR_RATE_STR = #{yearRateStr,jdbcType=VARCHAR},
+      day_profit = #{dayProfit,jdbcType=DECIMAL},
+      raise_day_profit = #{raiseDayProfit,jdbcType=DECIMAL},
+      raise_days = #{raiseDays,jdbcType=DECIMAL},
+      close_days = #{closeDays,jdbcType=DECIMAL},
+      PRODUCT_TYPE = #{productType,jdbcType=INTEGER},
+      SUBJECT_STATUS = #{subjectStatus,jdbcType=VARCHAR},
+      TRANSFER_TYPE =  #{transferType,jdbcType=VARCHAR},
+      MODIFY_DATE =  sysdate,
+      RAISE_RATE_INCOME =#{raiseRateIncome,jdbcType=DECIMAL},
+      COUPON_AMOUNT =#{couponAmount,jdbcType=DECIMAL},
+      INTEGRAL_AMOUNT =#{integralAmount,jdbcType=DECIMAL},
+      CASH_AMOUNT =#{cashAmount,jdbcType=DECIMAL},
+      DEBTOR_NUM = #{debtorNum,jdbcType=VARCHAR},
+      DEBTOR_NAME = #{debtorName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+    <update id="updateByOrderYearRateStr" parameterType="com.zdmoney.models.order.BusiOrderTemp">
+        update BUSI_ORDER
+        set YEAR_RATE_STR = #{yearRateStr,jdbcType=VARCHAR},
+        YEAR_RATE = #{yearRate,jdbcType=DECIMAL},
+        PRINCIPALINTEREST = #{principalinterest,jdbcType=DECIMAL},
+        RAISE_DAY_PROFIT = #{raiseDayProfit,jdbcType=DECIMAL},
+        RAISE_DAYS = #{raiseDays,jdbcType=DECIMAL},
+        RAISE_RATE_INCOME = #{raiseRateIncome,jdbcType=DECIMAL},
+        MODIFY_DATE = sysdate
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectCustomerInvest4Task" parameterType="java.util.Map" resultType="com.zdmoney.vo.CustomerInvestVO">
+        select bp.interest_end_date-bp.interest_start_date+1 as investPeriod,t.ORDER_AMT as orderAmt
+        from BUSI_ORDER t
+        left join busi_product bp
+        on bp.id = t.PRODUCT_ID
+        where t.CUSTOMER_ID = #{customerId}
+        and (to_char(t.ORDER_TIME,'yyyyMMdd') between  #{startDate} and #{endDate})
+        and t.STATUS in
+        <foreach collection="list" index="index" item="status" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updatePayStatus" parameterType="java.util.Map">
+        update BUSI_ORDER
+        <set>
+            <if test="needStatus != null">
+                status = #{needStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmDate != null">
+                CONFIRM_PAYMENT_DATE = #{confirmDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="confirmDate == null">
+                CONFIRM_PAYMENT_DATE =null,
+            </if>
+            MODIFY_DATE = sysdate
+        </set>
+        where ID = #{id,jdbcType=DECIMAL} and status = #{originStatus,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateOrderSubPayStatus" parameterType="java.util.Map">
+        update BUSI_ORDER_SUB
+        <set>
+            <if test="needStatus != null">
+                status = #{needStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmDate != null">
+                CONFIRM_PAYMENT_DATE = #{confirmDate,jdbcType=TIMESTAMP},
+            </if>
+            MODIFY_DATE = sysdate
+        </set>
+        where ID = #{id,jdbcType=DECIMAL} and status = #{originStatus,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateOrderSub" parameterType="java.util.Map">
+        update BUSI_ORDER_SUB
+        <set>
+            <if test="transferNo != null">
+                TRANSFER_NO = #{transferNo,jdbcType=VARCHAR},
+            </if>
+            <if test="subjectNo != null">
+                SUBJECT_NO = #{subjectNo,jdbcType=VARCHAR},
+            </if>
+        </set>
+         where ID = #{id,jdbcType=DECIMAL}
+    </update>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.sys.SysMessageLogMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysMessageLog">
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ME_CONTENT" jdbcType="VARCHAR" property="meContent" />
+    <result column="ME_TEL_NUM" jdbcType="VARCHAR" property="meTelNum" />
+    <result column="ME_SEND_TIME" jdbcType="TIMESTAMP" property="meSendTime" />
+    <result column="ME_RESULT" jdbcType="DECIMAL" property="meResult" />
+    <result column="ME_RESPONSE" jdbcType="VARCHAR" property="meResponse" />
+    <result column="ME_PLATFORM" jdbcType="VARCHAR" property="mePlatform" />
+  </resultMap>
+</mapper>

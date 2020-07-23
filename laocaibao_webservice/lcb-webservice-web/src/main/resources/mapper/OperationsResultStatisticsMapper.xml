@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.OperationsResultStatisticsMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.webservice.api.dto.sundry.OperationsResultStatisticsDto">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="ANALYSIS_TIME" property="analysisTime" jdbcType="TIMESTAMP"/>
+        <result column="CUMULATIVE_LOAN_AMOUNT" property="cumulativeLoanAmount" jdbcType="VARCHAR"/>
+        <result column="CUMULATIVE_LOAN_COUNT" property="cumulativeLoanCount" jdbcType="VARCHAR"/>
+        <result column="CREDIT_BALANCE" property="creditBalance" jdbcType="VARCHAR"/>
+        <result column="CREDIT_BALANCE_COUNT" property="creditBalanceCount" jdbcType="VARCHAR"/>
+        <result column="INTREST_BALANCE" property="intrestBalance" jdbcType="VARCHAR"/>
+        <result column="CUMULATIVE_BORROWERS_AMOUNT" property="cumulativeBorrowersAmount" jdbcType="VARCHAR"/>
+        <result column="CURRENT_BORROWERS_AMOUNT" property="currentBorrowersAmount" jdbcType="VARCHAR"/>
+        <result column="TOP_TEN_BORROWERS_DEBT_AMOUNT" property="topTenBorrowersDebtAmount" jdbcType="VARCHAR"/>
+        <result column="BIGGEST_LOAN_DEBT_AMOUNT" property="biggestLoanDebtAmount" jdbcType="VARCHAR"/>
+        <result column="RELATED_CREDIT_BALANCE" property="relatedCreditBalance" jdbcType="VARCHAR"/>
+        <result column="RELATED_CREDIT_BALANCE_COUNT" property="relatedCreditBalanceCount" jdbcType="VARCHAR"/>
+        <result column="CUMULATIVE_LENDERS_AMOUNT" property="cumulativeLendersAmount" jdbcType="VARCHAR"/>
+        <result column="CURRENT_LENDERS_AMOUNT" property="currentLendersAmount" jdbcType="VARCHAR"/>
+        <result column="PER_CAPITA_LEND_AMOUNT" property="perCapitaLendAmount" jdbcType="VARCHAR"/>
+        <result column="BIGGEST_LOAN_BALANCE_AMOUNT" property="biggestLoanBalanceAmount" jdbcType="VARCHAR"/>
+        <result column="TOP_TEN_BALANCE_AMOUNT" property="topTenBalanceAmount" jdbcType="VARCHAR"/>
+        <result column="OVERDUE_AMOUNT" property="overdueAmount" jdbcType="VARCHAR"/>
+        <result column="OVERDUE_DEALS_COUNT" property="overdueDealsCount" jdbcType="VARCHAR"/>
+        <result column="OVERDUE_PROJECTS_PERCENT" property="overdueProjectsPercent" jdbcType="VARCHAR"/>
+        <result column="OVERDUE_PERCENT" property="overduePercent" jdbcType="VARCHAR"/>
+        <result column="OVER_90DAYS_OVERDUE_AMOUNT" property="over90daysOverdueAmount" jdbcType="VARCHAR"/>
+        <result column="OVER_90DAYS_OVERDUE_COUNT" property="over90daysOverdueCount" jdbcType="VARCHAR"/>
+        <result column="CUMULATIVE_SUBSTITUTE_AMOUNT" property="cumulativeSubstituteAmount" jdbcType="VARCHAR"/>
+        <result column="CUMULATIVE_SUBSTITUTE_COUNT" property="cumulativeSubstituteCount" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP"/>
+        <result column="SERVICE_CHARGE" property="serviceCharge" jdbcType="VARCHAR"/>
+        <result column="transfer_service_charge" property="transferServiceCharge" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_REG" property="customerReg" jdbcType="VARCHAR"/>
+        <result column="DEPOSIT_ACCOUNT" property="depositAccount" jdbcType="VARCHAR"/>
+        <result column="RECHARGE" property="recharge" jdbcType="VARCHAR"/>
+        <result column="REPAYMENT" property="repayment" jdbcType="VARCHAR"/>
+        <result column="WITHDRAW" property="withdraw" jdbcType="VARCHAR"/>
+        <result column="LENDER_PRODUCT_SERVICE_CHARGE" property="lenderProductServiceCharge" jdbcType="VARCHAR"/>
+        <result column="ACCUMULATIVE_LENDER_NUM" property="accumulativeLenderNum" jdbcType="VARCHAR"/>
+        <result column="accumulated_Loan_Amount" property="accumulatedLoanAmount" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <resultMap id="monthVoResultMap" type="com.zdmoney.vo.OperationsResultStatisticsVo">
+        <result column="ANALYSIS_TIME" property="analysisTime" jdbcType="VARCHAR"/>
+        <result column="id" property="id" javaType="String"/>
+    </resultMap>
+    <sql id="all_columns">
+        id,ANALYSIS_TIME,CUMULATIVE_LOAN_AMOUNT,CUMULATIVE_LOAN_COUNT,CREDIT_BALANCE,CREDIT_BALANCE_COUNT,INTREST_BALANCE,
+        CUMULATIVE_BORROWERS_AMOUNT,CURRENT_BORROWERS_AMOUNT,TOP_TEN_BORROWERS_DEBT_AMOUNT,BIGGEST_LOAN_DEBT_AMOUNT,RELATED_CREDIT_BALANCE,
+        RELATED_CREDIT_BALANCE_COUNT,CUMULATIVE_LENDERS_AMOUNT,CURRENT_LENDERS_AMOUNT,PER_CAPITA_LEND_AMOUNT,BIGGEST_LOAN_BALANCE_AMOUNT,
+        TOP_TEN_BALANCE_AMOUNT,OVERDUE_AMOUNT,OVERDUE_DEALS_COUNT,OVERDUE_PROJECTS_PERCENT,OVERDUE_PERCENT,OVER_90DAYS_OVERDUE_AMOUNT,
+        OVER_90DAYS_OVERDUE_COUNT,CUMULATIVE_SUBSTITUTE_AMOUNT,CUMULATIVE_SUBSTITUTE_COUNT,CREATE_DATE,MODIFY_DATE,SERVICE_CHARGE,
+        transfer_service_charge,CUSTOMER_REG,DEPOSIT_ACCOUNT,RECHARGE,REPAYMENT,WITHDRAW,LENDER_PRODUCT_SERVICE_CHARGE,ACCUMULATIVE_LENDER_NUM,accumulated_Loan_Amount
+    </sql>
+    <!-- 增加撮合信息 -->
+    <insert id="insertRecord" parameterType="com.zdmoney.webservice.api.dto.sundry.OperationsResultStatisticsDto">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select seq_operations_statistics.nextval from dual
+        </selectKey>
+        insert into
+        OPERATIONS_RESULT_STATISTICS(id,ANALYSIS_TIME,CUMULATIVE_LOAN_AMOUNT,CUMULATIVE_LOAN_COUNT,CREDIT_BALANCE,CREDIT_BALANCE_COUNT,INTREST_BALANCE,
+        CUMULATIVE_BORROWERS_AMOUNT,CURRENT_BORROWERS_AMOUNT,TOP_TEN_BORROWERS_DEBT_AMOUNT,BIGGEST_LOAN_DEBT_AMOUNT,RELATED_CREDIT_BALANCE,
+        RELATED_CREDIT_BALANCE_COUNT,CUMULATIVE_LENDERS_AMOUNT,CURRENT_LENDERS_AMOUNT,PER_CAPITA_LEND_AMOUNT,BIGGEST_LOAN_BALANCE_AMOUNT,
+        TOP_TEN_BALANCE_AMOUNT,OVERDUE_AMOUNT,OVERDUE_DEALS_COUNT,OVERDUE_PROJECTS_PERCENT,OVERDUE_PERCENT,OVER_90DAYS_OVERDUE_AMOUNT,
+        OVER_90DAYS_OVERDUE_COUNT,CUMULATIVE_SUBSTITUTE_AMOUNT,CUMULATIVE_SUBSTITUTE_COUNT,CREATE_DATE,MODIFY_DATE,
+        SERVICE_CHARGE,transfer_service_charge,
+        CUSTOMER_REG,DEPOSIT_ACCOUNT,RECHARGE,REPAYMENT,WITHDRAW,LENDER_PRODUCT_SERVICE_CHARGE,ACCUMULATIVE_LENDER_NUM,accumulated_Loan_Amount)
+        values(#{id,jdbcType=DECIMAL},#{analysisTime,jdbcType=TIMESTAMP},#{cumulativeLoanAmount},#{cumulativeLoanCount},#{creditBalance},
+        #{creditBalanceCount},#{intrestBalance},#{cumulativeBorrowersAmount},#{currentBorrowersAmount},#{topTenBorrowersDebtAmount},#{biggestLoanDebtAmount},
+        #{relatedCreditBalance},#{relatedCreditBalanceCount},#{cumulativeLendersAmount},#{currentLendersAmount},#{perCapitaLendAmount},
+        #{biggestLoanBalanceAmount},#{topTenBalanceAmount},#{overdueAmount},#{overdueDealsCount},#{overdueProjectsPercent},#{overduePercent},
+        #{over90daysOverdueAmount},#{over90daysOverdueCount},#{cumulativeSubstituteAmount},#{cumulativeSubstituteCount},sysdate,sysdate,
+        #{serviceCharge},#{transferServiceCharge},#{customerReg},#{depositAccount},#{recharge},#{repayment},#{withdraw},#{lenderProductServiceCharge},
+        #{accumulativeLenderNum},#{accumulatedLoanAmount})
+    </insert>
+
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="all_columns"/>
+        from OPERATIONS_RESULT_STATISTICS
+        <where>
+            <if test="analysisTime != null and analysisTime != ''">
+                and to_char(ANALYSIS_TIME,'yyyy-MM') = #{analysisTime}
+            </if>
+            <if test="neId != null and neId != ''">
+                and id != #{neId}
+            </if>
+        </where>
+        order by ANALYSIS_TIME desc
+    </select>
+    <select id="selectMonthList" resultMap="monthVoResultMap" parameterType="java.util.Map">
+        select id,ANALYSIS_TIME
+        from OPERATIONS_RESULT_STATISTICS
+        order by ANALYSIS_TIME desc
+    </select>
+    <select id="selectSimpleMonthList" resultType="java.lang.String" parameterType="java.util.Map">
+        select to_char(ANALYSIS_TIME,'yyyy-MM') month
+        from OPERATIONS_RESULT_STATISTICS
+        order by ANALYSIS_TIME desc
+    </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="all_columns"/>
+        from OPERATIONS_RESULT_STATISTICS
+        where id = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <update id="updateRecord" parameterType="com.zdmoney.webservice.api.dto.sundry.OperationsResultStatisticsDto">
+        update OPERATIONS_RESULT_STATISTICS
+        <set>
+            <if test="analysisTime != null">
+                ANALYSIS_TIME = #{analysisTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cumulativeLoanAmount != null">
+                CUMULATIVE_LOAN_AMOUNT = #{cumulativeLoanAmount},
+            </if>
+            <if test="cumulativeLoanCount != null">
+                CUMULATIVE_LOAN_COUNT = #{cumulativeLoanCount},
+            </if>
+            <if test="creditBalance != null">
+                CREDIT_BALANCE = #{creditBalance},
+            </if>
+            <if test="creditBalanceCount != null">
+                CREDIT_BALANCE_COUNT = #{creditBalanceCount},
+            </if>
+            <if test="intrestBalance != null">
+                INTREST_BALANCE = #{intrestBalance},
+            </if>
+            <if test="cumulativeBorrowersAmount != null">
+                CUMULATIVE_BORROWERS_AMOUNT = #{cumulativeBorrowersAmount},
+            </if>
+            <if test="currentBorrowersAmount != null">
+                CURRENT_BORROWERS_AMOUNT = #{currentBorrowersAmount},
+            </if>
+            <if test="topTenBorrowersDebtAmount != null">
+                TOP_TEN_BORROWERS_DEBT_AMOUNT = #{topTenBorrowersDebtAmount},
+            </if>
+            <if test="biggestLoanDebtAmount != null">
+                BIGGEST_LOAN_DEBT_AMOUNT = #{biggestLoanDebtAmount},
+            </if>
+            <if test="relatedCreditBalance != null">
+                RELATED_CREDIT_BALANCE = #{relatedCreditBalance},
+            </if>
+            <if test="relatedCreditBalanceCount != null">
+                RELATED_CREDIT_BALANCE_COUNT = #{relatedCreditBalanceCount},
+            </if>
+            <if test="cumulativeLendersAmount != null">
+                CUMULATIVE_LENDERS_AMOUNT = #{cumulativeLendersAmount},
+            </if>
+            <if test="currentLendersAmount != null">
+                CURRENT_LENDERS_AMOUNT = #{currentLendersAmount},
+            </if>
+            <if test="perCapitaLendAmount != null">
+                PER_CAPITA_LEND_AMOUNT = #{perCapitaLendAmount},
+            </if>
+            <if test="biggestLoanBalanceAmount != null">
+                BIGGEST_LOAN_BALANCE_AMOUNT = #{biggestLoanBalanceAmount},
+            </if>
+            <if test="topTenBalanceAmount != null">
+                TOP_TEN_BALANCE_AMOUNT = #{topTenBalanceAmount},
+            </if>
+            <if test="overdueAmount != null">
+                OVERDUE_AMOUNT = #{overdueAmount},
+            </if>
+            <if test="overdueDealsCount != null">
+                OVERDUE_DEALS_COUNT = #{overdueDealsCount},
+            </if>
+            <if test="overdueProjectsPercent != null">
+                OVERDUE_PROJECTS_PERCENT = #{overdueProjectsPercent},
+            </if>
+            <if test="overduePercent != null">
+                OVERDUE_PERCENT = #{overduePercent},
+            </if>
+            <if test="over90daysOverdueAmount != null">
+                OVER_90DAYS_OVERDUE_AMOUNT = #{over90daysOverdueAmount},
+            </if>
+            <if test="over90daysOverdueCount != null">
+                OVER_90DAYS_OVERDUE_COUNT = #{over90daysOverdueCount},
+            </if>
+            <if test="cumulativeSubstituteAmount != null">
+                CUMULATIVE_SUBSTITUTE_AMOUNT = #{cumulativeSubstituteAmount},
+            </if>
+            <if test="cumulativeSubstituteCount != null">
+                CUMULATIVE_SUBSTITUTE_COUNT = #{cumulativeSubstituteCount},
+            </if>
+            <if test="serviceCharge != null">
+                SERVICE_CHARGE = #{serviceCharge},
+            </if>
+            <if test="transferServiceCharge != null">
+                transfer_service_charge = #{transferServiceCharge},
+            </if>
+            <if test="customerReg != null">
+                CUSTOMER_REG = #{customerReg},
+            </if>
+            <if test="depositAccount!= null">
+                DEPOSIT_ACCOUNT = #{depositAccount},
+            </if>
+            <if test="recharge != null">
+                RECHARGE = #{recharge},
+            </if>
+            <if test="repayment != null">
+                REPAYMENT = #{repayment},
+            </if>
+            <if test="withdraw != null">
+                WITHDRAW = #{withdraw},
+            </if>
+            <if test="lenderProductServiceCharge != null">
+                LENDER_PRODUCT_SERVICE_CHARGE = #{lenderProductServiceCharge},
+            </if>
+            <if test="accumulativeLenderNum != null">
+                ACCUMULATIVE_LENDER_NUM = #{accumulativeLenderNum},
+            </if>
+            <if test="accumulatedLoanAmount != null">
+                accumulated_Loan_Amount = #{accumulatedLoanAmount},
+            </if>
+            MODIFY_DATE = sysdate
+        </set>
+        where id = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateAllColumns" parameterType="com.zdmoney.webservice.api.dto.sundry.OperationsResultStatisticsDto">
+        update OPERATIONS_RESULT_STATISTICS
+        set
+            ANALYSIS_TIME = #{analysisTime,jdbcType=TIMESTAMP},
+            CUMULATIVE_LOAN_AMOUNT = #{cumulativeLoanAmount},
+            CUMULATIVE_LOAN_COUNT = #{cumulativeLoanCount},
+            CREDIT_BALANCE = #{creditBalance},
+            CREDIT_BALANCE_COUNT = #{creditBalanceCount},
+            INTREST_BALANCE = #{intrestBalance},
+            CUMULATIVE_BORROWERS_AMOUNT = #{cumulativeBorrowersAmount},
+            CURRENT_BORROWERS_AMOUNT = #{currentBorrowersAmount},
+            TOP_TEN_BORROWERS_DEBT_AMOUNT = #{topTenBorrowersDebtAmount},
+            BIGGEST_LOAN_DEBT_AMOUNT = #{biggestLoanDebtAmount},
+            RELATED_CREDIT_BALANCE = #{relatedCreditBalance},
+            RELATED_CREDIT_BALANCE_COUNT = #{relatedCreditBalanceCount},
+            CUMULATIVE_LENDERS_AMOUNT = #{cumulativeLendersAmount},
+            CURRENT_LENDERS_AMOUNT = #{currentLendersAmount},
+            PER_CAPITA_LEND_AMOUNT = #{perCapitaLendAmount},
+            BIGGEST_LOAN_BALANCE_AMOUNT = #{biggestLoanBalanceAmount},
+            TOP_TEN_BALANCE_AMOUNT = #{topTenBalanceAmount},
+            OVERDUE_AMOUNT = #{overdueAmount},
+            OVERDUE_DEALS_COUNT = #{overdueDealsCount},
+            OVERDUE_PROJECTS_PERCENT = #{overdueProjectsPercent},
+            OVERDUE_PERCENT = #{overduePercent},
+            OVER_90DAYS_OVERDUE_AMOUNT = #{over90daysOverdueAmount},
+            OVER_90DAYS_OVERDUE_COUNT = #{over90daysOverdueCount},
+            CUMULATIVE_SUBSTITUTE_AMOUNT = #{cumulativeSubstituteAmount},
+            CUMULATIVE_SUBSTITUTE_COUNT = #{cumulativeSubstituteCount},
+            SERVICE_CHARGE = #{serviceCharge},
+            TRANSFER_SERVICE_CHARGE = #{transferServiceCharge},
+            CUSTOMER_REG = #{customerReg},
+            DEPOSIT_ACCOUNT = #{depositAccount},
+            RECHARGE = #{recharge},
+            REPAYMENT = #{repayment},
+            WITHDRAW = #{withdraw},
+            LENDER_PRODUCT_SERVICE_CHARGE = #{lenderProductServiceCharge},
+            ACCUMULATIVE_LENDER_NUM = #{accumulativeLenderNum},
+            accumulated_Loan_Amount = #{accumulatedLoanAmount},
+            MODIFY_DATE = sysdate
+        where id = #{id,jdbcType=DECIMAL}
+    </update>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.product.BusiProductTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.product.BusiProductTemplate">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="INTEREST_RULE" jdbcType="VARCHAR" property="interestRule" />
+    <result column="INVEST_LOWER" jdbcType="DECIMAL" property="investLower" />
+    <result column="INCREMENT_AMOUNT" jdbcType="DECIMAL" property="incrementAmount" />
+    <result column="CONTRACT_TYPE" jdbcType="VARCHAR" property="contractType" />
+    <result column="PRODUCT_TYPE" jdbcType="DECIMAL" property="productType" />
+    <result column="PRODUCT_TYPE_NAME" jdbcType="VARCHAR" property="productTypeName" />
+    <result column="INVITATION_CODE_FLAG" jdbcType="VARCHAR" property="invitationCodeFlag" />
+    <result column="IS_TOGETHER" jdbcType="VARCHAR" property="isTogether" />
+    <result column="PRODUCT_DESC" jdbcType="VARCHAR" property="productDesc" />
+    <result column="PRODUCT_FEATURE" jdbcType="VARCHAR" property="productFeature" />
+    <result column="COOPERATIVE_DESC" jdbcType="VARCHAR" property="cooperativeDesc" />
+    <result column="FUND_ARRIVAL_DESC" jdbcType="VARCHAR" property="fundArrivalDesc" />
+    <result column="RISK_MEASURES" jdbcType="VARCHAR" property="riskMeasures" />
+    <result column="REPAY_SOURCE" jdbcType="VARCHAR" property="repaySource" />
+    <result column="SCURITY_MODE" jdbcType="VARCHAR" property="scurityMode" />
+    <result column="MARKETING" jdbcType="VARCHAR" property="marketing" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="MODIFY_DATE" jdbcType="DATE" property="modifyDate" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="ORG_INVITE_CODE" jdbcType="VARCHAR" property="orgInviteCode" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="RAISE_DAY" jdbcType="DECIMAL" property="raiseDay" />
+    <result column="MEMBER_LEVEL" jdbcType="DECIMAL" property="memberLevel" />
+    <result column="FUND_TYPE" jdbcType="VARCHAR" property="fundType" />
+    <result column="CLOSE_DAY" jdbcType="DECIMAL" property="closeDay" />
+    <result column="INIT_YEAR_RATE" jdbcType="DECIMAL" property="initYearRate" />
+    <result column="REPAY_TYPE" jdbcType="VARCHAR" property="repayType" />
+    <result column="ADD_INTEREST" jdbcType="DECIMAL" property="addInterest" />
+    <result column="INVEST_UPPER" jdbcType="DECIMAL" property="investUpper" />
+    <result column="USER_TYPE" jdbcType="DECIMAL" property="userType" />
+    <result column="RULE_ID" jdbcType="DECIMAL" property="ruleId" />
+    <result column="LIMIT_TYPE" jdbcType="DECIMAL" property="limitType" />
+    <result column="PRODUCT_UEDITOR" jdbcType="CLOB" property="productUeditor" />
+    <result column="REPAYMENT_GUARANTEE" jdbcType="CLOB" property="repaymentGuarantee" />
+  </resultMap>
+
+  <!--根据标的编号查询子产品信息-->
+  <select id="queryWacaiProductType" resultType="java.lang.Long">
+    select  id from busi_product_type t  where t.name = '智投宝W'  and rownum= 1
+  </select>
+
+
+
+</mapper>

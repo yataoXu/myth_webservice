@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysStaffInfoMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysStaffInfo">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="STAFF_NAME" property="staffName" jdbcType="VARCHAR"/>
+        <result column="STAFF_IDNUM" property="staffIdnum" jdbcType="VARCHAR" typeHandler='com.zdmoney.common.handler.SecurityFieldTypeHandler'/>
+        <result column="STAFF_ACCOUNT_BANK_NAME" property="staffAccountBankName" jdbcType="VARCHAR"/>
+        <result column="STAFF_ACCOUNT_BANK_BRANCH" property="staffAccountBankBranch" jdbcType="VARCHAR"/>
+        <result column="STAFF_ACCOUNT" property="staffAccount" jdbcType="VARCHAR" typeHandler='com.zdmoney.common.handler.SecurityFieldTypeHandler'/>
+        <result column="STAFF_ACCOUNT_NAME" property="staffAccountName" jdbcType="VARCHAR"/>
+        <result column="STAFF_CODE" property="staffCode" jdbcType="VARCHAR"/>
+        <result column="STAFF_ENTRY_TIME" property="staffEntryTime" jdbcType="TIMESTAMP"/>
+        <result column="STAFF_STATUS" property="staffStatus" jdbcType="DECIMAL"/>
+        <result column="STAFF_DISMMISS" property="staffDismmiss" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, STAFF_NAME, STAFF_IDNUM, STAFF_ACCOUNT_BANK_NAME, STAFF_ACCOUNT_BANK_BRANCH,
+        STAFF_ACCOUNT, STAFF_ACCOUNT_NAME, STAFF_CODE, STAFF_ENTRY_TIME, STAFF_STATUS, STAFF_DISMMISS
+    </sql>
+
+    <select id="selectByCmIdNum" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_STAFF_INFO
+        where STAFF_IDNUM = #{staffIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    </select>
+
+</mapper>

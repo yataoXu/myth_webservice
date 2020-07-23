@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.InvestorEduMapper">
+
+    <resultMap type="com.zdmoney.models.InvestorEdu" id="investorEduMap">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="imgUrl" column="IMG_URL"/>
+        <result property="infoSource" column="INFO_SOURCE"/>
+        <result property="summary" column="SUMMARY"/>
+        <result property="status" column="STATUS"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="creator" column="CREATOR"/>
+        <result property="publishDate" column="PUBLISH_DATE"/>
+        <result property="publishMan" column="PUBLISH_MAN"/>
+        <result property="auditStatus" column="AUDIT_STATUS"/>
+        <result property="topStatus" column="TOP_STATUS"/>
+        <result property="remark" column="REMARK"/>
+        <result property="topDate" column="TOP_DATE"/>
+        <result property="pcImgUrl" column="PC_IMG_URL"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,TITLE,IMG_URL,INFO_SOURCE,SUMMARY,STATUS,CREATE_DATE,CREATOR,PUBLISH_DATE,PUBLISH_MAN,AUDIT_STATUS,TOP_STATUS,REMARK,TOP_DATE,PC_IMG_URL
+    </sql>
+
+    <select id="queryInvestorEdu" resultMap="investorEduMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM INVESTOR_EDU where STATUS = 1 and audit_status = 1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        order by top_STATUS desc, publish_date desc
+    </select>
+
+    <select id="queryInvestorEduCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM INVESTOR_EDU where STATUS = 1 and audit_status = 1
+        order by top_STATUS desc, publish_date desc
+    </select>
+
+</mapper>

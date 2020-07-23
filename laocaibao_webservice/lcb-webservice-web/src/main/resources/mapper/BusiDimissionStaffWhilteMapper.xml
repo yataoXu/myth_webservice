@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.staffWhilte.BusiDimissionStaffWhilteMapper">
+
+    <resultMap type="com.zdmoney.models.BusiDimissionStaffWhilte" id="busiDimissionStaffWhilteMap">
+        <result property="id" column="ID"/>
+        <result property="cmNumber" column="CM_NUMBER"/>
+        <result property="expiryDays" column="EXPIRY_DAYS"/>
+        <result property="expiryDate" column="EXPIRY_DATE"/>
+        <result property="quitTime" column="QUIT_TIME"/>
+        <result property="insertDate" column="INSERT_DATE"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CM_NUMBER,EXPIRY_DAYS,EXPIRY_DATE,INSERT_DATE,QUIT_TIME    </sql>
+
+    <select id="queryBusiDimissionStaffWhilte" resultMap="busiDimissionStaffWhilteMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_DIMISSION_STAFF_WHILTE
+    </select>
+
+    <insert id="saveBusiDimissionStaffWhilte" parameterType="com.zdmoney.models.BusiDimissionStaffWhilte">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_STAFF_WHILTE.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_DIMISSION_STAFF_WHILTE
+          (ID,CM_NUMBER,EXPIRY_DAYS,EXPIRY_DATE,INSERT_DATE,QUIT_TIME)
+        VALUES
+          (#{id},#{cmNumber},#{expiryDays},#{expiryDate},#{insertDate},#{quitTime})
+    </insert>
+
+    <update id="updateBusiDimissionStaffWhilte" parameterType="com.zdmoney.models.BusiDimissionStaffWhilte">
+        UPDATE BUSI_DIMISSION_STAFF_WHILTE
+        <set>
+            <if test="cmNumber != null">
+                CM_NUMBER = #{cmNumber},
+            </if>
+            <if test="expiryDays != null">
+                EXPIRY_DAYS = #{expiryDays},
+            </if>
+            <if test="expiryDate != null">
+                EXPIRY_DATE = #{expiryDate},
+            </if>
+            <if test="quitTime != null">
+                QUIT_TIME = #{quitTime},
+            </if>
+            <if test="insertDate != null">
+                INSERT_DATE = #{insertDate}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiDimissionStaffWhilteById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_DIMISSION_STAFF_WHILTE WHERE ID = #{id}
+    </delete>
+
+    <select id="getStaffByCmNumber" resultMap="busiDimissionStaffWhilteMap" parameterType="java.lang.String">
+        Select a.* FROM BUSI_DIMISSION_STAFF_WHILTE a,(SELECT CM_NUMBER,Max(INSERT_DATE) as MaxDateTime FROM BUSI_DIMISSION_STAFF_WHILTE group by CM_NUMBER) b
+          where a.CM_NUMBER=b.CM_NUMBER
+          and a.INSERT_DATE=b.MaxDateTime
+          And a.CM_NUMBER=#{cmNumber}
+    </select>
+
+</mapper>

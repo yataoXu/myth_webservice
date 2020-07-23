@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.InitVerAddrMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.InitVerAddr" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <id column="URL_ADDR" property="urlAddr" jdbcType="VARCHAR" />
+    <id column="CLIENT_VER" property="clientVer" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 查询版本、url地址 -->
+  <select id="selectByClientVer" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select ID,URL_ADDR,CLIENT_VER  from init_ver_addr  where 1=1
+    	<if test="clientVer!=null and clientVer!=''">  
+                AND CLIENT_VER = #{clientVer,jdbcType=VARCHAR}
+        </if>
+  </select>
+  
+  <!-- 新增记录 -->
+  <insert id="insertVerAddr"  parameterType="com.zdmoney.models.InitVerAddr" >
+      	<selectKey resultType="long" keyProperty="id" order="BEFORE">
+    	 	select seq_init_ver_addr.nextval from dual
+  		</selectKey>
+        insert into init_ver_addr(ID,CLIENT_VER,URL_ADDR) values(#{id},#{clientVer},#{urlAddr})
+  </insert>
+  
+  <!-- 删除版本号对应的url地址 -->
+  <delete id="delVerAddr" parameterType="java.lang.String">
+    	delete from init_ver_addr where CLIENT_VER=#{clientVer}
+  </delete>
+  
+  <!-- 更新版本号对应的url地址 -->
+  <update id="editVerAddr" parameterType="com.zdmoney.models.InitVerAddr" >
+    	update init_ver_addr set URL_ADDR=#{urlAddr}  where CLIENT_VER=#{clientVer}
+  </update>
+  
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiMallMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiMall" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MERCHANDISE_NAME" property="merchandiseName" jdbcType="VARCHAR" />
+    <result column="MERCHANDISE_TYPE" property="merchandiseType" jdbcType="VARCHAR" />
+    <result column="COUPON_AMT" property="couponAmt" jdbcType="DECIMAL" />
+    <result column="INTEREST_RATE" property="interestRate" jdbcType="DECIMAL" />
+    <result column="INTEREST_DAY" property="interestDay" jdbcType="DECIMAL" />
+    <result column="VALID_DAY" property="validDay" jdbcType="DECIMAL" />
+    <result column="INVEST_PERIOD" property="investPeriod" jdbcType="DECIMAL" />
+    <result column="INVEST_AMT" property="investAmt" jdbcType="DECIMAL" />
+    <result column="BUY_AMT" property="buyAmt" jdbcType="DECIMAL" />
+    <result column="AMT_TYPE" property="amtType" jdbcType="VARCHAR" />
+    <result column="MERCHANDISE_NUM" property="merchandiseNum" jdbcType="DECIMAL" />
+    <result column="BUY_NUM" property="buyNum" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SHOW_STATUS" property="showStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERIOD_UPPER_LIMIT" property="periodUpperLimit" jdbcType="DECIMAL" />
+    <result column="AMT_UPPER_LIMIT" property="amtUpperLimit" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="getProductList" resultMap="BaseResultMap">
+        select *
+          from (select *
+                  from BUSI_MALL t
+                 where t.merchandise_type = 1
+                   and t.status = 1
+                   and t.show_status = 1
+                   and t.amt_type = 1
+                 order by t.coupon_amt)
+        union all
+        select *
+          from (select *
+                  from BUSI_MALL t
+                 where t.merchandise_type = 2
+                   and t.status = 1
+                   and t.show_status = 1
+                   and t.amt_type = 1
+                 order by t.interest_rate)
+        union all
+        select *
+          from (select *
+                  from BUSI_MALL t
+                 where t.merchandise_type = 3
+                   and t.status = 1
+                   and t.show_status = 1
+                   and t.amt_type = 1
+                 order by t.buy_amt,t.create_date desc)
+  </select>
+
+  <update id="updateBusiMall">
+      update BUSI_MALL
+      set
+        merchandise_name = #{merchandiseName,jdbcType=VARCHAR},
+        merchandise_type = #{merchandiseType,jdbcType=VARCHAR},
+        coupon_amt       = #{couponAmt,jdbcType=DECIMAL},
+        interest_rate    = #{interestRate,jdbcType=DECIMAL},
+        interest_day     = #{interestDay,jdbcType=DECIMAL},
+        valid_day        = #{validDay,jdbcType=DECIMAL},
+        invest_period    = #{investPeriod,jdbcType=DECIMAL},
+        invest_amt       = #{investAmt,jdbcType=DECIMAL},
+        buy_amt          = #{buyAmt,jdbcType=DECIMAL},
+        amt_type         = #{amtType,jdbcType=VARCHAR},
+        merchandise_num  = #{merchandiseNum,jdbcType=DECIMAL},
+        buy_num          = #{buyNum,jdbcType=DECIMAL},
+        status           = #{status,jdbcType=VARCHAR},
+        show_status      = #{showStatus,jdbcType=VARCHAR},
+        create_date      = #{createDate,jdbcType=DATE},
+        remark           = #{remark,jdbcType=VARCHAR},
+        period_upper_limit = #{periodUpperLimit,jdbcType=DECIMAL},
+        amt_upper_limit    = #{amtUpperLimit,jdbcType=DECIMAL}
+      where id = #{id}
+  </update>
+
+    <select id="getProductListByType" parameterType="java.util.Map" resultMap="BaseResultMap">
+       select * from BUSI_MALL t where t.merchandise_type = #{merchandiseType}
+       and t.status = 1
+       and t.show_status = 1
+       and t.amt_type = 1
+       <![CDATA[
+        and t.invest_period <= #{investPeriod}
+        and t.invest_amt <= #{investAmt}
+       ]]>
+       and (t.merchandise_num-t.buy_num)>0
+       order by t.buy_amt,t.create_date asc
+    </select>
+</mapper>

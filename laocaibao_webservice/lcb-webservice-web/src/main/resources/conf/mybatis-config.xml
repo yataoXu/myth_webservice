@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="multipleResultSetsEnabled" value="true"/>
+		<setting name="useColumnLabel" value="true"/>
+		<setting name="useGeneratedKeys" value="false"/>
+        <setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="defaultExecutorType" value="SIMPLE"/>
+		<setting name="defaultStatementTimeout" value="25000"/>
+		<setting name="logPrefix" value="mybatis."/>
+	</settings>
+
+	<typeHandlers>
+		<!-- 自定义加密TypeHandler -->
+		<typeHandler handler="com.zdmoney.common.handler.SecurityFieldTypeHandler" javaType="com.zdmoney.common.util.DateUtil" ></typeHandler>
+		<typeHandler handler="com.zdmoney.common.handler.ThreeDesHandler" javaType="com.zdmoney.common.handler.SecurityString"></typeHandler>
+	</typeHandlers>
+
+	<!-- 注册分页拦截器 -->
+	<plugins>
+       <plugin interceptor="com.zdmoney.common.filter.PageInterceptor">
+           <property name="databaseType" value="Oracle"/>
+       </plugin>
+    </plugins>
+    <mappers>
+    </mappers>
+
+</configuration>

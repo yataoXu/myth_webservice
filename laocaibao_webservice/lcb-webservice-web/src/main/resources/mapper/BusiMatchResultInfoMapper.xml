@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiMatchResultInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiMatchResultInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="MATCT_AMOUNT" property="matctAmount" jdbcType="DECIMAL" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+    <result column="MATCH_SUC_SIZE" property="matchSucSize" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <resultMap id="BusiMatchUnionResultMap" type="com.zdmoney.models.BusiMatchResultInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="MATCT_AMOUNT" property="matctAmount" jdbcType="DECIMAL" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SERIAL_NO" property="serialNo" jdbcType="VARCHAR" />
+    <result column="MATCH_SUC_SIZE" property="matchSucSize" jdbcType="DECIMAL" />
+    <collection property="busiMatchSucInfos" ofType="com.zdmoney.models.BusiMatchSucInfo" column="ID" select="com.zdmoney.mapper.BusiMatchSucInfoMapper.selectByMasterId"></collection>
+    <collection property="busiAbnorMatchSucInfos" ofType="com.zdmoney.models.BusiAbnorMatchSucInfo" column="ID" select="com.zdmoney.mapper.BusiAbnorMatchSucInfoMapper.selectByMasterId"></collection>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, PRODUCT_ID, MATCT_AMOUNT, BATCH_NO, STATUS, SERIAL_NO,MATCH_SUC_SIZE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_RESULT_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+
+  <select id="selectBusiMatchUnionByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_RESULT_INFO
+    <where>
+      <if test="id!=null">
+        ID = #{id,jdbcType=DECIMAL}
+      </if>
+      <if test="productId!=null">
+        PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+      </if>
+      <if test="batchNo!=null">
+        and BATCH_NO=#{batchNo,jdbcType=VARCHAR}
+      </if>
+      <if test="status!=null">
+        and STATUS=#{status,jdbcType=VARCHAR}
+      </if>
+      <if test="serialNo!=null">
+        and SERIAL_NO=#{serialNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from BUSI_MATCH_RESULT_INFO
+    <where>
+      <if test="productId!=null">
+        PRODUCT_ID=#{productId,jdbcType=DECIMAL}
+      </if>
+      <if test="batchNo!=null">
+        and BATCH_NO=#{batchNo,jdbcType=VARCHAR}
+      </if>
+      <if test="status!=null">
+        and STATUS=#{status,jdbcType=VARCHAR}
+      </if>
+      <if test="serialNo!=null">
+        and SERIAL_NO=#{serialNo,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BUSI_MATCH_RESULT_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.zdmoney.models.BusiMatchResultInfo" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select  SEQ_BUSI_MATCH_RESULT_INFO.nextval from dual
+    </selectKey>
+    insert into BUSI_MATCH_RESULT_INFO (ID, PRODUCT_ID, MATCT_AMOUNT, 
+      BATCH_NO, STATUS, SERIAL_NO, MATCH_SUC_SIZE)
+    values (#{id,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{matctAmount,jdbcType=DECIMAL}, 
+      #{batchNo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, #{matchSucSize,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.BusiMatchResultInfo" >
+    update BUSI_MATCH_RESULT_INFO
+    <set >
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="matctAmount != null" >
+        MATCT_AMOUNT = #{matctAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.BusiMatchResultInfo" >
+    update BUSI_MATCH_RESULT_INFO
+    set PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+      MATCT_AMOUNT = #{matctAmount,jdbcType=DECIMAL},
+      BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+
+  <update id="updateStatusByInitStatus" parameterType="java.util.Map" >
+    update BUSI_MATCH_RESULT_INFO
+    set   STATUS = #{status,jdbcType=VARCHAR},MATCH_TIME=SYSDATE
+    where STATUS = #{initStatus,jdbcType=VARCHAR}
+    and id in
+    <foreach collection="matchResultInfosIdList" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+
+  </update>
+
+</mapper>

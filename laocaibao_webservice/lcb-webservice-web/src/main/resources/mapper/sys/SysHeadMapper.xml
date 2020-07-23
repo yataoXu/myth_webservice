@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.sys.SysHeadMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysHead">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="START_DATE" jdbcType="DATE" property="startDate" />
+    <result column="END_DATE" jdbcType="DATE" property="endDate" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="AUDIT_DATE" jdbcType="DATE" property="auditDate" />
+    <result column="AUDITOR" jdbcType="VARCHAR" property="auditor" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+    <result column="NEWS_TYPE" jdbcType="VARCHAR" property="newsType" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.gameCenter.DailyTaskRecordMapper" >
+
+  <select id="countSameMonthSigns" resultType="java.lang.Integer" parameterType="java.util.Map">
+    <![CDATA[
+      SELECT
+        count(1)
+      FROM
+        T_GC_DAILY_TASK_RECORD t
+      where
+        t.cm_number = #{cmNumber}
+        AND
+          to_char(t.create_time, 'yyyy-MM-dd HH24:mi:ss')
+        BETWEEN
+           to_char(#{startDate}, 'yyyy-MM-dd HH24:mi:ss')
+        AND
+           to_char(#{endDate}, 'yyyy-MM-dd HH24:mi:ss')
+        AND t.activity_type=2
+      ]]>
+  </select>
+
+  <insert id="saveDailyTask" parameterType="com.zdmoney.models.gameCenter.DailyTaskRecord" >
+    <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+      SELECT SEQ_T_GC_DAILY_TASK_RECORD.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into T_GC_DAILY_TASK_RECORD (ID, CM_NUMBER, ACTIVITY_TYPE,CREATE_TIME)
+    values (#{id}, #{cmNumber}, #{activityType},#{createTime})
+  </insert>
+</mapper>

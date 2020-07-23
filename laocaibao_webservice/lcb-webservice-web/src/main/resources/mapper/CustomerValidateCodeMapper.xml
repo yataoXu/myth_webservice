@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerValidateCodeMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerValidateCode">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="CV_MOBILE" property="cvMobile" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CV_CODE" property="cvCode" jdbcType="VARCHAR"/>
+        <result column="CV_TYPE" property="cvType" jdbcType="DECIMAL"/>
+        <result column="CV_CREATE_TIME" property="cvCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="TRY_TIME" property="tryTime" jdbcType="DECIMAL"/>
+        <result column="CHANNEL_CODE" property="channelCode" jdbcType="DECIMAL"/>
+    </resultMap>
+
+</mapper>

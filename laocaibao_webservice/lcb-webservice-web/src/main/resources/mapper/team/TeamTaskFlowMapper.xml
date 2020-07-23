@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamTaskFlowMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamTaskFlow" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TASK_ID" property="taskId" jdbcType="DECIMAL" />
+    <result column="TASK_COMMON_FLOW_ID" property="taskCommonFlowId" jdbcType="DECIMAL" />
+    <result column="CM_NUMBER" property="cmNumber" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="RECEIVE_STATUS" property="receiveStatus" jdbcType="VARCHAR" />
+    <result column="RECEVIE_TIME" property="recevieTime" jdbcType="TIMESTAMP" />
+    <result column="RECEVIE_SERI" property="recevieSeri" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

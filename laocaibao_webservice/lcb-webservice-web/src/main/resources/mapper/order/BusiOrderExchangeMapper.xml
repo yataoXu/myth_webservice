@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.order.BusiOrderExchangeMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiOrderExchange" >
+        <!--
+          WARNING - @mbggenerated
+        -->
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL" />
+        <result column="AMT_TYPE" property="amtType" jdbcType="VARCHAR" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" />
+        <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="SUCCESS_TIME" property="successTime" jdbcType="TIMESTAMP" />
+        <result column="PAY_SER_NUM" property="paySerNum" jdbcType="VARCHAR" />
+        <result column="EXCHANGE_SER_NUM" property="exchangeSerNum" jdbcType="VARCHAR" />
+        <result column="PRODUCT_NUM" property="productNum" jdbcType="VARCHAR" />
+        <result column="RETURN_SER_NUM" property="returnSerNum" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="RecordResultMap" type="com.zdmoney.web.dto.ExchangeRecordDTO" >
+        <result column="proName" property="proName" jdbcType="VARCHAR" />
+        <result column="proType" property="proType" jdbcType="VARCHAR" />
+        <result column="buyAmt" property="buyAmt" jdbcType="DECIMAL" />
+        <result column="dateStr" property="dateStr" jdbcType="VARCHAR" />
+        <result column="interestDay" property="interestDay" jdbcType="VARCHAR" />
+        <result column="coupon_amt" property="couponAmt" jdbcType="VARCHAR" />
+        <result column="interest_rate" property="interestRate" jdbcType="DECIMAL" />
+    </resultMap>
+    <insert id="insertBusiOrderExchange">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select seq_busi_order_exchange.nextval from dual
+        </selectKey>
+        insert into BUSI_ORDER_EXCHANGE
+        (id,
+        order_num,
+        customer_id,
+        order_amt,
+        amt_type,
+        product_id,
+        product_type,
+        order_time,
+        status,
+        success_time,
+        pay_ser_num,
+        exchange_ser_num,
+        product_num,
+        return_ser_num)
+        values
+        ( #{id,jdbcType=DECIMAL},
+        #{orderNum,jdbcType=VARCHAR},
+        #{customerId,jdbcType=DECIMAL},
+        #{orderAmt,jdbcType=DECIMAL},
+        #{amtType,jdbcType=VARCHAR},
+        #{productId,jdbcType=DECIMAL},
+        #{productType,jdbcType=VARCHAR},
+        #{orderTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=VARCHAR},
+        #{successTime,jdbcType=TIMESTAMP},
+        #{paySerNum,jdbcType=VARCHAR},
+        #{exchangeSerNum,jdbcType=VARCHAR},
+        #{productNum,jdbcType=VARCHAR},
+        #{returnSerNum,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateBusiOrderExchange">
+    update BUSI_ORDER_EXCHANGE
+     set order_num        = #{orderNum,jdbcType=VARCHAR},
+         customer_id      = #{customerId,jdbcType=DECIMAL},
+         order_amt        = #{orderAmt,jdbcType=DECIMAL},
+         amt_type         = #{amtType,jdbcType=VARCHAR},
+         product_id       = #{productId,jdbcType=DECIMAL},
+         product_type     = #{productType,jdbcType=VARCHAR},
+         order_time       = #{orderTime,jdbcType=TIMESTAMP},
+         status           = #{status,jdbcType=VARCHAR},
+         success_time     = #{successTime,jdbcType=TIMESTAMP},
+         pay_ser_num      = #{paySerNum,jdbcType=VARCHAR},
+         exchange_ser_num = #{exchangeSerNum,jdbcType=VARCHAR},
+         product_num      = #{productNum,jdbcType=VARCHAR},
+         return_ser_num   = #{returnSerNum,jdbcType=VARCHAR}
+   where id = #{id}
+  </update>
+
+    <select id="getExchangeRecords" resultMap="RecordResultMap">
+         select p.merchandise_name as proName,
+               p.merchandise_type as proType,
+               p.buy_amt as buyAmt,
+               to_char(o.success_time, 'yyyy/mm/dd hh24:mi') as dateStr,
+               p.interest_day as interestDay, p.coupon_amt,p.interest_rate
+          from BUSI_ORDER_EXCHANGE o
+          left join busi_mall p
+            on o.product_id = p.id
+         where o.customer_id = #{customerId}
+           and o.status = 4
+         order by o.success_time desc
+    </select>
+
+    <select id="getBusiOrderExchangeInfo" resultMap="BaseResultMap">
+        select ID,ORDER_NUM,CUSTOMER_ID,ORDER_AMT,AMT_TYPE,PRODUCT_ID,
+            PRODUCT_TYPE,ORDER_TIME,STATUS,SUCCESS_TIME,PAY_SER_NUM,EXCHANGE_SER_NUM,PRODUCT_NUM,RETURN_SER_NUM
+            from BUSI_ORDER_EXCHANGE where ORDER_NUM =  #{orderNum,jdbcType=VARCHAR} and STATUS = 4
+    </select>
+</mapper>

@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.product.BusiProductSubMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.product.BusiProductSub" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL" />
+        <result column="PRODUCT_DESC" property="productDesc" jdbcType="VARCHAR" />
+        <result column="PRODUCT_FEATURE" property="productFeature" jdbcType="VARCHAR" />
+        <result column="INVEST_LOWER" property="investLower" jdbcType="DECIMAL" />
+        <result column="INVEST_UPPER" property="investUpper" jdbcType="DECIMAL" />
+        <result column="INTEREST_START_DATE" property="interestStartDate" jdbcType="TIMESTAMP" />
+        <result column="INTEREST_END_DATE" property="interestEndDate" jdbcType="TIMESTAMP" />
+        <result column="SALE_START_DATE" property="saleStartDate" jdbcType="TIMESTAMP" />
+        <result column="SALE_END_DATE" property="saleEndDate" jdbcType="TIMESTAMP" />
+        <result column="REPAY_TYPE" property="repayType" jdbcType="VARCHAR" />
+        <result column="FUND_ARRIVAL_DESC" property="fundArrivalDesc" jdbcType="VARCHAR" />
+        <result column="RISK_MEASURES" property="riskMeasures" jdbcType="VARCHAR" />
+        <result column="INCREMENT_AMOUNT" property="incrementAmount" jdbcType="DECIMAL" />
+        <result column="PRODUCT_PRINCIPAL" property="productPrincipal" jdbcType="DECIMAL" />
+        <result column="INTEREST_RULE" property="interestRule" jdbcType="VARCHAR" />
+        <result column="UP_LOW_FLAG" property="upLowFlag" jdbcType="VARCHAR" />
+        <result column="TOP_FLAG" property="topFlag" jdbcType="VARCHAR" />
+        <result column="HOT_SELL_FLAG" property="hotSellFlag" jdbcType="VARCHAR" />
+        <result column="AUDIT_FLAG" property="auditFlag" jdbcType="VARCHAR" />
+        <result column="INVITATION_CODE_FLAG" property="invitationCodeFlag" jdbcType="VARCHAR" />
+        <result column="TOTAL_INVEST_PERSON" property="totalInvestPerson" jdbcType="DECIMAL" />
+        <result column="TOTAL_INVEST_AMT" property="totalInvestAmt" jdbcType="DECIMAL"/>
+        <result column="new_hand" property="isNewHand" jdbcType="VARCHAR"/>
+        <result column="vm_total_invest_person" property="vmTotalInvestPersonNumber" jdbcType="DECIMAL"/>
+        <result column="vm_total_invest_amt" property="vmTotalInvestAmt" jdbcType="DECIMAL"/>
+        <result column="ADD_INTEREST" property="addInterest" jdbcType="DECIMAL"/>
+        <result column="INIT_YEAR_RATE" property="yearRateInit" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_UEDITOR" property="productUeditor" jdbcType="VARCHAR"/>
+        <result column="SHOW_START_DATE" property="showStartDate" jdbcType="TIMESTAMP"/>
+        <result column="SHOW_END_DATE" property="showEndDate" jdbcType="TIMESTAMP"/>
+        <result column="limit_type" property="limitType" jdbcType="DECIMAL"/>
+        <result column="CONTRACT_ID" property="contractId" jdbcType="DECIMAL"/>
+        <result column="CONTRACT_TYPE" property="contractType" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_MEMO" property="productMemo" jdbcType="VARCHAR"/>
+        <result column="MARKETING" property="marketing" jdbcType="VARCHAR"/>
+        <result column="PC_TOP" property="pcTop" jdbcType="VARCHAR"/>
+        <result column="PC_SORT" property="pcSort" jdbcType="DECIMAL"/>
+        <result column="isRecommend" property="isRecommend" jdbcType="VARCHAR"/>
+        <result column="FUND_TYPE" property="fundType" jdbcType="VARCHAR"/>
+        <result column="REPAY_SOURCE" property="repaySource" jdbcType="VARCHAR"/>
+        <result column="COOPERATIVE_DESC" property="cooperativeDesc" jdbcType="VARCHAR"/>
+        <result column="SCURITY_MODE" property="scurityMode" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_INTEREST" property="productInterest" jdbcType="DECIMAL"/>
+        <result column="TRANSFER_STATUS" property="transferStatus" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_DAY" property="transferDay" jdbcType="DECIMAL"/>
+        <result column="MIN_RATE" property="minRate" jdbcType="DECIMAL"/>
+        <result column="MAX_RATE" property="maxRate" jdbcType="DECIMAL"/>
+        <result column="TRANSFER_TIMES" property="transferTimes" jdbcType="DECIMAL"/>
+        <result column="IS_TRANSFER" property="isTransfer" jdbcType="VARCHAR"/>
+        <result column="SUBJECT_NO" property="subjectNo" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_UEDITOR" property="productUeditor" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR"/>
+        <result column="IS_AREA" property="isArea" jdbcType="VARCHAR"/>
+        <result column="RESERVAT_TIME" property="reservatTime" jdbcType="TIMESTAMP"/>
+        <result column="RULE_ID" property="ruleId" jdbcType="DECIMAL"/>
+        <result column="PERSON_LOAN" property="personLoan" jdbcType="VARCHAR"/>
+        <result column="sellOut" property="sellOut" jdbcType="VARCHAR"/>
+        <result column="SUBJECT_TYPE" property="subjectType" jdbcType="VARCHAR"/>
+        <result column="CLOSE_DAY" property="closeDay" jdbcType="DECIMAL"/>
+        <result column="PLAN_AMT" property="planAmt" jdbcType="DECIMAL"/>
+        <result column="MIN_MATCH_AMT" property="minMatchAmt" jdbcType="DECIMAL"/>
+        <result column="PLAN_STATUS" property="planStatus" jdbcType="DECIMAL"/>
+        <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+        <result column="IS_GUARANT" property="isGuarant" jdbcType="VARCHAR"/>
+        <result column="DEBT_NO" property="debtNo" jdbcType="VARCHAR" />
+        <result column="GOING_ON_SHELF" property="goingOnShelf" jdbcType="VARCHAR"/>
+        <result column="PLAN_ID" property="planId" jdbcType="DECIMAL"/>
+        <result column="TARGET_CONSUMER" property="targetConsumer" jdbcType="VARCHAR"/>
+        <!--v4.3-->
+        <result column="PURCHASE_CONDITION" property="purchaseCondition" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_RANK" property="productRank" jdbcType="DECIMAL"/>
+        <result column="ITEM_INFO" property="itemInfo" jdbcType="VARCHAR"/>
+        <result column="BORROW_USE" property="borrowUse" jdbcType="VARCHAR"/>
+        <result column="REPAYMENT_GUARANTEE" property="repaymentGuarantee" jdbcType="VARCHAR"/>
+
+        <!--v4.8-->
+        <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL"/>
+        <result column="ESTIMATE_PRICE" property="estimatePrice" jdbcType="DECIMAL"/>
+        <result column="ORIGIN_YEAR_RATE" property="originYearRate" jdbcType="DECIMAL"/>
+
+        <result column="MEMBER_LEVEL" property="memberLevel" jdbcType="DECIMAL"/>
+        <result column="CREDIT_SOURCE" property="creditSource" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap type="com.zdmoney.vo.BusiProductVO" id="BusiProductVOMap" extends="BaseResultMap">
+        <result column="remaindAmt" property="remaindAmt" jdbcType="DECIMAL"/>
+        <result column="investPeriod" property="investPeriod" jdbcType="DECIMAL"/>
+        <result column="sellOut" property="sellOut" jdbcType="VARCHAR"/>
+        <result column="remaindTime" property="remaindTime" jdbcType="DECIMAL"/>
+        <result column="nowProportion" property="nowProportion" jdbcType="DECIMAL"/>
+        <result column="remaindSaleStartTime" property="remaindSaleStartTime" jdbcType="DECIMAL"/>
+        <result column="contractTypeDict" property="contractTypeDict" jdbcType="VARCHAR"/>
+        <result column="contractDesc" property="contractDesc" jdbcType="VARCHAR"/>
+        <result column="isNewRule" property="isNewRule" jdbcType="VARCHAR"/>
+        <result column="isAppoint" property="isAppoint" jdbcType="VARCHAR"/>
+        <result column="leftReservatTime" property="leftReservatTime" jdbcType="DECIMAL"/>
+        <result column="internalContractId" property="internalContractId" jdbcType="DECIMAL"/>
+        <result column="productTipStatus" property="productTipStatus" jdbcType="DECIMAL"/>
+        <!--转让产品字段-->
+        <result column="surplusInvestPeriod" property="surplusInvestPeriod" jdbcType="DECIMAL"/>
+        <result column="transferPrice" property="transferPrice" jdbcType="DECIMAL"/>
+        <result column="transferDate" property="transferDate" jdbcType="TIMESTAMP"/>
+        <result column="transferEndDate" property="transferEndDate" jdbcType="TIMESTAMP"/>
+        <result column="initProductId" property="initProductId" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap type="com.zdmoney.vo.TencentProductVo" id="tencentProductMap" extends="BaseResultMap">
+        <result column="remaindAmt" property="remaindAmt" jdbcType="DECIMAL"/>
+        <result column="investPeriod" property="investPeriod" jdbcType="DECIMAL"/>
+        <result column="sellOut" property="sellOut" jdbcType="VARCHAR"/>
+        <result column="remaindTime" property="remaindTime" jdbcType="DECIMAL"/>
+        <result column="nowProportion" property="nowProportion" jdbcType="DECIMAL"/>
+        <result column="remaindSaleStartTime" property="remaindSaleStartTime" jdbcType="DECIMAL"/>
+        <result column="contractTypeDict" property="contractTypeDict" jdbcType="VARCHAR"/>
+        <result column="contractDesc" property="contractDesc" jdbcType="VARCHAR"/>
+        <result column="isBuy" property="isBuy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap type="com.zdmoney.vo.BusiProductRuleVo" id="productRuleMap">
+        <result column="limit_type" property="limitType" jdbcType="DECIMAL"/>
+        <result column="platform" property="platform" jdbcType="VARCHAR"/>
+        <result column="member_type" property="memberType" jdbcType="VARCHAR"/>
+        <result column="channel" property="channel" jdbcType="VARCHAR"/>
+        <result column="bpr.welfare" property="welfare" jdbcType="VARCHAR"/>
+        <result column="reservat_time" property="reservatTime" jdbcType="VARCHAR"/>
+        <result column="person_loan" property="personLoan" jdbcType="VARCHAR"/>
+        <result column="is_transfer" property="isTransfer" jdbcType="VARCHAR"/>
+        <result column="INTEREST_START_DATE" property="interestStartDate" jdbcType="TIMESTAMP" />
+        <result column="INTEREST_END_DATE" property="interestEndDate" jdbcType="TIMESTAMP" />
+        <result column="SUBJECT_TYPE" property="subjectType" jdbcType="VARCHAR" />
+        <result column="CLOSE_DAY" property="closeDay" jdbcType="DECIMAL"/>
+    </resultMap>
+    <resultMap type="com.zdmoney.vo.BusiBorrowerInfoVO" id="borrowerInfoMap">
+        <result column="ID_NO" property="idNo" jdbcType="DECIMAL" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="BORROWER_PHONE" property="borrowerPhone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="SUBJECT_NO" property="subjectNo" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        ID, PRODUCT_NAME, YEAR_RATE, PRODUCT_DESC, PRODUCT_FEATURE, INVEST_LOWER, INVEST_UPPER,
+        INTEREST_START_DATE, INTEREST_END_DATE, SALE_START_DATE, SALE_END_DATE, REPAY_TYPE,
+        FUND_ARRIVAL_DESC, RISK_MEASURES, INCREMENT_AMOUNT, PRODUCT_PRINCIPAL, INTEREST_RULE,
+        UP_LOW_FLAG, TOP_FLAG, HOT_SELL_FLAG, AUDIT_FLAG, INVITATION_CODE_FLAG,new_hand,
+        INIT_YEAR_RATE,ADD_INTEREST,PRODUCT_UEDITOR,TOTAL_INVEST_AMT,TOTAL_INVEST_PERSON,vm_total_invest_amt,limit_type,
+        CONTRACT_ID,CONTRACT_TYPE,PRODUCT_MEMO,SHOW_START_DATE,SHOW_END_DATE,PRODUCT_INTEREST,
+        TRANSFER_STATUS,TRANSFER_DAY,MIN_RATE,MAX_RATE,TRANSFER_TIMES,IS_TRANSFER,SUBJECT_NO,PRODUCT_TYPE,PERSON_LOAN,SUBJECT_TYPE
+        CLOSE_DAY,PLAN_AMT,MIN_MATCH_AMT,PLAN_STATUS,AUDIT_DATE,IS_GUARANT,TARGET_CONSUMER,CREDIT_SOURCE,PLAN_ID
+    </sql>
+
+    <update id="updateInvestAmt" parameterType="java.util.Map" >
+        update busi_product_sub t
+        set t.total_invest_person = nvl(t.total_invest_person,0)+1,
+        t.total_invest_amt = nvl(t.total_invest_amt,0) + #{amt}
+        where t.id = #{productId}
+        <if test="isOverSold != null">
+            <![CDATA[
+              and nvl(t.total_invest_amt,0) + #{amt} <= t.PRODUCT_PRINCIPAL + nvl(t.VM_TOTAL_INVEST_AMT,0)
+            ]]>
+        </if>
+    </update>
+
+    <update id="refundInvestAmt" parameterType="java.util.Map" >
+        update busi_product_sub t
+        set t.total_invest_person = t.total_invest_person-1,
+        t.total_invest_amt = t.total_invest_amt - #{amt}
+        where t.id = #{productId}
+    </update>
+
+    <update id="updateMainSub" parameterType="java.util.Map" >
+        update busi_product_sub t
+        <set >
+            <if test="planStatus != null" >
+                plan_status = #{planStatus},
+            </if>
+            <if test="productInterest != null" >
+                product_interest = #{productInterest},
+            </if>
+            <if test="upLowFlag != null" >
+                up_low_flag = #{upLowFlag},
+            </if>
+            <if test="productPrincipal != null" >
+                product_principal = #{productPrincipal},
+            </if>
+            <if test="interestStartDate != null" >
+                interest_start_date = #{interestStartDate},
+            </if>
+            <if test="interestEndDate != null" >
+                interest_end_date = #{interestEndDate},
+            </if>
+            <if test="isArea != null" >
+                is_area = #{isArea},
+            </if>
+            <if test="isRecommend != null" >
+                is_recommend = #{isRecommend},
+            </if>
+            <if test="sortFlag != null" >
+                SORT_FLAG = #{sortFlag},
+            </if>
+            <!--v4.3-->
+            <if test="productRank != null" >
+                PRODUCT_RANK = #{productRank},
+            </if>
+            <if test="liabilitiesRate != null" >
+                LIABILITIES_RATE = #{liabilitiesRate},
+            </if>
+            <if test="purchaseCondition != null" >
+                PURCHASE_CONDITION = #{purchaseCondition},
+            </if>
+            <if test="productMemo != null" >
+                PRODUCT_MEMO = #{productMemo,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where t.id = #{productId}
+        <if test="initStatus != null" >
+            and plan_status = #{initStatus}
+        </if>
+    </update>
+
+    <select id="selectProductsByAuditFlag" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from busi_product_sub
+        where AUDIT_FLAG = #{auditFlag}
+    </select>
+
+    <sql id="product_column_list">
+        <![CDATA[
+        bp.id,bp.product_name,bp.year_rate,bp.product_desc,bp.invest_lower,bp.invest_upper,bp.interest_start_date,bp.interest_end_date,INIT_YEAR_RATE as INIT_YEAR_RATE,ADD_INTEREST as ADD_INTEREST,
+        bp.sale_start_date,bp.sale_end_date,bp.repay_type,bp.risk_measures,bp.increment_amount,bp.product_principal,bp.interest_rule,bp.fund_arrival_desc,bp.product_feature,
+        bp.up_low_flag,bp.top_flag,bp.hot_sell_flag,bp.audit_flag,bp.invitation_code_flag,nvl(bp.total_invest_person,0)+vm_total_invest_person as total_invest_person,nvl(bp.total_invest_amt,0) as total_invest_amt,MARKETING as marketing,
+        bp.fund_type,bp.repay_source,bp.cooperative_desc,bp.scurity_mode,bp.show_start_date,bp.show_end_date,bp.product_interest,bp.product_ueditor,bp.is_transfer,bp.new_hand,bp.is_area,bp.rule_id,
+        bp.transfer_status,bp.reservat_time,bp.PERSON_LOAN,bp.PRODUCT_RANK,bp.PURCHASE_CONDITION,bp.REPAYMENT_GUARANTEE,bp.ITEM_INFO,bp.BORROW_USE,
+        (case when bp.rule_id is not null then '1' else '0' end) as isNewRule,
+        case
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 0
+        when bp.product_principal < nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt then 0 else nvl(bp.product_principal-nvl(bp.total_invest_amt,0) - bp.vm_total_invest_amt,0) end as remaindAmt,
+        (case when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 100
+        when (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt) < bp.product_principal then (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt)/bp.product_principal * 100
+        else 100 end) as nowProportion,
+        (case when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_end_date as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindTime,
+        (case when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_start_date as date) - to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindSaleStartTime,
+        nvl(bp.interest_end_date-bp.interest_start_date,0)+1 as investPeriod,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 1
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0)- nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 2 end) as sellFlag,
+        limit_type,vm_total_invest_person,vm_total_invest_amt,sort_flag,IS_TOGETHER,CREATE_DATE,
+        bpl.id as bplid,bpl.type as bpltype,CONTRACT_ID,CONTRACT_TYPE,subject_no,bpl.sort_num as sort_num,
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as contractTypeDict,
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '智选产品' else '优选产品' end) as contractDesc,
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as showType,
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2'  then '智选产品' else '优选产品' end) as showDesc,
+        (case when bpl.id=5  then '1'  else '0' end) as isAppoint,
+        IS_RECOMMEND as isRecommend,bp.pc_top as pc_top,bp.pc_sort as pc_sort,
+
+        (case when bp.fund_type ='1' then '消费类'
+             when bp.fund_type ='2' then '房抵押'
+             when bp.fund_type ='3' then '商业保险'
+             when bp.fund_type ='4' then '融资租赁'
+             when bp.fund_type ='5' then '其他'
+             else '' end )as fundTypeName,
+        (case when cast(bp.reservat_time as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.reservat_time as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as leftReservatTime
+        ]]>
+    </sql>
+
+    <sql id="dynamic_column_list">
+        <![CDATA[
+        bp.id,bp.product_name,bp.year_rate,bp.product_desc,bp.invest_lower,bp.invest_upper,bp.interest_start_date,bp.interest_end_date,INIT_YEAR_RATE as INIT_YEAR_RATE,ADD_INTEREST as ADD_INTEREST,
+        bp.sale_start_date,bp.sale_end_date,bp.repay_type,bp.risk_measures,bp.increment_amount,bp.product_principal,bp.interest_rule,bp.fund_arrival_desc,bp.product_feature,
+        bp.up_low_flag,bp.top_flag,bp.hot_sell_flag,bp.audit_flag,bp.invitation_code_flag,nvl(bp.total_invest_person,0)+vm_total_invest_person as total_invest_person,nvl(bp.total_invest_amt,0) as total_invest_amt,MARKETING as marketing,
+        bp.fund_type,bp.repay_source,bp.cooperative_desc,bp.scurity_mode,bp.show_start_date,bp.show_end_date,bp.product_interest,bp.product_ueditor,bp.is_transfer,bp.new_hand,bp.is_area,bp.rule_id,
+        bp.transfer_status,bp.reservat_time,bp.PERSON_LOAN,
+        (case when bp.rule_id is not null then '1' else '0' end) as isNewRule,
+        nvl(bp.interest_end_date-bp.interest_start_date,0)+1 as investPeriod,
+        limit_type,vm_total_invest_person,vm_total_invest_amt,sort_flag,IS_TOGETHER,CREATE_DATE,
+        bpl.id as bplid,bpl.type as bpltype,CONTRACT_ID as internalContractId,CONTRACT_TYPE,subject_no,bpl.sort_num as sort_num,
+        (case
+             when limit_type ='0' and bp.is_transfer=1  then '6'
+             when limit_type ='0' then '0'
+             when limit_type ='1'  then '1'
+             when limit_type ='2'  then '2'
+             when limit_type ='3'  then '3'
+             when limit_type ='4'  then '4'
+             when limit_type ='5'  then '5'
+              end )as productTipStatus,
+        (case when bp.SUBJECT_TYPE='1'   then 0  else CONTRACT_ID end) as CONTRACT_ID,
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as contractTypeDict,
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '智选产品' else '优选产品' end) as contractDesc,
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as showType,
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '智选产品' else '优选产品' end) as showDesc,
+        (case when bpl.id=5  then '1'  else '0' end) as isAppoint,
+        IS_RECOMMEND as isRecommend,bp.pc_top as pc_top,bp.pc_sort as pc_sort,
+        (case when bp.fund_type ='1' then '消费类'
+             when bp.fund_type ='2' then '房抵押'
+             when bp.fund_type ='3' then '商业保险'
+             when bp.fund_type ='4' then '融资租赁'
+             when bp.fund_type ='5' then '其他'
+             else '' end )as fundTypeName,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut_flag
+        ]]>
+    </sql>
+
+    <select id="selectProductDetail" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+        select * from (
+        select
+        <include refid="dynamic_column_list"/>
+        <![CDATA[
+    from busi_product_sub bp
+    left join busi_product_sub_limit bpl
+    on  bp.limit_type = bpl.id
+    left join busi_product_sub_rule bpr
+    on bp.rule_id = bpr.id
+    where 1=1
+      and bp.PRODUCT_FLAG <> 1
+	  and bp.up_low_flag = 1
+  	  and bp.audit_flag = 1
+  	  and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+   ]]>
+        <if test="ignoreEndDate == null or ignoreEndDate ==''">
+        <![CDATA[
+            and
+            (
+            (
+            cast(bpl.start_date as  date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and cast(bpl.end_date as  date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')
+            ) or (
+            bpl.start_date is null and bpl.end_date is null
+            )
+            )
+            and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+         ]]>
+        </if>
+        <if test="transferFlag == null or transferFlag ==''">
+            and bp.IS_TRANSFER=0
+        </if>
+        <if test="orgInviteCode != null">
+            <!--合作商户-->
+            and (bp.ORG_INVITE_CODE is null
+            or(bp.IS_TOGETHER = 1 and bp.ORG_INVITE_CODE = #{orgInviteCode} ))
+        </if>
+        <if test="orgInviteCode == null or orgInviteCode == ''">
+            <!--非合作商户-->
+            and bp.IS_TOGETHER = 0
+            and bp.ORG_INVITE_CODE is null
+        </if>
+        <if test="id != null">
+            and bp.id = #{id}
+        </if>
+        <if test="topFlag != null">
+            and bp.TOP_FLAG = #{topFlag}
+        </if>
+        <!--限购 非新手-->
+        <if test="limit == 1 and newHand == 0">
+            and bpl.type = 0
+        </if>
+        <!--限购 新手-->
+        <if test="limit == 1 and newHand == 2">
+            and bpl.type != 1
+        </if>
+        <!--不限购 非新手-->
+        <if test="limit == 0 and newHand == 0">
+            and bpl.type != 2
+        </if>
+        <!--不限购 新手-->
+        <if test="limit == 0 and newHand == 2">
+            and bpl.type is not null
+        </if>
+        <!--首页不限购-->
+        <if test="limit == 3">
+            and bpl.type = 1
+        </if>
+        <!--首页限购-->
+        <if test="limit == 4">
+            and bpl.type is null
+        </if>
+
+        <!--只取渠道-->
+        <if test="limit == 5">
+            and bpl.type = 4
+        </if>
+        <!--其他情况不查渠道-->
+        <if test="limit != null and limit != 5">
+            and bpl.type != 4
+        </if>
+        <if test="productChannel != null">
+            and bp.PRODUCT_CHANNEL =  #{productChannel} or bpr.channel like CONCAT('%',#{productChannel},'%')
+        </if>
+
+        <!--只取新手标-->
+        <if test="newHand == 3">
+            and bpl.type = 2
+        </if>
+        <!--只取普通产品-->
+        <if test="newHand == 4">
+            and bpl.type = 0
+        </if>
+        <!--<if test="contract =='yes'">-->
+            <!--and CONTRACT_ID > 0-->
+        <!--</if>-->
+        <if test="contract =='yes'">
+            and (bp.subject_type = '2' or bp.subject_type = '3')
+        </if>
+        <!--<if test="contract =='no'">-->
+            <!--and CONTRACT_ID = 0-->
+        <!--</if>-->
+        <if test="contract =='no'">
+            and bp.subject_type = 1
+        </if>
+        <if test="recommend =='yes'">
+            and IS_AREA = 1
+        </if>
+        <if test="recommend =='no'">
+            and IS_AREA = 0
+        </if>
+        <if test="buyWeichat == 'yes'">
+            and bpl.type != 3
+        </if>
+        <if test="subjectType != null and subjectType !=''">
+        and bp.subject_type = #{subjectType}
+        </if>
+        <if test="personalLoan == 1">
+            and bp.person_loan = 1
+        </if>
+        <if test="personalLoan == 0">
+            and bp.person_loan = 0
+        </if>
+        )
+        <![CDATA[ where (bpltype = 2) or bpltype <> 2 ]]>
+        order by
+        <if test ="pc_top != null">
+            pc_top desc,pc_sort desc,bplid asc, sellOut_flag asc, top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc, sellOut_flag asc
+        </if>
+        <if test ="pc_top == null">
+            IS_AREA desc,IS_TOGETHER desc,sort_num desc,bplid desc, sellOut_flag asc, top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+    </select>
+
+    <resultMap type="com.zdmoney.vo.BusiTransferProductVO" id="BusiTransferProductMap" extends="BaseResultMap">
+        <result column="remaindAmt" property="remaindAmt" jdbcType="DECIMAL"/>
+        <result column="investPeriod" property="investPeriod" jdbcType="DECIMAL"/>
+        <result column="sellOut" property="sellOut" jdbcType="VARCHAR"/>
+        <result column="remaindTime" property="remaindTime" jdbcType="DECIMAL"/>
+        <result column="nowProportion" property="nowProportion" jdbcType="DECIMAL"/>
+        <result column="remaindSaleStartTime" property="remaindSaleStartTime" jdbcType="DECIMAL"/>
+        <result column="contractTypeDict" property="contractTypeDict" jdbcType="VARCHAR"/>
+        <result column="contractDesc" property="contractDesc" jdbcType="VARCHAR"/>
+        <result column="surplusInvestPeriod" property="surplusInvestPeriod" jdbcType="DECIMAL"/>
+        <result column="transferPrice" property="transferPrice" jdbcType="DECIMAL"/>
+        <result column="transferDate" property="transferDate" jdbcType="TIMESTAMP"/>
+        <result column="transferEndDate" property="transferEndDate" jdbcType="TIMESTAMP"/>
+        <result column="initProductId" property="initProductId" jdbcType="DECIMAL"/>
+    </resultMap>
+    <!--转让产品详情-->
+    <select id="selectTransferProductDetail" resultMap="BusiTransferProductMap" parameterType="java.util.Map">
+
+        select
+        <![CDATA[
+        bp.id,bp.product_name,bp.year_rate,bp.product_desc,bp.invest_lower,bp.invest_upper,bp.interest_start_date,bp.interest_end_date,INIT_YEAR_RATE as INIT_YEAR_RATE,ADD_INTEREST as ADD_INTEREST,
+        bp.sale_start_date,bp.sale_end_date,bp.repay_type,bp.risk_measures,bp.increment_amount,bp.product_principal,bp.interest_rule,bp.fund_arrival_desc,bp.product_feature,
+        bp.up_low_flag,bp.top_flag,bp.hot_sell_flag,bp.audit_flag,bp.invitation_code_flag,nvl(bp.total_invest_person,0)+vm_total_invest_person as total_invest_person,nvl(bp.total_invest_amt,0) as total_invest_amt,MARKETING as marketing,
+        bp.fund_type,bp.repay_source,bp.cooperative_desc,bp.scurity_mode,bp.show_start_date,bp.show_end_date,bp.product_interest,bdt.transfer_price  as transferPrice,bdt.transfer_date  as transferDate,bo.product_id as initProductId,
+        bp.interest_end_date as transferEndDate,bp.is_transfer,bp.transfer_status,bp.person_loan,bp.PRODUCT_RANK,bp.PURCHASE_CONDITION,
+        case
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 0
+        when bp.product_principal < nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt then 0 else nvl(bp.product_principal-nvl(bp.total_invest_amt,0) - bp.vm_total_invest_amt,0) end as remaindAmt,
+        (case when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 100
+        when (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt) < bp.product_principal then (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt)/bp.product_principal * 100
+        else 100 end) as nowProportion,
+        (case when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_end_date as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindTime,
+        (case when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_start_date as date) - to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindSaleStartTime,
+        nvl(bp.interest_end_date-bp.interest_start_date,0)+1 as investPeriod,
+        nvl(bp.interest_end_date-trunc(sysdate),0)+1 as surplusInvestPeriod,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 1
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0)- nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 2 end) as sellFlag,
+        limit_type,vm_total_invest_person,vm_total_invest_amt,sort_flag,IS_TOGETHER,CREATE_DATE,
+        CONTRACT_ID,CONTRACT_TYPE,subject_no,
+        IS_RECOMMEND as isRecommend,bp.pc_top as pc_top,bp.pc_sort as pc_sort,
+        case when bp.fund_type ='1' then '消费类'
+             when bp.fund_type ='2' then '房抵押'
+             when bp.fund_type ='3' then '商业保险'
+             when bp.fund_type ='4' then '融资租赁'
+             when bp.fund_type ='5' then '其他'
+             else '' end as fundTypeName
+    from busi_product_sub bp   join busi_debt_transfer bdt  on bp.id = bdt.PRODUCT_ID  left join BUSI_ORDER bo on bo.order_num = bdt.origin_order_no
+    where
+      bp.is_transfer=1
+      and bp.PRODUCT_FLAG = 0
+  	  and bp.audit_flag = 1
+        ]]>
+
+        <if test ="productId != null">
+         and   bp.id=  #{productId}
+        </if>
+
+        <if test ="upLowFlag == null || upLowFlag ==''  ">
+            and bp.up_low_flag = 1
+            <![CDATA[
+                    and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+                    and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+            ]]>
+        </if>
+
+        order by
+        <if test ="pc_top != null">
+            pc_top desc,sellFlag asc,pc_sort desc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+        <if test ="pc_top == null">
+            IS_TOGETHER desc,sellFlag asc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+    </select>
+
+    <select id="getOrgProducts" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+        select * from (
+        select
+        <include refid="product_column_list"/>
+        <![CDATA[
+            from busi_product_sub bp
+            left join busi_product_sub_limit bpl
+            on  bp.limit_type = bpl.id
+            where 1=1
+            and bp.PRODUCT_FLAG <> 1
+            and bp.up_low_flag = 1
+            and bp.audit_flag = 1
+            and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+            and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+            and bp.subject_type='1'
+            and bp.IS_TOGETHER = 1
+            and bp.ORG_INVITE_CODE = #{orgInviteCode}
+            )
+            where ((limit_type = 2 and sellOut = 0) or limit_type <> 2)
+        ]]>
+        order by IS_TOGETHER desc,sort_num desc,sellFlag asc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+    </select>
+    <select id="queryCustomerStatus" parameterType="java.util.Map" resultType="java.lang.String">
+  	 select t.is_consumed as newHand from customer_main_info t where t.id = #{customerId}
+  </select>
+
+    <select id="getPCProducts" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+        select * from (
+        select
+        <include refid="product_column_list"/>
+        from busi_product_sub bp
+        left join busi_product_sub_limit bpl
+        on bp.limit_type = bpl.id
+        where
+        up_low_flag = 1
+        and audit_flag = 1
+        )
+        <![CDATA[
+            where ((limit_type = 2 and sellOut = 0) or limit_type <> 2)
+        ]]>
+        order by pc_top desc, pc_sort desc
+    </select>
+
+    <!-- PC端获取产品详情 不需要信息披露部分 -->
+    <select id="getProductDetailPC" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+        select t.* from (
+            select <include refid="product_column_list"/>
+             from busi_product_sub bp left join busi_product_sub_limit bpl on bp.limit_type = bpl.id
+            where 1=1
+              and bp.product_flag != 1
+/*
+              and bp.up_low_flag = 1
+*/
+              and bp.audit_flag = 1
+              and bp.id = #{productId}
+        ) t
+    </select>
+
+    <select id="selectTencentProducts" resultMap="tencentProductMap" parameterType="java.util.Map">
+        select * from (
+        select
+        <include refid="product_column_list"/>
+        <![CDATA[
+    from busi_product_sub bp
+    left join busi_product_sub_limit bpl
+    on  bp.limit_type = bpl.id
+    where 1=1
+      and
+      (
+        (
+          cast(bpl.start_date as  date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and cast(bpl.end_date as  date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')
+        ) or (
+          bpl.start_date is null and bpl.end_date is null
+        )
+      )
+      and bp.PRODUCT_FLAG <> 1
+	  and bp.up_low_flag = 1
+  	  and bp.audit_flag = 1
+  	  and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+  	  and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+   ]]>
+        <if test="transferFlag == null or transferFlag ==''">
+            and bp.IS_TRANSFER=0
+        </if>
+        <if test="orgInviteCode != null">
+            <!--合作商户-->
+            and (bp.ORG_INVITE_CODE is null
+            or(bp.IS_TOGETHER = 1 and bp.ORG_INVITE_CODE = #{orgInviteCode} ))
+        </if>
+        <if test="orgInviteCode == null or orgInviteCode == ''">
+            <!--非合作商户-->
+            and bp.IS_TOGETHER = 0
+            and bp.ORG_INVITE_CODE is null
+        </if>
+        <if test="topFlag != null">
+            and bp.TOP_FLAG = #{topFlag}
+        </if>
+        <!--取新手+渠道产品-->
+        <if test="productId == null">
+            and bpl.type = 2 or  (bpl.type = 4  and bp.PRODUCT_CHANNEL =  #{productChannel})
+        </if>
+        <if test="productId != null">
+            and bp.id = #{productId}
+        </if>
+        <!--取新手-->
+        <!--<if test="productId != null and isNewHand=='1'">-->
+            <!--and bp.id = #{productId}-->
+        <!--</if>-->
+        <!--<if test="productId != null and isNewHand=='0'">-->
+            <!--and bp.id = #{productId} and  bpl.type = 4  and bp.PRODUCT_CHANNEL =  #{productChannel}-->
+        <!--</if>-->
+        <!--<if test="contract =='yes'">-->
+            <!--and CONTRACT_ID > 0-->
+        <!--</if>-->
+        <!--<if test="contract =='no'">-->
+            <!--and CONTRACT_ID = 0-->
+        <!--</if>-->
+        <if test="contract =='yes'">
+            and bp.subject_type != '1'
+        </if>
+        <if test="contract =='no'">
+           and bp.subject_type = '1'
+        </if>
+        <if test="buyWeichat == 'yes'">
+            and bpl.type != 3
+        </if>
+        )
+        <![CDATA[ where (bpltype = 2 and sellOut = 0) or bpltype <> 2 ]]>
+        order by id
+    </select>
+
+    <select id="selectProductWithRule" parameterType="java.lang.Long" resultMap="productRuleMap">
+      select bp.reservat_time,bp.limit_type,bpr.platform,bpr.member_type,bpr.channel,bpr.welfare,bp.person_loan,bp.is_transfer, bp.interest_start_date, bp.interest_end_date,bp.subject_type,bp.close_day
+      from busi_product_sub bp
+      left join busi_product_sub_rule bpr
+      on bpr.id = bp.rule_id
+      where bp.id = #{productId}
+    </select>
+
+    <select id="queryBorrowerInfo" parameterType="java.lang.Long" resultMap="borrowerInfoMap">
+        select bpc.borrower_phone,bpc.subject_no,bpc.ID_NO
+        from busi_product_sub_contract bpc , busi_product_sub bp
+        where bp.contract_id = bpc.id and bp.id = #{productId}
+    </select>
+
+    <select id="queryInvestRecord" parameterType="java.util.Map" resultType="com.zdmoney.vo.InvestRecordVO">
+        select substr(cmi.cm_cellphone,1,3)||'****'||substr(cmi.cm_cellphone,-4,4) cellPhone,
+        bo.order_amt investAmount,to_char(bo.order_time ,'yyyy-mm-dd hh24:mi:ss') investDate
+        from BUSI_ORDER bo
+        left join customer_main_info cmi
+        on bo.customer_id = cmi.id
+        where bo.status in(0,9,10,14,16) and PRODUCT_ID = #{productId}
+        order by bo.order_time desc, bo.id desc
+    </select>
+
+    <select id="getProductDynamicData" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+        <![CDATA[
+        select bp.id,
+        case when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 0
+        when bp.product_principal < nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt then 0 else nvl(bp.product_principal-nvl(bp.total_invest_amt,0) - bp.vm_total_invest_amt,0) end as remaindAmt,
+        (case when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 100
+        when (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt) < bp.product_principal then (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt)/bp.product_principal * 100
+        else 100 end) as nowProportion,
+        (case when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_end_date as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindTime,
+        (case when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_start_date as date) - to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindSaleStartTime,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 1
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0)- nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 2 end) as sellFlag,
+        (case when cast(bp.reservat_time as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then
+        (cast(bp.reservat_time as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as leftReservatTime
+        from busi_product_sub bp where 1 = 1
+        ]]>
+        <if test="ids != null">
+            and bp.id in
+            <foreach item="item" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findProductById" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT ID,PRODUCT_NAME,YEAR_RATE,PRODUCT_DESC,PRODUCT_FEATURE,INVEST_LOWER,INVEST_UPPER,INTEREST_START_DATE,INTEREST_END_DATE,SALE_START_DATE,SALE_END_DATE,
+            REPAY_TYPE,FUND_ARRIVAL_DESC,RISK_MEASURES,INCREMENT_AMOUNT,PRODUCT_PRINCIPAL,INTEREST_RULE,UP_LOW_FLAG,TOP_FLAG,HOT_SELL_FLAG,AUDIT_FLAG,INVITATION_CODE_FLAG,
+            TOTAL_INVEST_PERSON,TOTAL_INVEST_AMT,NEW_HAND,VM_TOTAL_INVEST_PERSON,VM_TOTAL_INVEST_AMT,ADD_INTEREST,INIT_YEAR_RATE,PRODUCT_UEDITOR,LIMIT_TYPE,CONTRACT_ID,
+            CONTRACT_TYPE,PRODUCT_MEMO,MARKETING,PC_TOP,PC_SORT,IS_RECOMMEND,FUND_TYPE,REPAY_SOURCE,COOPERATIVE_DESC,SCURITY_MODE,SHOW_START_DATE,SHOW_END_DATE,
+            PRODUCT_CHANNEL,PRODUCT_INTEREST,TRANSFER_STATUS,TRANSFER_DAY,MIN_RATE,MAX_RATE,TRANSFER_TIMES,IS_TRANSFER,SUBJECT_NO,PRODUCT_TYPE,RESERVAT_TIME,
+            RULE_ID,IS_AREA,PERSON_LOAN,SUBJECT_TYPE,CLOSE_DAY,
+            (case  when cast(sale_start_date as date) &gt; to_date(#{currentDate},'yyyy/mm/dd hh24:mi:ss') then 2
+            when cast(sale_end_date as date) &lt; to_date(#{currentDate},'yyyy/mm/dd hh24:mi:ss') then 3
+            when cast(sale_end_date as date) &gt; to_date(#{currentDate},'yyyy/mm/dd hh24:mi:ss') and product_principal - nvl(total_invest_amt,0) - nvl(vm_total_invest_amt,0) &gt; 0 then 0
+            else 1 end) as sellOut,
+            PLAN_AMT, MIN_MATCH_AMT, PLAN_STATUS, AUDIT_DATE, DEBT_NO
+        FROM busi_product_sub  WHERE  ID = #{productId}
+    </select>
+
+    <select id="selectProductSub" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM busi_product_sub
+        <where>
+          <if test="productId!=null"> plan_id = #{productId}</if>
+          <if test="subjectNo!=null">and  subject_no = #{subjectNo}</if>
+          <if test="planId!=null">and  PLAN_ID = #{planId}</if>
+        </where>
+    </select>
+
+
+    <resultMap type="com.zdmoney.vo.BusiFinancePlanVO" id="BusiFinancePlanMap" extends="BaseResultMap">
+        <result column="remaindAmt" property="remaindAmt" jdbcType="DECIMAL"/>
+        <result column="investPeriod" property="investPeriod" jdbcType="DECIMAL"/>
+        <result column="sellOut" property="sellOut" jdbcType="VARCHAR"/>
+        <result column="remaindTime" property="remaindTime" jdbcType="DECIMAL"/>
+        <result column="nowProportion" property="nowProportion" jdbcType="DECIMAL"/>
+        <result column="remaindSaleStartTime" property="remaindSaleStartTime" jdbcType="DECIMAL"/>
+        <result column="contractTypeDict" property="contractTypeDict" jdbcType="VARCHAR"/>
+        <result column="contractDesc" property="contractDesc" jdbcType="VARCHAR"/>
+        <result column="surplusInvestPeriod" property="surplusInvestPeriod" jdbcType="DECIMAL"/>
+        <result column="transferPrice" property="transferPrice" jdbcType="DECIMAL"/>
+        <result column="transferDate" property="transferDate" jdbcType="TIMESTAMP"/>
+        <result column="transferEndDate" property="transferEndDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--理财计划产品详情-->
+    <select id="selectFinancePlanDetail" resultMap="BusiFinancePlanMap" parameterType="java.util.Map">
+
+        select
+        <![CDATA[
+        bp.id,bp.product_name,bp.year_rate,bp.product_desc,bp.invest_lower,bp.invest_upper,bp.interest_start_date,bp.interest_end_date,INIT_YEAR_RATE as INIT_YEAR_RATE,ADD_INTEREST as ADD_INTEREST,
+        bp.sale_start_date,bp.sale_end_date,bp.repay_type,bp.risk_measures,bp.increment_amount,bp.product_principal,bp.interest_rule,bp.fund_arrival_desc,bp.product_feature,
+        bp.up_low_flag,bp.top_flag,bp.hot_sell_flag,bp.audit_flag,bp.invitation_code_flag,nvl(bp.total_invest_person,0)+vm_total_invest_person as total_invest_person,nvl(bp.total_invest_amt,0) as total_invest_amt,MARKETING as marketing,
+        bp.fund_type,bp.repay_source,bp.cooperative_desc,bp.scurity_mode,bp.show_start_date,bp.show_end_date,bp.product_interest,
+        bp.interest_end_date as transferEndDate,bp.is_transfer,bp.transfer_status,bp.person_loan,bp.SUBJECT_TYPE,bp.CLOSE_DAY,
+        case
+        when cast(bp.sale_end_date as date) < to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 0
+        when bp.product_principal < nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt then 0 else nvl(bp.product_principal-nvl(bp.total_invest_amt,0) - bp.vm_total_invest_amt,0) end as remaindAmt,
+        (case when cast(bp.sale_end_date as date) < to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 100
+        when (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt) < bp.product_principal then (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt)/bp.product_principal * 100
+        else 100 end) as nowProportion,
+        (case when cast(bp.sale_end_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_end_date as date)-to_date('${sDate}','yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindTime,
+        (case when cast(bp.sale_start_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_start_date as date) - to_date('${sDate}','yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindSaleStartTime,
+        nvl(bp.interest_end_date-bp.interest_start_date,0)+1 as investPeriod,
+        nvl(bp.interest_end_date-trunc(sysdate),0)+1 as surplusInvestPeriod,
+        (case  when cast(bp.sale_start_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut,
+        (case  when cast(bp.sale_start_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 1
+        when cast(bp.sale_end_date as date) < to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0)- nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 2 end) as sellFlag,
+        limit_type,vm_total_invest_person,vm_total_invest_amt,sort_flag,IS_TOGETHER,CREATE_DATE,
+        CONTRACT_ID,CONTRACT_TYPE,subject_no,
+        IS_RECOMMEND as isRecommend,bp.pc_top as pc_top,bp.pc_sort as pc_sort,
+        case when bp.fund_type ='1' then '消费类'
+             when bp.fund_type ='2' then '房抵押'
+             when bp.fund_type ='3' then '商业保险'
+             when bp.fund_type ='4' then '融资租赁'
+             when bp.fund_type ='5' then '其他'
+             else '' end as fundTypeName
+    from busi_product_sub bp
+    where
+      bp.subject_type=4
+      and bp.PRODUCT_FLAG = 0
+  	  and bp.audit_flag = 1
+        ]]>
+        <if test ="productId != null">
+            and   bp.id=  #{productId}
+        </if>
+
+        <if test ="upLowFlag == null || upLowFlag ==''  ">
+            and bp.up_low_flag = 1
+            <![CDATA[
+                    and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date('${sDate}','yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+                    and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date('${sDate}','yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+            ]]>
+        </if>
+
+        order by
+        <if test ="pc_top != null">
+            pc_top desc,sellFlag asc,pc_sort desc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+        <if test ="pc_top == null">
+            IS_TOGETHER desc,sellFlag asc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+    </select>
+
+    <!--转让产品详情（理财列表页）-->
+    <select id="selectIndexTransferProductDetail" resultMap="BusiProductVOMap" parameterType="java.util.Map">
+
+        select
+        <![CDATA[
+        bp.id,bp.product_name,bp.year_rate,bp.product_desc,bp.invest_lower,bp.invest_upper,bp.interest_start_date,bp.interest_end_date,INIT_YEAR_RATE as INIT_YEAR_RATE,ADD_INTEREST as ADD_INTEREST,
+        bp.sale_start_date,bp.sale_end_date,bp.repay_type,bp.risk_measures,bp.increment_amount,bp.product_principal,bp.interest_rule,bp.fund_arrival_desc,bp.product_feature,
+        bp.up_low_flag,bp.top_flag,bp.hot_sell_flag,bp.audit_flag,bp.invitation_code_flag,nvl(bp.total_invest_person,0)+vm_total_invest_person as total_invest_person,nvl(bp.total_invest_amt,0) as total_invest_amt,MARKETING as marketing,
+        bp.fund_type,bp.repay_source,bp.cooperative_desc,bp.scurity_mode,bp.show_start_date,bp.show_end_date,bp.product_interest,bdt.transfer_price  as transferPrice,bdt.transfer_date  as transferDate,bo.product_id as initProductId,
+        bp.interest_end_date as transferEndDate,bp.is_transfer,bp.transfer_status,bp.person_loan,
+        case
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 0
+        when bp.product_principal < nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt then 0 else nvl(bp.product_principal-nvl(bp.total_invest_amt,0) - bp.vm_total_invest_amt,0) end as remaindAmt,
+        (case when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 100
+        when (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt) < bp.product_principal then (nvl(bp.total_invest_amt,0)+ bp.vm_total_invest_amt)/bp.product_principal * 100
+        else 100 end) as nowProportion,
+        (case when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_end_date as date)-to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindTime,
+        (case when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then (cast(bp.sale_start_date as date) - to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) *86400 else 0 end) as remaindSaleStartTime,
+        nvl(bp.interest_end_date-bp.interest_start_date,0)+1 as investPeriod,
+        nvl(bp.interest_end_date-trunc(sysdate),0)+1 as surplusInvestPeriod,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 3
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0) - nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 1 end) as sellOut,
+        (case  when cast(bp.sale_start_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 1
+        when cast(bp.sale_end_date as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then 2
+        when cast(bp.sale_end_date as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') and bp.product_principal - nvl(bp.total_invest_amt,0)- nvl(bp.vm_total_invest_amt,0) >0 then 0
+        else 2 end) as sellFlag,
+
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as contractTypeDict,
+
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '智选产品' else '优选产品' end) as contractDesc,
+        (case when bp.IS_AREA = '1'  then '3'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '2' else '1' end) as showType,
+        (case when bp.IS_AREA = '1'  then '推荐产品'
+              when  bp.IS_AREA='0' and bp.subject_type='2' then '智选产品' else '优选产品' end) as showDesc,
+
+        limit_type,vm_total_invest_person,vm_total_invest_amt,sort_flag,IS_TOGETHER,CREATE_DATE,
+        CONTRACT_ID,CONTRACT_TYPE,subject_no,
+        IS_RECOMMEND as isRecommend,bp.pc_top as pc_top,bp.pc_sort as pc_sort,
+        (case
+             when limit_type ='0' and bp.is_transfer=1  then '6'
+             when limit_type ='0' then '0'
+             when limit_type ='1'  then '1'
+             when limit_type ='2'  then '2'
+             when limit_type ='3'  then '3'
+             when limit_type ='4'  then '4'
+             when limit_type ='5'  then '5'
+              end )as productTipStatus,
+        case when bp.fund_type ='1' then '消费类'
+             when bp.fund_type ='2' then '房抵押'
+             when bp.fund_type ='3' then '商业保险'
+             when bp.fund_type ='4' then '融资租赁'
+             when bp.fund_type ='5' then '其他'
+             else '' end as fundTypeName
+    from busi_product_sub bp   join busi_debt_transfer bdt  on bp.id = bdt.PRODUCT_ID  left join BUSI_ORDER bo on bo.order_num = bdt.origin_order_no
+    where
+      bp.is_transfer=1
+      and bp.PRODUCT_FLAG = 0
+  	  and bp.audit_flag = 1
+        ]]>
+
+        <if test ="productId != null">
+            and   bp.id=  #{productId}
+        </if>
+
+        <if test ="upLowFlag == null || upLowFlag ==''  ">
+            and bp.up_low_flag = 1
+            <![CDATA[
+                    and ((bp.SHOW_START_DATE is not null  and cast(bp.SHOW_START_DATE as date) < to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_START_DATE is null)
+                    and ((bp.SHOW_END_DATE is not null and cast(bp.SHOW_END_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss')) or bp.SHOW_END_DATE is null)
+            ]]>
+        </if>
+
+        order by
+        <if test ="pc_top != null">
+            pc_top desc,sellFlag asc,pc_sort desc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+        <if test ="pc_top == null">
+            IS_TOGETHER desc,sellFlag asc,top_flag desc,sort_flag desc,hot_sell_flag desc,year_rate desc,nvl(total_invest_amt,0)/product_principal desc,CREATE_DATE asc
+        </if>
+    </select>
+
+    <insert id="saveProductSub" parameterType="com.zdmoney.models.product.BusiProductSub">
+        INSERT INTO BUSI_PRODUCT_SUB (id  ,product_name ,year_rate,product_desc,product_feature,invest_lower,invest_upper,interest_start_date,interest_end_date,sale_start_date,sale_end_date,
+        repay_type,fund_arrival_desc ,risk_measures,increment_amount, product_principal,interest_rule,up_low_flag,top_flag ,hot_sell_flag,audit_flag,invitation_code_flag,total_invest_person,
+        total_invest_amt,create_date,sort_flag,new_hand ,vm_total_invest_person,vm_total_invest_amt,init_year_rate,add_interest,product_flag,show_start_date,show_end_date,is_together,
+        product_type,isch,limit_type,contract_id,contract_type,product_memo,marketing,pc_top,pc_sort,product_ueditor,is_recommend,fund_type,repay_source,cooperative_desc,
+        scurity_mode, product_channel,subject_no ,product_interest,transfer_status,transfer_day,min_rate,max_rate,transfer_times,is_transfer,reservat_time,rule_id,
+        is_area,person_loan,subject_type,is_hidden,debt_no,close_day ,plan_amt,min_match_amt,is_guarant ,plan_status,audit_date,going_on_shelf ,is_notify , plan_id,
+        PRODUCT_RANK,PURCHASE_CONDITION,REPAYMENT_GUARANTEE,ITEM_INFO,BORROW_USE,TARGET_CONSUMER,DISCOUNT_RATE,ESTIMATE_PRICE,ORIGIN_YEAR_RATE,CREDIT_SOURCE)
+        VALUES (
+			#{id}, #{productName}, #{yearRate}, #{productDesc}, #{productFeature}, #{investLower}, #{investUpper}, #{interestStartDate}, #{interestEndDate}, #{saleStartDate}, #{saleEndDate},
+			#{repayType}, #{fundArrivalDesc}, #{riskMeasures}, #{incrementAmount}, #{productPrincipal}, #{interestRule}, #{upLowFlag}, #{topFlag}, #{hotSellFlag}, #{auditFlag}, #{invitationCodeFlag}, #{totalInvestPerson},
+			#{totalInvestAmt}, sysdate, 0, #{isNewHand}, #{vmTotalInvestPersonNumber}, #{vmTotalInvestAmt}, #{yearRateInit}, #{addInterest}, 0, #{showStartDate}, #{showEndDate}, 0,
+			#{productType}, 'no', 0, #{contractId}, #{contractType}, #{productMemo}, #{marketing}, #{pcTop}, #{pcSort}, #{productUeditor}, #{isRecommend}, #{fundType}, #{repaySource}, #{cooperativeDesc},
+			#{scurityMode}, #{productChannel}, #{subjectNo}, #{productInterest}, #{transferStatus}, #{transferDay}, #{minRate}, #{maxRate}, #{transferTimes}, #{isTransfer}, #{reservatTime}, #{ruleId},
+			#{isArea}, #{personLoan}, #{subjectType}, 0, #{debtNo}, #{closeDay}, #{planAmt}, #{minMatchAmt}, #{isGuarant}, #{planStatus}, #{auditDate}, #{goingOnShelf}, 0, #{planId},
+			#{productRank},#{purchaseCondition},#{repaymentGuarantee},#{itemInfo},#{borrowUse},#{targetConsumer},#{discountRate},#{estimatePrice},#{originYearRate},#{creditSource}
+        )
+    </insert>
+
+
+
+    <insert id="saveProductSubForWacai" parameterType="com.zdmoney.models.product.BusiProductSub">
+        INSERT INTO BUSI_PRODUCT_SUB (id  ,product_name ,year_rate,product_desc,product_feature,invest_lower,invest_upper,interest_start_date,interest_end_date,sale_start_date,sale_end_date,
+        repay_type,fund_arrival_desc ,risk_measures,increment_amount, product_principal,interest_rule,up_low_flag,top_flag ,hot_sell_flag,audit_flag,invitation_code_flag,total_invest_person,
+        total_invest_amt,create_date,sort_flag,new_hand ,vm_total_invest_person,vm_total_invest_amt,init_year_rate,add_interest,product_flag,show_start_date,show_end_date,is_together,
+        product_type,isch,limit_type,contract_id,contract_type,product_memo,marketing,pc_top,pc_sort,product_ueditor,is_recommend,fund_type,repay_source,cooperative_desc,
+        scurity_mode, product_channel,subject_no ,product_interest,transfer_status,transfer_day,min_rate,max_rate,transfer_times,is_transfer,reservat_time,rule_id,
+        is_area,person_loan,subject_type,is_hidden,debt_no,close_day ,plan_amt,min_match_amt,is_guarant ,plan_status,audit_date,going_on_shelf ,is_notify , plan_id,
+        PRODUCT_RANK,PURCHASE_CONDITION,REPAYMENT_GUARANTEE,ITEM_INFO,BORROW_USE,TARGET_CONSUMER,DISCOUNT_RATE,ESTIMATE_PRICE,ORIGIN_YEAR_RATE,CREDIT_SOURCE)
+        VALUES (
+			#{id}, #{productName}, #{yearRate}, #{productDesc}, #{productFeature}, #{investLower}, #{investUpper}, #{interestStartDate}, #{interestEndDate}, #{saleStartDate}, #{saleEndDate},
+			#{repayType}, #{fundArrivalDesc}, #{riskMeasures}, #{incrementAmount}, #{productPrincipal}, #{interestRule}, #{upLowFlag}, #{topFlag}, #{hotSellFlag}, #{auditFlag}, #{invitationCodeFlag}, #{totalInvestPerson},
+			#{totalInvestAmt}, sysdate, 0, #{isNewHand}, #{vmTotalInvestPersonNumber}, #{vmTotalInvestAmt}, #{yearRateInit}, #{addInterest}, 0, #{showStartDate}, #{showEndDate}, 0,
+			#{productType}, 'no', 0, #{contractId}, #{contractType}, #{productMemo}, #{marketing}, #{pcTop}, #{pcSort}, #{productUeditor}, #{isRecommend}, #{fundType}, #{repaySource}, #{cooperativeDesc},
+			#{scurityMode}, #{productChannel}, #{subjectNo}, #{productInterest}, #{transferStatus}, #{transferDay}, #{minRate}, #{maxRate}, #{transferTimes}, #{isTransfer}, #{reservatTime}, #{ruleId},
+			#{isArea}, #{personLoan}, #{subjectType}, 0, #{debtNo}, #{closeDay}, #{planAmt}, #{minMatchAmt}, #{isGuarant}, #{planStatus}, #{auditDate}, #{goingOnShelf}, #{isNotify}, #{planId},
+			#{productRank},#{purchaseCondition},#{repaymentGuarantee},#{itemInfo},#{borrowUse},#{targetConsumer},#{discountRate},#{estimatePrice},#{originYearRate},#{creditSource}
+        )
+    </insert>
+
+    <!--根据标的编号查询子产品信息-->
+    <select id="findProductSubBySubjectNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+      select  <include refid="Base_Column_List"/>
+        from busi_product_sub t
+        where t.subject_no= #{subjectNo,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

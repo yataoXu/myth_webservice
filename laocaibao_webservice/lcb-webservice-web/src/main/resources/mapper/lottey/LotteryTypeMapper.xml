@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.lottey.LotteryTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.lottey.LotteryType" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPE_NO" property="typeNo" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="VISIT_URL" property="visitUrl" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="MODIFY_BY" property="modifyBy" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="END_TIME" property="endTime" jdbcType="DATE" />
+    <result column="ACTIVITY_TYPE" property="activityType" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="DATE" />
+    <result column="HOT_STATUS" property="hotStatus" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!--0 已结束 1-热销 2-new! 3-无标签-->
+  <select id="selectLotteryType" resultType="com.zdmoney.web.dto.LotteryTypeDTO">
+    <![CDATA[
+      select t.NAME as name,t.img_url as imgUrl,t.VISIT_URL as visitUrl,
+      CASE
+        WHEN to_date(to_char(sysdate, 'yyyy-MM-dd'), 'yyyy-MM-dd') - end_time > 0
+        THEN 0
+        WHEN hot_status=1 and to_date(to_char(sysdate, 'yyyy-MM-dd'), 'yyyy-MM-dd')-start_time>=0
+        THEN 1
+        WHEN hot_status=0 and (to_date(to_char(sysdate, 'yyyy-MM-dd'), 'yyyy-MM-dd')-start_time  <= 2 and  to_date(to_char(sysdate, 'yyyy-MM-dd'), 'yyyy-MM-dd')-start_time >= 0)
+        THEN 2
+        ELSE 3
+      END as labelFlag
+      from T_LOT_LOTTERY_TYPE t
+      where status = 1
+      and activity_type != '3'
+      order by SORT desc,START_TIME desc
+    ]]>
+  </select>
+</mapper>

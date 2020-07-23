@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerAuthorizeMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerAuthorizeInfo">
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+        <result column="AUTHORIZE_DATE" property="authorizeDate" jdbcType="TIMESTAMP"/>
+        <result column="AUTHORIZE_STATUS" property="authorizeStatus" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="queryCustomerAuthorizeInfo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from CUSTOMER_AUTHORIZE_INFO where customer_id = #{customerId}
+    </select>
+
+    <insert id="saveCustomerAuthorizeInfo" parameterType="com.zdmoney.models.customer.CustomerAuthorizeInfo" >
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT SEQ_CUSTOMER_AUTHORIZE_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        insert into CUSTOMER_AUTHORIZE_INFO (ID, CUSTOMER_ID, AUTHORIZE_DATE, AUTHORIZE_STATUS)
+        values (#{id}, #{customerId}, #{authorizeDate}, #{authorizeStatus})
+    </insert>
+
+    <update id="updateCustomerAuthorizeInfo" parameterType="java.util.Map">
+      update CUSTOMER_AUTHORIZE_INFO SET AUTHORIZE_STATUS = #{authorizeStatus} where CUSTOMER_ID = #{customerId}
+    </update>
+</mapper>

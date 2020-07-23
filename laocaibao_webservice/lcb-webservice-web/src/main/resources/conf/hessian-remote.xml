@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="/financePlanFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="financePlanFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IFinancePlanFacadeService"/>
+    </bean>
+
+    <bean name="/customerInfoFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="customerInfoFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ICustomerInfoFacadeService"/>
+    </bean>
+    <bean name="/managerTaskFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="managerTaskFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IManagerTaskFacadeService"/>
+    </bean>
+    <bean name="/creditFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="creditFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ICreditFacadeService"/>
+    </bean>
+
+    <bean name="/lcbGatewayFacade" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="lcbGatewayFacadeImpl"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ILcbGatewayFacade"/>
+    </bean>
+
+    <bean name="/managerFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="managerFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IManagerFacadeService"/>
+    </bean>
+    <bean name="/operationsStatisticsFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="operationsStatisticsFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IOperationsStatisticsFacadeService"/>
+    </bean>
+
+    <bean name="/archiveFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="busiArchiveFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IBusiArchiveFacadeService"/>
+    </bean>
+    <bean name="/busiBorrowCertificateService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="busiBorrowCertificateService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IBusiBorrowCertificateService"/>
+    </bean>
+
+    <bean name="/specialOperFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="specialOperFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ISpecialOperFacadeService"/>
+    </bean>
+
+    <bean name="/welfareFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="welfareFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IWelfareFacadeService"/>
+    </bean>
+
+    <bean name="/dataOrderService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="dataOrderService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IDataOrderService"/>
+    </bean>
+
+    <bean name="/zdqqFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="zdqqFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IZdqqFacadeService"/>
+    </bean>
+    <bean name="/waCaiFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="waCaiFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IWaCaiFacadeService"/>
+    </bean>
+
+    <bean name="/subjectinfoFacadeService" class="com.zdmoney.trace.hessian.service.common.TraceHessianServiceExporter">
+        <property name="service" ref="subjectinfoFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ISubjectinfoFacadeService"/>
+    </bean>
+
+</beans>

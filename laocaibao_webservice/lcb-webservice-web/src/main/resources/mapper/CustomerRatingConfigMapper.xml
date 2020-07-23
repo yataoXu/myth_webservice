@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.CustomerRatingConfigMapper">
+
+    <resultMap type="com.zdmoney.models.CustomerRatingConfig" id="customerRatingConfigMap">
+        <result property="ratingCode" column="RATING_CODE"/>
+        <result property="ratingDescr" column="RATING_DESCR"/>
+        <result property="ratingNum" column="RATING_NUM"/>
+        <result property="minInvestingAmt" column="MIN_INVESTING_AMT"/>
+        <result property="maxInvestingAmt" column="MAX_INVESTING_AMT"/>
+        <result property="rebateCreditRate" column="REBATE_CREDIT_RATE"/>
+        <result property="investmentCreditRate" column="INVESTMENT_CREDIT_RATE"/>
+        <result property="upgradingCredit" column="UPGRADING_CREDIT"/>
+        <result property="monthlyPresent" column="MONTHLY_PRESENT"/>
+        <result property="monthlyPresentType" column="MONTHLY_PRESENT_TYPE"/>
+        <result property="rolloverInterestRate" column="ROLLOVER_INTEREST_RATE"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        RATING_CODE,RATING_DESCR,RATING_NUM,MIN_INVESTING_AMT,MAX_INVESTING_AMT,REBATE_CREDIT_RATE,INVESTMENT_CREDIT_RATE,UPGRADING_CREDIT,MONTHLY_PRESENT,MONTHLY_PRESENT_TYPE,ROLLOVER_INTEREST_RATE    </sql>
+
+    <select id="queryCustomerRatingConfig" resultMap="customerRatingConfigMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM CUSTOMER_RATING_CONFIG
+        order by RATING_NUM asc
+    </select>
+
+    <insert id="saveCustomerRatingConfig" parameterType="com.zdmoney.models.CustomerRatingConfig">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_CUSTOMER_RATING_CONFIG.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO CUSTOMER_RATING_CONFIG
+          (RATING_CODE,RATING_DESCR,RATING_NUM,MIN_INVESTING_AMT,MAX_INVESTING_AMT,REBATE_CREDIT_RATE,INVESTMENT_CREDIT_RATE,UPGRADING_CREDIT,MONTHLY_PRESENT,MONTHLY_PRESENT_TYPE,ROLLOVER_INTEREST_RATE)
+        VALUES
+          (#{ratingCode},#{ratingDescr},#{ratingNum},#{minInvestingAmt},#{maxInvestingAmt},#{rebateCreditRate},#{investmentCreditRate},#{upgradingCredit},#{monthlyPresent},#{monthlyPresentType},#{rolloverInterestRate})
+    </insert>
+
+    <update id="updateCustomerRatingConfig" parameterType="com.zdmoney.models.CustomerRatingConfig">
+        UPDATE CUSTOMER_RATING_CONFIG
+        <set>
+            <if test="ratingDescr != null">
+                RATING_DESCR = #{ratingDescr},
+            </if>
+            <if test="ratingNum != null">
+                RATING_NUM = #{ratingNum},
+            </if>
+            <if test="minInvestingAmt != null">
+                MIN_INVESTING_AMT = #{minInvestingAmt},
+            </if>
+            <if test="maxInvestingAmt != null">
+                MAX_INVESTING_AMT = #{maxInvestingAmt},
+            </if>
+            <if test="rebateCreditRate != null">
+                REBATE_CREDIT_RATE = #{rebateCreditRate},
+            </if>
+            <if test="investmentCreditRate != null">
+                INVESTMENT_CREDIT_RATE = #{investmentCreditRate},
+            </if>
+            <if test="upgradingCredit != null">
+                UPGRADING_CREDIT = #{upgradingCredit},
+            </if>
+            <if test="monthlyPresent != null">
+                MONTHLY_PRESENT = #{monthlyPresent},
+            </if>
+            <if test="monthlyPresentType != null">
+                MONTHLY_PRESENT_TYPE = #{monthlyPresentType},
+            </if>
+            <if test="rolloverInterestRate != null">
+                ROLLOVER_INTEREST_RATE = #{rolloverInterestRate}</if>
+        </set>
+        WHERE  RATING_CODE = #{ratingCode}
+    </update>
+
+    <delete id="removeCustomerRatingConfigById" parameterType="java.lang.Long">
+        DELETE FROM CUSTOMER_RATING_CONFIG WHERE ID = #{id}
+    </delete>
+
+    <!--根据用户等级查询对应等级配置-->
+    <select id="queryRatingConfigByRatingNum" resultMap="customerRatingConfigMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM CUSTOMER_RATING_CONFIG where RATING_NUM = #{ratingNum}
+    </select>
+
+   <!-- 查询用户等级配置信息-->
+    <select id="queryRatingConfigs" resultMap="customerRatingConfigMap">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM CUSTOMER_RATING_CONFIG  order by RATING_NUM asc
+    </select>
+</mapper>

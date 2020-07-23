@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.AtChMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.AtCh" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CJBH" property="cjbh" jdbcType="VARCHAR" />
+    <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" />
+    <result column="LENDER_NAME" property="lenderName" jdbcType="VARCHAR" />
+    <result column="LENDER_IDNO" property="lenderIdno" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+    <result column="CM_REAL_NAME" property="cmRealName" jdbcType="VARCHAR" />
+    <result column="INVEST_AMOUNT" property="investAmount" jdbcType="DECIMAL" />
+    <result column="YT" property="yt" jdbcType="VARCHAR" />
+    <result column="CH_AMOUNT" property="chAmount" jdbcType="DECIMAL" />
+  </resultMap>
+
+
+</mapper>

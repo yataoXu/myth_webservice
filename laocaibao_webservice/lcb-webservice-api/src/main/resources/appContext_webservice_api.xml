@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="zdHessianProxyFactory" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactory">
+        <property name="channel" value="webservice"/>
+    </bean>
+
+    <bean id="financePlanFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://127.0.0.1:8081/laocaibao/financePlanFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IFinancePlanFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean name="creditFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://172.17.34.8:8080/laocaibao_credit/creditFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ICreditFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean name="managerFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://127.0.0.1:8080/managerFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IManagerFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean name="customerInfoFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://127.0.0.1:8080/customerInfoFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.ICustomerInfoFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean name="waCaiFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="http://127.0.0.1:8080/waCaiFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.webservice.api.facade.IWaCaiFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+</beans>

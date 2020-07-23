@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.staffWhilte.BusiStaffWhilteMapper">
+
+    <resultMap type="com.zdmoney.models.BusiStaffWhilte" id="busiStaffWhilteMap">
+        <result property="id" column="ID"/>
+        <result property="customerId" column="CUSTOMER_ID"/>
+        <result property="staffName" column="STAFF_NAME"/>
+        <result property="staffCode" column="STAFF_CODE"/>
+        <result property="staffEntryTime" column="STAFF_ENTRY_TIME"/>
+        <result property="staffStatus" column="STAFF_STATUS"/>
+        <result property="staffComp" column="STAFF_COMP"/>
+        <result property="staffDismmissTime" column="STAFF_DISMMISS_TIME"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CUSTOMER_ID,STAFF_NAME,STAFF_CODE,STAFF_ENTRY_TIME,STAFF_STATUS,STAFF_COMP,STAFF_DISMMISS_TIME    </sql>
+
+    <select id="queryBusiStaffWhilte" resultMap="busiStaffWhilteMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_STAFF_WHILTE
+    </select>
+
+    <insert id="saveBusiStaffWhilte" parameterType="com.zdmoney.models.BusiStaffWhilte">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_STAFF_WHILTE.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_STAFF_WHILTE
+          (ID,CUSTOMER_ID,STAFF_NAME,STAFF_CODE,STAFF_ENTRY_TIME,STAFF_STATUS,STAFF_COMP,STAFF_DISMMISS_TIME)
+        VALUES
+          (#{id},#{customerId},#{staffName},#{staffCode},#{staffEntryTime},#{staffStatus},#{staffComp},#{staffDismmissTime})
+    </insert>
+
+    <update id="updateBusiStaffWhilte" parameterType="com.zdmoney.models.BusiStaffWhilte">
+        UPDATE BUSI_STAFF_WHILTE
+        <set>
+            <if test="customerId != null">
+                CUSTOMER_ID = #{customerId},
+            </if>
+            <if test="staffName != null">
+                STAFF_NAME = #{staffName},
+            </if>
+            <if test="staffCode != null">
+                STAFF_CODE = #{staffCode},
+            </if>
+            <if test="staffEntryTime != null">
+                STAFF_ENTRY_TIME = #{staffEntryTime},
+            </if>
+            <if test="staffStatus != null">
+                STAFF_STATUS = #{staffStatus},
+            </if>
+            <if test="staffComp != null">
+                STAFF_COMP = #{staffComp},
+            </if>
+            <if test="staffDismmissTime != null">
+                STAFF_DISMMISS_TIME = #{staffDismmissTime}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiStaffWhilteById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_STAFF_WHILTE WHERE ID = #{id}
+    </delete>
+
+    <select id="getStaffByCustomerId" resultMap="busiStaffWhilteMap" parameterType="java.lang.Long">
+      Select * FROM BUSI_STAFF_WHILTE where staff_status !=1 and customer_id=#{customerId,jdbcType=DECIMAL}
+    </select>
+</mapper>

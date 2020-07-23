@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.wdzj.LoanUserMapper" >
+   <resultMap id="LedgerMap" type="com.zdmoney.models.wdzj.LoanUser" >
+       <result column="subscribe_user_name" property="subscribeUserName" jdbcType="VARCHAR" />
+	    <result column="amount" 		 property="amount" jdbcType="DOUBLE" />
+	    <result column="valid_amount" 		 property="validAmount" jdbcType="DOUBLE" />
+	    <result column="add_date" 		 property="addDate" jdbcType="VARCHAR" />
+	    <result column="status" 		 property="status" jdbcType="INTEGER" />
+	    <result column="type" 		 property="type" jdbcType="INTEGER" />
+	    <result column="source_type" 		 property="sourceType" jdbcType="VARCHAR" />
+  </resultMap>
+
+</mapper>

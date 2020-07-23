@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.trade.BusiTradeTppMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.trade.BusiTradeTpp">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TPP_AGREEMENT" jdbcType="VARCHAR" property="tppAgreement" />
+    <result column="TRADE_FLOW_ID" jdbcType="DECIMAL" property="tradeFlowId" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiAccountOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiAccountOrder" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL" />
+    <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL" />
+    <result column="CM_RECHARGE_TYPE" property="cmRechargeType" jdbcType="VARCHAR" />
+    <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+    <result column="PAY_NUM" property="payNum" jdbcType="VARCHAR" />
+    <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="BANK_CARD_NO" property="bankCardNo" jdbcType="VARCHAR" />
+    <result column="PAY_TIME" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="PAY_STATUS" property="payStatus" jdbcType="VARCHAR" />
+    <result column="OPEN_PLATFORM" property="openPlatform" jdbcType="VARCHAR" />
+    <result column="TOGATHER_TYPE" property="togatherType" jdbcType="VARCHAR" />
+    <result column="OPEN_CHANNEL" property="openChannel" jdbcType="VARCHAR" />
+    <result column="OPEN_MECHANISM" property="openMechanism" jdbcType="VARCHAR" />
+    <result column="COUNTERFEE" property="counterFee" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CUSTOMER_ID, ORDER_AMT, CM_RECHARGE_TYPE, ORDER_NUM, PAY_NUM, ORDER_TIME, BANK_CARD_NO, 
+    PAY_TIME, PAY_STATUS, OPEN_PLATFORM, TOGATHER_TYPE, OPEN_CHANNEL, OPEN_MECHANISM,COUNTERFEE
+  </sql>
+  
+  
+  <select id="selectBusiAccountOrder" resultMap="BaseResultMap">
+		select 
+    <include refid="Base_Column_List" />
+    from BUSI_ACCOUNT_ORDER
+    where 1=1
+		
+			<if test="customerId != null">
+				and CUSTOMER_ID = #{customerId}
+			</if>
+			<if test="payStatus != null">
+				and PAY_STATUS = #{payStatus}
+			</if>
+			<if test="cmRechargeType != null">
+				and CM_RECHARGE_TYPE = #{cmRechargeType}
+			</if>
+				
+				 and to_char(ORDER_TIME, 'YYYY-MM-DD') = to_char(sysdate, 'YYYY-MM-DD')
+			
+			
+			
+		
+		
+	</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from BUSI_ACCOUNT_ORDER
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.models.BusiAccountOrder" >
+  <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_BUSI_ACCOUNT_ORDER.nextval from dual
+    </selectKey>
+    insert into BUSI_ACCOUNT_ORDER (ID, CUSTOMER_ID, ORDER_AMT, 
+      CM_RECHARGE_TYPE, ORDER_NUM, PAY_NUM, 
+      ORDER_TIME, BANK_CARD_NO, PAY_TIME, 
+      PAY_STATUS, OPEN_PLATFORM, TOGATHER_TYPE, 
+      OPEN_CHANNEL, OPEN_MECHANISM,COUNTERFEE)
+    values (#{id,jdbcType=DECIMAL}, #{customerId,jdbcType=DECIMAL}, #{orderAmt,jdbcType=DECIMAL}, 
+      #{cmRechargeType,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, #{payNum,jdbcType=VARCHAR}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{bankCardNo,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{payStatus,jdbcType=VARCHAR}, #{openPlatform,jdbcType=VARCHAR}, #{togatherType,jdbcType=VARCHAR}, 
+      #{openChannel,jdbcType=VARCHAR}, #{openMechanism,jdbcType=VARCHAR}, #{counterFee,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.BusiAccountOrder" >
+    insert into BUSI_ACCOUNT_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="customerId != null" >
+        CUSTOMER_ID,
+      </if>
+      <if test="orderAmt != null" >
+        ORDER_AMT,
+      </if>
+      <if test="cmRechargeType != null" >
+        CM_RECHARGE_TYPE,
+      </if>
+      <if test="orderNum != null" >
+        ORDER_NUM,
+      </if>
+      <if test="payNum != null" >
+        PAY_NUM,
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME,
+      </if>
+      <if test="bankCardNo != null" >
+        BANK_CARD_NO,
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME,
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS,
+      </if>
+      <if test="openPlatform != null" >
+        OPEN_PLATFORM,
+      </if>
+      <if test="togatherType != null" >
+        TOGATHER_TYPE,
+      </if>
+      <if test="openChannel != null" >
+        OPEN_CHANNEL,
+      </if>
+      <if test="openMechanism != null" >
+        OPEN_MECHANISM,
+      </if>
+      <if test="counterFee != null" >
+        COUNTERFEE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmt != null" >
+        #{orderAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="cmRechargeType != null" >
+        #{cmRechargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null" >
+        #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankCardNo != null" >
+        #{bankCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="openPlatform != null" >
+        #{openPlatform,jdbcType=VARCHAR},
+      </if>
+      <if test="togatherType != null" >
+        #{togatherType,jdbcType=VARCHAR},
+      </if>
+      <if test="openChannel != null" >
+        #{openChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="openMechanism != null" >
+        #{openMechanism,jdbcType=VARCHAR},
+      </if>
+      <if test="counterFee != null" >
+        #{counterFee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.BusiAccountOrder" >
+    update BUSI_ACCOUNT_ORDER
+    <set >
+      <if test="customerId != null" >
+        CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAmt != null" >
+        ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="cmRechargeType != null" >
+        CM_RECHARGE_TYPE = #{cmRechargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null" >
+        ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null" >
+        PAY_NUM = #{payNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null" >
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankCardNo != null" >
+        BANK_CARD_NO = #{bankCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payStatus != null" >
+        PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="openPlatform != null" >
+        OPEN_PLATFORM = #{openPlatform,jdbcType=VARCHAR},
+      </if>
+      <if test="togatherType != null" >
+        TOGATHER_TYPE = #{togatherType,jdbcType=VARCHAR},
+      </if>
+      <if test="openChannel != null" >
+        OPEN_CHANNEL = #{openChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="openMechanism != null" >
+        OPEN_MECHANISM = #{openMechanism,jdbcType=VARCHAR},
+      </if>
+      <if test="counterFee != null" >
+        COUNTERFEE = #{counterFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zdmoney.models.BusiAccountOrder" >
+    update BUSI_ACCOUNT_ORDER
+    set CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+      ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+      CM_RECHARGE_TYPE = #{cmRechargeType,jdbcType=VARCHAR},
+      ORDER_NUM = #{orderNum,jdbcType=VARCHAR},
+      PAY_NUM = #{payNum,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      BANK_CARD_NO = #{bankCardNo,jdbcType=VARCHAR},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      PAY_STATUS = #{payStatus,jdbcType=VARCHAR},
+      OPEN_PLATFORM = #{openPlatform,jdbcType=VARCHAR},
+      TOGATHER_TYPE = #{togatherType,jdbcType=VARCHAR},
+      OPEN_CHANNEL = #{openChannel,jdbcType=VARCHAR},
+      OPEN_MECHANISM = #{openMechanism,jdbcType=VARCHAR},
+      COUNTERFEE = #{counterFee,jdbcType=DECIMAL},
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

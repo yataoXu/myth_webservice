@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiRebateMapper" >
+
+  <resultMap id="RebatesResult" type="com.zdmoney.vo.BusiRebateVo" >
+    <result column="PURCHASE_DATE" property="purchaseDate" jdbcType="TIMESTAMP" />
+    <result column="INVITE_CODE" property="inviteCode" jdbcType="VARCHAR" />
+    <result column="REBATE_AMT" property="rebateAmt" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <!-- 查某客户某月返利记录 -->
+  <select id="selectMonRebatesDetails" parameterType="java.util.Map" resultMap="RebatesResult">
+  	select to_char(r.PURCHASE_DATE,'YYYY-MM-DD') as PURCHASE_DATE, m.cm_invite_code as INVITE_CODE, r.REBATE_AMT as REBATE_AMT
+    from BUSI_REBATE r left join busi_order o on r.order_id = o.id 
+    left join customer_main_info m on m.id = o.customer_id
+    where 1=1
+    <if test="customerId != null">
+    	and r.CUSTOMER_ID = #{customerId,jdbcType=DECIMAL}
+    </if>
+    <if test="yearMonth != null">
+    	 and to_char(r.PURCHASE_DATE,'YYYYMM')=#{yearMonth}
+    </if>
+    order by r.id 
+  </select>
+
+  <!--大拇指对接捞财宝视图-->
+  <resultMap id="YmResultMap" type="com.zdmoney.webservice.api.dto.ym.vo.BusiRebateVo" >
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="customer_code" property="customerCode" jdbcType="VARCHAR" />
+    <result column="REBATE_AMT" property="rebateAmt" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" />
+  </resultMap>
+
+  <select id="getRebateInfo" resultMap="YmResultMap" parameterType="com.zdmoney.webservice.api.dto.ym.BusiRebateDto">
+    select bo.order_num  order_no,
+    cmi.cm_number customer_code,
+    rebate_amt,
+    create_date
+
+    from busi_rebate br
+
+    left join busi_order bo
+    on (bo.id = br.order_id)
+
+    left join customer_main_info cmi
+    on (cmi.id = br.customer_id)
+    left join customer_main_info cmi2
+    on cmi2.cm_invite_code = cmi.cm_introduce_code
+    WHERE 1=1
+    AND ( cmi.USER_LABEL=1 or cmi.user_level=4 or (cmi.user_level=3 and cmi2.user_level=4) )
+    <if test="startTime != null" >
+      AND br.create_date >= to_date(#{startTime},'yyyy/mm/dd hh24:mi:ss')
+    </if>
+    <if test="endTime != null">
+      <![CDATA[
+            AND br.create_date <= to_date(#{endTime},'yyyy/mm/dd hh24:mi:ss')
+            ]]>
+    </if>
+  </select>
+</mapper>

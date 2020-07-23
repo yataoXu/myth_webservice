@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BorrowValidateCodeMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.BorrowValidateCode">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="CV_EMAIL" property="cvEmail" jdbcType="VARCHAR" />
+        <result column="CV_CODE" property="cvCode" jdbcType="VARCHAR"/>
+        <result column="CV_TYPE" property="cvType" jdbcType="DECIMAL"/>
+        <result column="CV_CREATE_TIME" property="cvCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="CV_EXPIRE_TIME" property="cvExpireTime" jdbcType="TIMESTAMP"/>
+        <result column="TRY_TIME" property="tryTime" jdbcType="DECIMAL"/>
+    </resultMap>
+    <select id="selectLastOneByEmailAndType" resultMap="BaseResultMap" parameterType="java.util.Map">
+         SELECT * FROM (
+            select
+            ID,CUSTOMER_ID,CV_EMAIL,CV_CODE,CV_TYPE,CV_CREATE_TIME,CV_EXPIRE_TIME,TRY_TIME
+            from BORROW_VALIDATE_CODE
+            where CV_EMAIL = #{email} AND CV_TYPE = #{type} ORDER BY CV_CREATE_TIME DESC
+        ) where ROWNUM=1
+    </select>
+</mapper>

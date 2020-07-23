@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.transfer.BusiDebtTransferMapper" >
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.transfer.BusiDebtTransfer">
+        <result column="ID" jdbcType="DECIMAL" property="id" />
+        <result column="TRANSFER_NO" jdbcType="VARCHAR" property="transferNo" />
+        <result column="TRANSFER_ID" jdbcType="DECIMAL" property="transferId" />
+        <result column="INIT_ORDER_NO" property="initOrderNo" jdbcType="VARCHAR"  />
+        <result column="NEW_ORDER_NO" property="newOrderNo" jdbcType="VARCHAR"  />
+        <result column="PUB_DATE" property="pubDate" jdbcType="TIMESTAMP"  />
+        <result column="TRANSFER_STATUS" property="transferStatus" jdbcType="VARCHAR"  />
+        <result column="TRANSFER_PRICE" property="transferPrice" jdbcType="DECIMAL"  />
+        <result column="TRANSFER_CHARGE" property="transferCharge" jdbcType="DECIMAL"  />
+        <result column="BUY_ID" property="buyId" jdbcType="DECIMAL"  />
+        <result column="TRANSFER_DATE" property="transferDate" jdbcType="TIMESTAMP"  />
+        <result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP"  />
+        <result column="LEFT_DAY" property="leftDay" jdbcType="DECIMAL"  />
+        <result column="TRANSFER_RATE" property="transferRate" jdbcType="DECIMAL"  />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"  />
+        <result column="IS_SETTLE" property="isSettle" jdbcType="VARCHAR"  />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL"  />
+        <result column="INIT_PRODUCT_ID" property="initProductId" jdbcType="DECIMAL"  />
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"  />
+        <result column="ORIGIN_ORDER_NO" property="originOrderNo" jdbcType="VARCHAR"  />
+        <result column="SERVICE_RATE" property="serviceRate" jdbcType="DECIMAL"  />
+        <result column="ORIGIN_PRODUCT_ID" property="originProductId" jdbcType="DECIMAL"  />
+    </resultMap>
+
+    <!--根据条件查询-->
+    <select id="getTransfersByParam" resultMap="BaseResultMap" parameterType="map">
+        select
+        *
+        from BUSI_DEBT_TRANSFER
+        where 1=1
+        <if test="transferNo != null">
+            and TRANSFER_NO = #{transferNo}
+        </if>
+        <if test="transferId != null">
+            and transfer_id = #{transferId}
+        </if>
+        <if test="buyId != null">
+            and buy_id = #{buyId}
+        </if>
+        <if test="initOrderNo != null">
+            and init_order_no = #{initOrderNo}
+        </if>
+        <if test="newOrderNo != null">
+            and new_order_no = #{newOrderNo}
+        </if>
+        and transfer_status not in ('3','4')
+        order by ID desc
+    </select>
+
+    <!-- 查询债权转让 -->
+    <select id="selectDebtTransferByCondition" resultMap="BaseResultMap">
+        select * from busi_debt_transfer
+        <where>
+            <if test="transferDate!=null">
+                and to_char(transfer_date,'yyyy-MM-dd')=#{transferDate}
+            </if>
+            <if test="realTransferDate!=null">
+                and to_char(real_transfer_date,'yyyy-MM-dd')=#{realTransferDate}
+            </if>
+            <if test="isSettle!=null">
+                and IS_SETTLE=#{isSettle}
+            </if>
+            <if test="newOrderNo!=null">
+                and NEW_ORDER_NO=#{newOrderNo}
+            </if>
+            <if test="initOrderNo!=null">
+                and INIT_ORDER_NO=#{initOrderNo}
+            </if>
+            <if test="productId!=null">
+                and PRODUCT_ID=#{productId}
+            </if>
+            <if test="isPlan=='no'">
+                and (PRODUCT_TYPE is null  or PRODUCT_TYPE in('1','2','3'))
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="getMaxId" resultType="int">
+        select nvl(max(id),0)+1
+        from BUSI_DEBT_TRANSFER
+    </select>
+
+    <select id="getNewNo" resultType="int">
+        select count(id)+1
+        from BUSI_DEBT_TRANSFER
+        where origin_product_id=#{originProductId}
+    </select>
+
+    <!--更新转让单状态-->
+    <update id="updateTransferDebtStatus" parameterType="java.util.Map">
+        update BUSI_DEBT_TRANSFER
+        <set>
+            <if test="needStatus != null">
+                TRANSFER_STATUS = #{needStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="newOrderNo != null">
+                NEW_ORDER_NO = #{newOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="newOrderNo == null">
+                NEW_ORDER_NO = null,
+            </if>
+            <if test="buyId != null">
+                BUY_ID = #{buyId,jdbcType=DECIMAL},TRADE_DATE=sysdate,
+            </if>
+            <if test="buyId == null">
+                BUY_ID = null,TRADE_DATE=null,
+            </if>
+            UPDATE_DATE = sysdate
+        </set>
+        where ID = #{id,jdbcType=DECIMAL} and TRANSFER_STATUS = #{originStatus,jdbcType=DECIMAL}
+    </update>
+
+    <insert id="saveDebtTransfer" parameterType="com.zdmoney.models.transfer.BusiDebtTransfer">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select  SEQ_BUSI_DEBT_TRANSFER.nextval from dual
+        </selectKey>
+        insert into BUSI_DEBT_TRANSFER (id, TRANSFER_NO, TRANSFER_ID, PRODUCT_ID, INIT_PRODUCT_ID, INIT_ORDER_NO,
+        NEW_ORDER_NO, PUB_DATE,TRANSFER_STATUS,TRANSFER_PRICE,TRANSFER_CHARGE,BUY_ID,TRANSFER_DATE,TRADE_DATE,UPDATE_DATE,LEFT_DAY,
+        TRANSFER_RATE,IS_SETTLE,REMARK,ORIGIN_ORDER_NO,SERVICE_RATE,OUT_FEE_SERIAL,IN_FEE_SERIAL,TRANSFER_SERIAL,ORIGIN_PRODUCT_ID,PRODUCT_TYPE)
+        values (#{id,jdbcType=DECIMAL}, #{transferNo,jdbcType=VARCHAR}, #{transferId,jdbcType=DECIMAL},#{productId,jdbcType=DECIMAL},
+        #{initProductId,jdbcType=DECIMAL}, #{initOrderNo,jdbcType=VARCHAR},#{newOrderNo,jdbcType=VARCHAR}, #{pubDate,jdbcType=TIMESTAMP},
+        #{transferStatus,jdbcType=VARCHAR},#{transferPrice,jdbcType=DECIMAL},#{transferCharge,jdbcType=DECIMAL},#{buyId,jdbcType=DECIMAL},
+        #{transferDate,jdbcType=TIMESTAMP},#{tradeDate,jdbcType=TIMESTAMP},#{updateDate,jdbcType=TIMESTAMP},
+        #{leftDay,jdbcType=DECIMAL},#{transferRate,jdbcType=DECIMAL},#{isSettle,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},
+        #{originOrderNo,jdbcType=VARCHAR},#{serviceRate,jdbcType=DECIMAL},#{outFeeSerial,jdbcType=VARCHAR},#{inFeeSerial,jdbcType=VARCHAR},
+        #{transferSerial,jdbcType=VARCHAR},#{originProductId,jdbcType=VARCHAR},#{productType,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        UPDATE busi_debt_transfer set update_date=sysdate
+        <if test="updateStatus!=null">
+            ,transfer_status = #{updateStatus}
+        </if>
+        <if test="isSettle!=null">
+            ,IS_SETTLE = #{isSettle}
+        </if>
+        <if test="outFeeSerial!=null">
+            ,out_fee_serial = #{outFeeSerial}
+        </if>
+        <if test="inFeeSerial!=null">
+            ,in_fee_serial = #{inFeeSerial}
+        </if>
+        <if test="transferSerial!=null">
+            ,transfer_serial = #{transferSerial}
+        </if>
+        <where>
+            <if test="transferNo !=null and transferNo != ''">
+                and transfer_no = #{transferNo,jdbcType=VARCHAR}
+            </if>
+            <if test="initStatus!=null">
+                and transfer_status = #{initStatus}
+            </if>
+            <if test="initIsSettle!=null">
+                and IS_SETTLE = #{initIsSettle}
+            </if>
+            <if test="transferNos !=null and transferNos != ''">
+                and TRANSFER_NO in(${transferNos})
+            </if>
+        </where>
+    </update>
+
+
+    <!--根据原订单查询转让订单数量-->
+    <select id="getTransfersNumByInitOrderNum" resultType="long"  parameterType="java.util.Map">
+        select count(bdt.id)
+        from laocaibao.busi_match_suc_info bs
+        left join laocaibao.busi_order_sub bos on bs.finance_id=bos.debt_no
+        left join laocaibao.busi_debt_transfer bdt on bos.order_num=bdt.new_order_no
+        where bs.init_order_num=  #{initOrderNo,jdbcType=VARCHAR}  and bdt.id is not null
+    </select>
+
+
+
+    <resultMap id="DebtTransferDetailMap" type="com.zdmoney.models.transfer.DebtTransferDetail">
+    <result column="transferName" jdbcType="VARCHAR" property="transferName" />
+    <result column="transferIdNum" property="transferIdNum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="buyName" jdbcType="VARCHAR" property="buyName" />
+    <result column="buyIdNum" jdbcType="VARCHAR" property="buyIdNum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="debtorId" jdbcType="VARCHAR" property="debtorId" />
+    <result column="debtorNum" jdbcType="VARCHAR" property="debtorNum" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="debtorName" jdbcType="VARCHAR" property="debtorName" />
+    <result column="debtorPhone" jdbcType="VARCHAR" property="debtorPhone" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="transferPrice" jdbcType="VARCHAR" property="transferPrice" />
+    <result column="tradeDate" jdbcType="TIMESTAMP"  property="tradeDate" />
+    </resultMap>
+    <!-- 查询债权转让转让人受让人信息 -->
+    <select id="getBuyInfoAndTransferInfo" resultMap="DebtTransferDetailMap">
+    SELECT
+    cmi.cm_real_name transferName ,
+    cmi1.cm_real_name buyName,
+    cmi.cm_idnum  transferIdNum,
+    cmi1.cm_idnum buyIdNum
+    FROM
+    busi_debt_transfer bdt
+    LEFT JOIN customer_main_info cmi ON cmi.id = bdt.transfer_id
+    LEFT JOIN customer_main_info cmi1 ON cmi1.id = bdt.buy_id
+    WHERE
+    bdt.is_settle = 1
+    and bdt.id =#{deptTransferId,jdbcType=DECIMAL}
+    </select>
+
+
+
+</mapper>

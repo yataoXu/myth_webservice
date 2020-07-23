@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:c="http://www.springframework.org/schema/c"
+	   xmlns:cache="http://www.springframework.org/schema/cache"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	   http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"
+		   p:maxIdle="${redis.pool.maxIdle}"
+		   p:testOnBorrow="${redis.pool.testOnBorrow}" />
+	<bean id="jedisConnectionFactory"
+		  class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		  p:poolConfig-ref="jedisPoolConfig" p:usePool="true" c:clusterConfig-ref="redisClusterConfiguration"/>
+
+	<bean id="redisClusterConfiguration" class="com.zdmoney.common.RefreshabeRedisClusterConfiguration"/>
+
+	<!-- redis template definition -->
+	<bean id="stringRedisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+		  p:connectionFactory-ref="jedisConnectionFactory" />
+
+	<bean id="sessionManager" class="com.zdmoney.session.RedisSessionManager" />
+
+	<bean id="customerSessionService" class="com.zdmoney.session.CustomerSessionService" />
+
+	<!-- redisTemplate模板 -->
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connectionFactory-ref="jedisConnectionFactory">
+		<property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+		</property>
+	</bean>
+
+	<cache:annotation-driven cache-manager="cacheManager"/>
+
+	 <!--redis缓存管理器-->
+	<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" p:defaultExpiration="120">
+		<constructor-arg name="redisOperations" ref="redisTemplate"/>
+	</bean>
+
+	<util:set id="freeAccessCodes" set-class="java.util.HashSet">
+		<value>300005</value>
+		<value>400001</value>
+		<value>400002</value>
+		<value>400003</value>
+		<value>400005</value>
+		<value>400007</value>
+		<value>400011</value>
+		<value>400012</value>
+		<value>400014</value>
+		<!--<value>400015</value>-->
+		<value>400017</value>
+		<value>400018</value>
+		<value>400019</value>
+		<value>400020</value>
+		<value>400021</value>
+		<value>410001</value>
+		<value>410002</value>
+		<value>410003</value>
+		<value>500000</value>
+		<value>500014</value>
+		<value>501014</value><!-- WEB官网初始化 -->
+		<value>501015</value>
+		<value>500015</value>
+		<value>500016</value>
+		<value>501016</value><!-- PC端获取产品详情 不需要信息披露部分 -->
+		<value>501017</value><!-- app 获取菜单icon接口 -->
+		<value>500017</value>
+		<value>500018</value>
+		<value>500019</value>
+		<value>500020</value>
+		<value>500021</value>
+		<value>500023</value>
+		<value>500036</value> <!-- 转让产品列表 -->
+		<!--<value>520004</value>-->
+		<value>600001</value>
+		<value>600002</value>
+		<value>600004</value>
+		<value>600012</value>
+		<value>600013</value>
+		<value>700003</value>
+		<value>700004</value>
+		<value>700005</value>
+		<value>700008</value>
+		<value>710001</value>
+		<value>710002</value>
+		<value>710003</value>
+		<value>710004</value>
+		<value>800001</value>
+		<value>800002</value>
+		<value>800003</value>
+		<value>800004</value>
+		<value>800006</value>
+		<value>800007</value>
+		<value>800008</value>
+		<value>800009</value>
+		<value>800010</value>
+		<value>800011</value>
+		<value>800012</value>
+		<value>800013</value>
+		<value>800014</value>
+		<value>800015</value>
+		<value>810001</value>
+		<value>810002</value>
+		<value>810003</value>
+		<value>900011</value>
+		<value>901001</value>
+		<value>901002</value>
+		<value>901003</value>
+		<value>902001</value>
+		<!--<value>540001</value>// 借款首页初始化
+		<value>540002</value>// 借款详情
+		<value>540003</value>// 还款详情
+		<value>540004</value>// 立即签约
+		<value>540005</value>// 查询借款协议-->
+		<value>540007</value>
+		<value>540009</value>
+		<value>550006</value>
+		<value>400031</value>
+		<value>520018</value>
+		<value>520020</value>
+		<value>500801</value>
+		<value>500802</value>
+		<value>550004</value><!--获取银行限额数据-->
+		<value>820001</value><!--邀请好友-->
+		<value>500060</value>
+		<value>820011</value>
+		<value>510001</value>
+		<value>510002</value>
+		<!--<value>500029</value>
+		<value>500030</value>-->
+		<value>600020</value>
+		<value>600021</value>
+		<value>600022</value>
+		<value>400055</value>
+		<value>400056</value>
+		<value>400022</value>
+		<value>750001</value>
+		<value>430002</value>
+		<value>430004</value>
+		<value>430005</value>
+		<value>430018</value>
+	</util:set>
+
+	<util:set id="longLogFilterCodes" set-class="java.util.HashSet">
+		<value>500023</value>
+		<value>905002</value>
+	</util:set>
+</beans>

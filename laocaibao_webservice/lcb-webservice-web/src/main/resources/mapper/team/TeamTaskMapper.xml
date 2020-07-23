@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamTask" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TASK_NAME" property="taskName" jdbcType="VARCHAR" />
+    <result column="TASK_DESC" property="taskDesc" jdbcType="VARCHAR" />
+    <result column="INVEST_TERM" property="investTerm" jdbcType="DECIMAL" />
+    <result column="INVEST_AMT" property="investAmt" jdbcType="DECIMAL" />
+    <result column="TEAM_NUM" property="teamNum" jdbcType="DECIMAL" />
+    <result column="TASK_TYPE" property="taskType" jdbcType="VARCHAR" />
+    <result column="INVEST_TYPE" property="investType" jdbcType="VARCHAR" />
+    <result column="REWARD_TYPE" property="rewardType" jdbcType="VARCHAR" />
+    <result column="ADD_INTEREST_COUPON_ID" property="addInterestCouponId" jdbcType="VARCHAR" />
+    <result column="LCB_AMT" property="lcbAmt" jdbcType="DECIMAL" />
+    <result column="TASK_STATUS" property="taskStatus" jdbcType="DECIMAL" />
+    <result column="SHOW_STATUS" property="showStatus" jdbcType="DECIMAL" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="INVEST_TASK_TYPE" property="investTaskType" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="SHOW_TIME" property="showTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <select id="selectEnableTeamTask" resultMap="BaseResultMap" parameterType="java.util.Date">
+    select * from team_task t
+    where t.task_status = 1 and t.show_status = 1
+    and ((t.start_time is null and t.show_time is null)
+    or (t.start_time is not null and  t.show_time is null  and  t.start_time &lt; #{curDate})
+    or (t.show_time is not null and t.start_time is null  and   t.show_time &gt; #{curDate})
+    or (t.start_time is not null and t.show_time is not null  and  t.start_time &lt; #{curDate} and  t.show_time &gt; #{curDate} )
+    )
+    order by  t.invest_type asc,t.start_time asc,t.id asc
+  </select>
+
+  <select id="getFulfilNum" resultType="java.lang.Long">
+    select num from (select nvl(t.team_num,0) num from team_task t where t.task_status=1 and t.show_status=1 and task_type='1' order by id) where rownum=1
+  </select>
+</mapper>

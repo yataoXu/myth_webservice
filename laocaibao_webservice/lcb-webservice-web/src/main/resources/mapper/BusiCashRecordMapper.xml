@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.BusiCashRecordMapper">
+
+    <resultMap type="com.zdmoney.models.BusiCashRecord" id="busiCashRecordMap">
+        <result property="id" column="ID"/>
+        <result property="cmNumber" column="CM_NUMBER"/>
+        <result property="cashCouponId" column="CASH_COUPON_ID"/>
+        <result property="cashCouponType" column="CASH_COUPON_TYPE"/>
+        <result property="status" column="STATUS"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="modifyDate" column="MODIFY_DATE"/>
+        <result property="expireDate" column="EXPIRE_DATE"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CM_NUMBER,CASH_COUPON_ID,CASH_COUPON_TYPE,STATUS,CREATE_DATE,MODIFY_DATE,EXPIRE_DATE    </sql>
+
+    <select id="queryBusiCashRecord" resultMap="busiCashRecordMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_CASH_RECORD
+    </select>
+
+    <insert id="saveBusiCashRecord" parameterType="com.zdmoney.models.BusiCashRecord">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_BUSI_CASH_RECORD.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO BUSI_CASH_RECORD
+          (ID,CM_NUMBER,CASH_COUPON_ID,CASH_COUPON_TYPE,STATUS,CREATE_DATE,MODIFY_DATE,EXPIRE_DATE)
+        VALUES
+          (#{id},#{cmNumber},#{cashCouponId},#{cashCouponType},#{status},#{createDate},#{modifyDate},#{expireDate})
+    </insert>
+
+    <update id="updateBusiCashRecord" parameterType="com.zdmoney.models.BusiCashRecord">
+        UPDATE BUSI_CASH_RECORD
+        <set>
+            <if test="cmNumber != null">
+                CM_NUMBER = #{cmNumber},
+            </if>
+            <if test="cashCouponId != null">
+                CASH_COUPON_ID = #{cashCouponId},
+            </if>
+            <if test="cashCouponType != null">
+                CASH_COUPON_TYPE = #{cashCouponType},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE = #{createDate},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate},
+            </if>
+            <if test="expireDate != null">
+                EXPIRE_DATE = #{expireDate}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeBusiCashRecordById" parameterType="java.lang.Long">
+        DELETE FROM BUSI_CASH_RECORD WHERE ID = #{id}
+    </delete>
+
+    <select id="queryCashRecordByRepayDate" resultMap="busiCashRecordMap">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM BUSI_CASH_RECORD where CM_NUMBER= #{0}
+         <![CDATA[
+              and CASH_COUPON_TYPE='2' and  to_char(EXPIRE_DATE,'yyyy/MM/dd') >=  to_char( #{1} , 'yyyy/mm/dd')
+         ]]>
+    </select>
+
+    <select id="queryMonthCashRecord" resultMap="busiCashRecordMap">
+        SELECT <include refid="base_column_list"></include>
+          FROM
+               BUSI_CASH_RECORD where CM_NUMBER= #{0} and  cash_coupon_type =5 and
+                    to_char(CREATE_DATE,'MM') =  to_char(sysdate , 'MM')
+    </select>
+
+</mapper>

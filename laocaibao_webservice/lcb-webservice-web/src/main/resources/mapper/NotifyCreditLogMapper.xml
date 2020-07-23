@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.NotifyCreditLogMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.NotifyCreditLog">
+        <result column="apply_no" property="applyNo" jdbcType="VARCHAR" />
+        <result column="req_params" property="reqParams" jdbcType="VARCHAR" />
+        <result column="rsp_result" property="rspResult" jdbcType="VARCHAR" />
+        <result column="notify_type" property="notifyType" jdbcType="DECIMAL" />
+        <result column="customer_id" property="customerId" jdbcType="DECIMAL" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="all_columns">
+        apply_no,req_params,rsp_result,notify_type,customer_id,create_time,modify_time
+    </sql>
+
+    <insert id="save" parameterType="com.zdmoney.models.NotifyCreditLog">
+        insert into notify_credit_log(apply_no,req_params,rsp_result,notify_type,customer_id,create_time)
+        values(#{applyNo,jdbcType=VARCHAR},#{reqParams,jdbcType=VARCHAR},#{rspResult,jdbcType=VARCHAR},#{notifyType,jdbcType=DECIMAL},
+        #{customerId,jdbcType=VARCHAR},sysdate)
+    </insert>
+
+</mapper>

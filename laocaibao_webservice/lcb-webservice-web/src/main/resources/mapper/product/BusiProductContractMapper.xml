@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.product.BusiProductContractMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.product.BusiProductContract" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SUBJECT_NO" property="subjectNo" jdbcType="VARCHAR" />
+    <result column="LAST_EXPIRE" property="lastExpire" jdbcType="TIMESTAMP" />
+    <result column="PAY_END_TIME" property="payEndTime" jdbcType="VARCHAR" />
+    <result column="BORROWER_NAME" property="borrowerName" jdbcType="VARCHAR" />
+    <result column="BORROWER_TYPE" property="borrowerType" jdbcType="VARCHAR" />
+    <result column="ID_NO" property="idNo" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="BORROW_PURPOSE" property="borrowPurpose" jdbcType="VARCHAR" />
+    <result column="TRANSFEROR_NAME" property="transferorName" jdbcType="VARCHAR" />
+    <result column="TRANSFERORID_NO" property="transferoridNo" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="ORGANIZATION_NO" property="organizationNo" jdbcType="VARCHAR" />
+    <result column="ORGANIZATION_NAME" property="organizationName" jdbcType="VARCHAR" />
+    <result column="REPAY_TYPE" property="repayType" jdbcType="VARCHAR" />
+    <result column="BANK_CARD_USER" property="bankCardUser" jdbcType="VARCHAR" />
+    <result column="BANK_CARD_NO" property="bankCardNo" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="BANK_BRANCH" property="bankBranch" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SERNO" property="serno" jdbcType="VARCHAR" />
+    <result column="REFUND_STATUS" property="refundStatus" jdbcType="VARCHAR" />
+    <result column="IS_NOTIFY" property="isNotify" jdbcType="VARCHAR" />
+    <result column="COLLECT_AMOUNT" property="collectAmount" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="IS_FINISH" property="isFinish" jdbcType="VARCHAR" />
+    <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+    <result column="BORROWER_PHONE" property="borrowerPhone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+
+    <!--v4.3-->
+    <result column="PRODUCT_RANK" property="productRank" jdbcType="DECIMAL" />
+    <result column="LIABILITIES_RATE" property="liabilitiesRate" jdbcType="DECIMAL" />
+    <result column="BORROW_USE" property="borrowUse" jdbcType="VARCHAR" />
+    <result column="BURROW_INDUSTRY" property="burrowIndustry" jdbcType="VARCHAR" />
+    <result column="WORK_NATURE" property="workNature" jdbcType="VARCHAR" />
+    <result column="PRODUCT_INTEREST" jdbcType="DECIMAL" property="productInterest" />
+    <result column="YEAR_RATE" jdbcType="DECIMAL" property="yearRate" />
+    <result column="INTEREST_START_DATE" jdbcType="DATE" property="interestStartDate" />
+    <result column="INTEREST_END_DATE" jdbcType="DATE" property="interestEndDate" />
+    <result column="SALE_START_DATE" jdbcType="DATE" property="saleStartDate" />
+    <result column="SALE_END_DATE" jdbcType="DATE" property="saleEndDate" />
+    <result column="CREDIT_SOURCE" jdbcType="VARCHAR" property="creditSource" />
+  </resultMap>
+
+  <update id="updateFinishStatus" parameterType="java.lang.String" >
+    update busi_product_contract t
+    set IS_FINISH = '1' where SUBJECT_NO = #{subjectNo}
+  </update>
+
+  <update id="updateByMap" parameterType="java.util.Map" >
+    update busi_product_contract set IS_BUILD = #{isBuild} where SUBJECT_NO = #{subjectNo} and IS_BUILD = #{initBuild}
+  </update>
+
+  <select id="selectBusiProductContract" parameterType="java.util.Map" resultMap="BaseResultMap">
+     SELECT  *  from   busi_product_contract  where SUBJECT_NO = #{subjectNo}
+  </select>
+
+
+
+  <select id="selectBusiProductContractByPackedStatus" parameterType="java.util.Map" resultMap="BaseResultMap">
+     SELECT  *  from   busi_product_contract t
+     where  exists (
+                  select bsi.id from BUSI_SUBJECT_INFO bsi
+                  where bsi.SUBJECT_NO =t.SUBJECT_NO
+                  and IS_PACKED in
+                  <foreach collection="packedStatus" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                  </foreach>
+              )
+  </select>
+</mapper>
+
+
+
+

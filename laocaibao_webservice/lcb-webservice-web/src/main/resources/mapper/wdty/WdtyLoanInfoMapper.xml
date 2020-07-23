@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.wdty.WdtyLoanInfoMapper">
+
+    <resultMap type="com.zdmoney.models.wdty.WdtyLoanInfo" id="wdtyLoanInfoMap">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="username" column="USERNAME"/>
+        <result property="userid" column="USERID"/>
+        <result property="status" column="STATUS"/>
+        <result property="c_type" column="C_TYPE"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="rate" column="RATE"/>
+        <result property="period" column="PERIOD"/>
+        <result property="pay_way" column="PAY_WAY"/>
+        <result property="process" column="PROCESS"/>
+        <result property="start_time" column="START_TIME"/>
+        <result property="end_time" column="END_TIME"/>
+        <result property="invest_num" column="INVEST_NUM"/>
+        <result property="transferStatus" column="TRANSFER_STATUS"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="planId" column="PLAN_ID"/>
+    </resultMap>
+
+    <resultMap type="com.zdmoney.models.wdty.WdtyEarlySettlement" id="earlySettlementMap">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="username" column="USERNAME"/>
+        <result property="userid" column="USERID"/>
+        <result property="status" column="STATUS"/>
+        <result property="c_type" column="C_TYPE"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="rate" column="RATE"/>
+        <result property="period" column="PERIOD"/>
+        <result property="pay_way" column="PAY_WAY"/>
+        <result property="process" column="PROCESS"/>
+        <result property="prepayment_time" column="prepayment_time"/>
+        <result property="accrual_end_time" column="accrual_end_time"/>
+        <result property="end_time" column="END_TIME"/>
+        <result property="prepayment_type" column="prepayment_type"/>
+        <result property="prepayment_amount" column="prepayment_amount"/>
+        <result property="prepayment_accrual" column="prepayment_accrual"/>
+        <result property="transferStatus" column="TRANSFER_STATUS"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="planId" column="PLAN_ID"/>
+    </resultMap>
+
+    <resultMap type="com.zdmoney.webservice.api.dto.wdty.RebateOrderVo" id="orderRebate">
+        <result property="mobile" column="MOBILE" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result property="username" column="USERNAME"/>
+        <result property="reg_time" column="REG_TIME"/>
+        <result property="order_id" column="ORDER_ID"/>
+        <result property="status" column="STATUS"/>
+        <result property="amount" column="AMOUNT"/>
+        <result property="bid_id" column="BID_ID"/>
+        <result property="bid_name" column="BID_NAME"/>
+        <result property="rate" column="RATE"/>
+        <result property="pay_way" column="PAY_WAY"/>
+        <result property="period" column="PERIOD"/>
+        <result property="trade_time" column="TRADE_TIME"/>
+        <result property="start_time" column="START_TIME"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,TITLE,USERNAME,USERID,STATUS,C_TYPE,AMOUNT,RATE,PERIOD,PAY_WAY,PROCESS,START_TIME,END_TIME,INVEST_NUM,TRANSFER_STATUS,DATA_TYPE,PLAN_ID    </sql>
+
+    <select id="queryWdtyLoanInfo" resultMap="wdtyLoanInfoMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"></include>
+        FROM WDTY_LOAN_INFO WHERE 1=1
+        <if test="time_from != null">
+            AND to_date(end_time,'yyyy-MM-dd hh24:mi:ss') &gt;= to_date(#{time_from},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="time_to != null">
+            AND to_date(end_time,'yyyy-MM-dd hh24:mi:ss') &lt;= to_date(#{time_to},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+    </select>
+
+    <insert id="saveWdtyLoanInfo" parameterType="com.zdmoney.models.wdty.WdtyLoanInfo">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_WDTY_LOAN_INFO.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO WDTY_LOAN_INFO
+          (ID,TITLE,USERNAME,USERID,STATUS,C_TYPE,AMOUNT,RATE,PERIOD,PAY_WAY,PROCESS,START_TIME,END_TIME,INVEST_NUM,TRANSFER_STATUS,DATA_TYPE,PLAN_ID)
+        VALUES
+          (#{id},#{title},#{username},#{userid},#{status},#{cType},#{amount},#{rate},#{period},#{payWay},#{process},#{startTime},#{endTime},#{investNum},#{transferStatus},#{dataType},#{planId})
+    </insert>
+
+    <update id="updateWdtyLoanInfo" parameterType="com.zdmoney.models.wdty.WdtyLoanInfo">
+        UPDATE WDTY_LOAN_INFO
+        <set>
+            <if test="title != null">
+                TITLE = #{title},
+            </if>
+            <if test="username != null">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null">
+                USERID = #{userid},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="cType != null">
+                C_TYPE = #{cType},
+            </if>
+            <if test="amount != null">
+                AMOUNT = #{amount},
+            </if>
+            <if test="rate != null">
+                RATE = #{rate},
+            </if>
+            <if test="period != null">
+                PERIOD = #{period},
+            </if>
+            <if test="payWay != null">
+                PAY_WAY = #{payWay},
+            </if>
+            <if test="process != null">
+                PROCESS = #{process},
+            </if>
+            <if test="startTime != null">
+                START_TIME = #{startTime},
+            </if>
+            <if test="endTime != null">
+                END_TIME = #{endTime},
+            </if>
+            <if test="investNum != null">
+                INVEST_NUM = #{investNum},
+            </if>
+            <if test="transferStatus != null">
+                TRANSFER_STATUS = #{transferStatus},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType},
+            </if>
+            <if test="planId != null">
+                PLAN_ID = #{planId}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeWdtyLoanInfoById" parameterType="java.lang.Long">
+        DELETE FROM WDTY_LOAN_INFO WHERE ID = #{id}
+    </delete>
+
+    <select id="countWdzyInfoByDate" resultType="java.lang.Integer">
+        select count(1)
+          from laocaibao.wdty_loan_info t
+         where to_char(t.create_date, 'yyyy-MM-dd') =
+               to_char(sysdate, 'yyyy-MM-dd')
+    </select>
+
+    <select id="countWdzyPrepaymentByDate" resultType="java.lang.Integer">
+        select count(1)
+        from laocaibao.wdty_prepayment t
+        where to_char(t.create_date, 'yyyy-MM-dd') =
+        to_char(sysdate, 'yyyy-MM-dd')
+    </select>
+
+    <!--网贷天眼每日标数据-->
+    <insert id="insertLastDayWdzjInfoData">
+        insert into laocaibao.wdty_loan_info
+          select *
+            from (
+                 --个贷
+                  (select to_char(bp.id) id,
+                          bp.product_name title,
+                          to_char(info.id) username,
+                          to_char(info.id) userid,
+                          1 status,
+                          case bp.is_transfer
+                            when '0' then
+                             '0.1'
+                            else
+                             '4'
+                          end c_type,
+                          to_char(bp.total_invest_amt, 'fm99999999990.00') amount,
+                          to_char(round(bp.year_rate, 4), 'fm99999999990.0000') rate,
+                          trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 period,
+                          1 pay_way,
+                          '1.0' process,
+                          to_char(bp.create_date, 'yyyy-MM-dd hh24:mi:ss') start_time,
+                          to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') end_time,
+                          bp.total_invest_person invest_num,
+                          bp.is_transfer transfer_status,
+                          1 dataType,
+                          to_char(bp.id) plan_id,
+                          sysdate create_date,
+                          bp.subject_no subject_no
+                     from (select t.product_id, t.debtor_num
+                             from laocaibao.busi_order_sub t
+                            where (t.product_type = '3')
+                              and t.status in (0, 9, 10, 14, 16)
+                            group by t.product_id, t.debtor_num) a
+                     join laocaibao.busi_product_sub bp
+                       on a.product_id = bp.id
+                     join laocaibao.customer_main_info info
+                       on a.debtor_num = info.cm_number
+                    where to_char(bp.interest_start_date, 'yyyy-MM-dd') =
+                          to_char(sysdate - 1, 'yyyy-MM-dd')) union
+                 --理财计划非转让
+                  (select to_char(bp.id) id,
+                          bp.product_name title,
+                          to_char(info.id) username,
+                          to_char(info.id) userid,
+                          1 status,
+                          '0.1' c_type,
+                          a.amt amount,
+                          to_char(round(bp.year_rate, 4), 'fm99999999990.0000') rate,
+                          trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1 period,
+                          1 pay_way,
+                          '1.0' process,
+                          to_char(bp.create_date, 'yyyy-MM-dd hh24:mi:ss') start_time,
+                          to_char(bp.interest_start_date, 'yyyy-MM-dd hh24:mi:ss') end_time,
+                          bp.total_invest_person invest_num,
+                          '0' transfer_status,
+                          3 dataType,
+                          to_char(bp.plan_id) plan_id,
+                          sysdate create_date,
+                          bp.subject_no subject_no
+                     from (select t.product_id,
+                                  t.debtor_num,
+                                  t.plan_id,
+                                  t.subject_no,
+                                  to_char(sum(t.order_amt), 'fm99999999990.00') amt
+                             from laocaibao.busi_order_sub t
+                            where t.product_type = '5'
+                              and t.debt_type = 1
+                              and t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+                            group by t.product_id,
+                                     t.debtor_num,
+                                     t.plan_id,
+                                     t.subject_no) a
+                     join laocaibao.busi_product_sub bp
+                       on a.product_id = bp.id
+                     join laocaibao.customer_main_info info
+                       on a.debtor_num = info.cm_number
+                    where to_char(bp.interest_start_date, 'yyyy-MM-dd') =
+                          to_char(sysdate - 1, 'yyyy-MM-dd')) union
+
+                 --理财计划转让
+
+                  (select a.subject_no || '_' || a.plan_id || '_' ||
+                          a.interest_start_date id,
+                          a.subject_no || '_' || a.plan_id || '_' ||
+                          a.interest_start_date title,
+                          to_char(info.id) username,
+                          to_char(info.id) userid,
+                          1 status,
+                          '4' c_type,
+                          a.amount amount,
+                          to_char(round(bpc.year_rate, 4), 'fm99999999990.0000') rate,
+                          trunc(bpc.interest_end_date) -
+                          trunc(to_date(a.interest_start_date, 'yyyy-MM-dd')) + 1 period,
+                          1 pay_way,
+                          '1.0' process,
+                          a.interest_start_date || ' 00:00:00' start_time,
+                          a.interest_start_date || ' 00:00:00' end_time,
+                          a.invest_num invest_num,
+                          '1' transfer_status,
+                          4 dataType,
+                          to_char(a.plan_id) plan_id,
+                          sysdate create_date,
+                          a.subject_no subject_no
+                     from (select count(t.debtor_num) invest_num,
+                                  to_char(sum(t.order_amt), 'fm99999999990.00') amount,
+                                  t.subject_no,
+                                  to_char(t.interest_start_date, 'yyyy-MM-dd') interest_start_date,
+                                  t.debtor_num,
+                                  t.plan_id
+                             from laocaibao.busi_order_sub t
+                            where t.product_type = 5
+                              and t.debt_type = 2
+                              and t.status in (0, 9, 10, 14, 16, 17, 18, 19)
+                            group by t.subject_no,
+                                     to_char(t.interest_start_date, 'yyyy-MM-dd'),
+                                     t.debtor_num,
+                                     t.plan_id) a
+                     left join laocaibao.busi_product_contract bpc
+                       on a.subject_no = bpc.subject_no
+                     left join laocaibao.customer_main_info info
+                       on a.debtor_num = info.cm_number
+                    where a.interest_start_date = to_char(sysdate - 1, 'yyyy-MM-dd')))
+    </insert>
+
+    <!--网贷天眼每日提前结清数据数据-->
+    <insert id="insertLastDayWdzjPrepaymentData">
+          insert into laocaibao.wdty_prepayment
+              select *
+                from (select opp.subject_no,
+                             bpc.ahead_pay_date,
+                             sum(case
+                                   when opp.repay_status in (3, 8) then
+                                    opp.principal
+                                   else
+                                    0
+                                 end) received_principal,
+                             sum(case
+                                   when opp.repay_status = 3 then
+                                    opp.interest
+                                   else
+                                    0
+                                 end) received_interest,
+                             sysdate create_date
+                        from laocaibao.busi_order_pay_plan opp
+                        left join laocaibao.busi_order_sub bos
+                          on opp.order_num = bos.order_num
+                        left join laocaibao.busi_product_contract bpc
+                          on bpc.subject_no = opp.subject_no
+                       where trunc(bpc.ahead_pay_date) = trunc(sysdate - 1)
+                         and NOT EXISTS
+                       (select p.subject_no
+                                from laocaibao.wdty_prepayment p
+                               where p.subject_no = opp.subject_no)
+                         and bos.status in (0, 9, 10, 14, 16, 17, 18, 19)
+                       group by opp.subject_no, bpc.ahead_pay_date)
+    </insert>
+
+    <select id="getOrderRebates" resultMap="orderRebate" parameterType="com.zdmoney.webservice.api.dto.wdty.RebateReqDto">
+        select a.*
+        from (select cmi.cm_cellphone mobile,
+        cmi.cm_real_name username,
+        cmi.cm_input_date reg_time,
+        bo.id order_id,
+        bp.interest_start_date,
+        case
+        when bo.status = 0 and (bo.interest_start_date is null or
+        bo.interest_start_date &gt; sysdate) then
+        1
+        when (bo.status = 0 and bo.interest_start_date &lt;= sysdate) or
+        bo.status = 9 or bo.status = 14 or bo.status = 17 or
+        bo.status = 18 then
+        2
+        when bo.status = 4 then
+        3
+        when bo.status = 10 or bo.status = 16 or bo.status = 19 then
+        4
+        end status,
+        bo.order_amt amount,
+        bo.product_id bid_id,
+        bo.product_name bid_name,
+        bo.year_rate*100 rate,
+        case
+        when bo.product_type = 3 then
+        3
+        when bo.product_type = 4 then
+        7
+        end pay_way,
+        case when bp.close_day is null then trunc(bp.interest_end_date) - trunc(bp.interest_start_date) + 1
+             when bp.close_day is not null then bp.close_day
+        end period,
+        bo.order_time trade_time,
+        bo.interest_start_date start_time
+        from busi_order bo
+        inner join customer_main_info cmi
+        on cmi.id = bo.customer_id
+        inner join busi_product bp
+        on bp.id = bo.product_id
+        where cmi.channel_code = 'hlw-wdty'
+        and cmi.cm_valid = 0
+        and bo.status in (0, 4, 9, 10, 14, 16, 17, 18, 19)
+        and bo.product_type in (3, 4)
+        and bo.transfer_type = 0
+        <if test="start_time != null and start_time != ''">
+            AND bo.ORDER_TIME &gt;= to_date(#{start_time},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="end_time != null and end_time != ''">
+            AND bo.ORDER_TIME &lt;= to_date(#{end_time},'yyyy-MM-dd hh24:mi:ss')
+        </if>
+        <if test="mobile != null and mobile != ''">
+            AND cmi.cm_cellphone = #{mobile,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="order_id != null and order_id != ''">
+            AND bo.id in
+            <foreach collection="order_id.split(',')" item="pId" index="index" open="(" close=")" separator=",">
+                ${pId}
+            </foreach>
+        </if> ) a
+        where ((a.period between 89 and 120) and amount >= 5000)
+        or ((a.period between 170 and 210) and amount >= 5000)
+        or ((a.period >= 350) and amount >= 3000)
+    </select>
+    
+    <select id="earlySettlementByDate" resultMap="earlySettlementMap" parameterType="java.util.Map">
+              select wli.id,
+               '捞财宝' platform_name,
+               wli.username username,
+               wli.userid userid,
+               wli.title,
+               wli.status status,
+               wli.c_type c_type,
+               wli.amount amount,
+               wli.rate rate,
+               wli.period period,
+               0 p_type,
+               wli.pay_way pay_way,
+               wli.process process,
+               to_char(a.ahead_pay_date,'yyyy-MM-dd hh24:mi:ss') prepayment_time,
+               to_char(a.ahead_pay_date,'yyyy-MM-dd hh24:mi:ss') accrual_end_time,
+               wli.end_time end_time,
+               0 prepayment_type,
+               (a.received_principal + a.received_interest) prepayment_amount,
+               a.received_interest prepayment_accrual,
+               wli.data_type data_type,
+               wli.transfer_status transfer_status,
+               wli.plan_id plan_id
+          from wdty_prepayment a
+         inner join laocaibao.wdty_loan_info wli
+            on wli.subject_no = a.subject_no
+         where wli.transfer_status = 0
+            <if test="time_from != null">
+                AND a.ahead_pay_date &gt;= to_date(#{time_from},'yyyy-MM-dd hh24:mi:ss')
+            </if>
+            <if test="time_to != null">
+                AND a.ahead_pay_date &lt;= to_date(#{time_to},'yyyy-MM-dd hh24:mi:ss')
+            </if>
+    </select>
+</mapper>

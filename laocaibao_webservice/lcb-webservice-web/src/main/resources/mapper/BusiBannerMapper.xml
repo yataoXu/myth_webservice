@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.BusiBannerMapper">
+  <resultMap type="com.zdmoney.vo.BannerVo" id="QueryBannerMap">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+  	<result column="url" jdbcType="VARCHAR" property="url"/>
+  	<result column="imgName" jdbcType="VARCHAR" property="imgName"/>
+      <result column="title" jdbcType="VARCHAR" property="title"/>
+  </resultMap>
+
+   <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiBanner">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MAKER" jdbcType="VARCHAR" property="maker" />
+    <result column="MAKE_DATE" jdbcType="TIMESTAMP" property="makeDate" />
+    <result column="BANNER_IMG_URL" jdbcType="VARCHAR" property="bannerImgUrl" />
+    <result column="BANNER_URL" jdbcType="VARCHAR" property="bannerUrl" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="ISSUE" jdbcType="DECIMAL" property="issue" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+     <result column="TYPE" jdbcType="VARCHAR" property="type"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, MAKER, MAKE_DATE, BANNER_IMG_URL, BANNER_URL, START_DATE, END_DATE, ISSUE, TITLE,TYPE
+  </sql>
+
+  <select id="queryBanner" resultMap="QueryBannerMap" parameterType="java.util.Map">
+  	select bb.id as id, bb.banner_url as url,bb.banner_img_url as imgName,bb.title as title
+  	from busi_banner bb
+	where bb.issue = 1
+    <if test="type != null">
+      and TYPE = #{type}
+    </if>
+      <if test="type != 2">
+          <![CDATA[
+            and  to_char(bb.start_date,'yyyy/MM/dd') <=  to_char(sysdate,'yyyy/MM/dd')
+            and  to_char(bb.end_date,'yyyy/MM/dd')>= to_char(sysdate,'yyyy/MM/dd')
+          ]]>
+      </if>
+      <if test="type == 2">
+          <![CDATA[
+          and  (
+              (to_char(bb.start_date,'yyyy/MM/dd') <=  to_char(sysdate,'yyyy/MM/dd')
+                    and  to_char(bb.end_date,'yyyy/MM/dd')>= to_char(sysdate,'yyyy/MM/dd')
+              )
+              or bb.start_date is null
+              or bb.end_date is null
+          )
+	      ]]>
+      </if>
+    order by SORT desc,MAKE_DATE desc
+  </select>
+
+  <select id="getBusiBannerList" resultMap="BaseResultMap" parameterType="java.util.Map">
+     select
+    <include refid="Base_Column_List" />
+     from BUSI_BANNER where 1=1
+     <if test="issue != null">
+       and   ISSUE = 1
+      </if>
+    <if test="startDate != null">
+        and START_DATE &lt;= to_date(#{startDate},'yyyy-MM-dd')
+    </if>
+    <if test="endDate != null">
+        and END_DATE  &gt;=to_date(#{endDate},'yyyy-MM-dd')
+    </if>
+    <if test="type != null">
+       and TYPE = #{type}
+    </if>
+    order by ISSUE asc,MAKE_DATE desc
+  </select>
+
+</mapper>

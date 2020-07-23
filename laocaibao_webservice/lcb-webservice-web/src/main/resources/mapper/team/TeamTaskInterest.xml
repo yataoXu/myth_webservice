@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.team.TeamTaskInterestMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.team.TeamTaskInterest" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="INTEREST_NAME" property="interestName" jdbcType="VARCHAR" />
+    <result column="INTEREST_RATE" property="interestRate" jdbcType="DECIMAL" />
+    <result column="INTEREST_DAY" property="interestDay" jdbcType="DECIMAL" />
+    <result column="VALID_DAY" property="validDay" jdbcType="DECIMAL" />
+    <result column="INVEST_PERIOD" property="investPeriod" jdbcType="DECIMAL" />
+    <result column="INVEST_LOWER_AMT" property="investLowerAmt" jdbcType="DECIMAL" />
+  </resultMap>
+</mapper>

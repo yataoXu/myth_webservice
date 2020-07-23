@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="webs-api"/>
+    <dubbo:registry protocol="zookeeper" address="zookeeper://172.17.34.121:2181;172.17.34.122:2181;172.17.34.123:2181" timeout="10000"/>
+
+    <!--<dubbo:reference id="orderService" interface="com.zdmoney.webservice.api.facade.IDataOrderService" url="dubbo://18.10.1.27:20882"/>-->
+
+    <!--<dubbo:reference id="customerInfoService" interface="com.zdmoney.webservice.api.facade.ICustomerInfoService" url="dubbo://18.10.1.27:20882"/>-->
+
+    <dubbo:reference id="userService" interface="com.zdmoney.webservice.api.facade.IUserFacadeService" timeout="300000" version="1.0.1" url="dubbo://18.10.1.27:20882"/>
+
+    <dubbo:reference id="productService" interface="com.zdmoney.webservice.api.facade.IProductFacadeService" timeout="300000" version="1.0" url="dubbo://18.10.1.27:20882"/>
+
+    <dubbo:reference id="appService" interface="com.zdmoney.webservice.api.facade.IAppFacadeService" timeout="300000" version="1.0" url="dubbo://18.10.1.27:20882"/>
+</beans>

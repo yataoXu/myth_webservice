@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiBorrowCertificateMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.webservice.api.dto.busi.BusiBorrowCertificateDto">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP"/>
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="CM_NAME" property="cmName" jdbcType="VARCHAR"/>
+        <result column="CELLPHONE" property="cellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="MONEY" property="money" jdbcType="DECIMAL"/>
+        <result column="ORIGIN" property="origin" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID,CREATE_DATE,EXPIRE_DATE,CM_NUMBER,CM_NAME,CELLPHONE,MONEY,ORIGIN
+    </sql>
+
+    <select id="selectByCmNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM (
+            select
+              ID,CREATE_DATE,EXPIRE_DATE,CM_NUMBER,CM_NAME,CELLPHONE,MONEY,ORIGIN
+            from BUSI_BORROW_CERTIFICATE
+            where CM_NUMBER = #{cmNumber} AND ORIGIN = '用户' ORDER BY CREATE_DATE DESC
+        ) where ROWNUM=1
+    </select>
+    <select id="selectListByMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM BUSI_BORROW_CERTIFICATE
+        <where>
+            <if test="cmName!=null and cmName!=''">
+                AND CM_NAME LIKE '%'||#{cmName}||'%'
+            </if>
+            <if test="cellphone != null and cellphone != ''">
+                AND CELLPHONE LIKE '%'||#{cellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}||'%'
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND to_char(CREATE_DATE,'yyyy-MM-dd') >=#{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND to_char(CREATE_DATE,'yyyy-MM-dd') &lt;=#{endTime}
+            </if>
+            <if test="origin != null and origin != ''">
+                AND ORIGIN=#{origin}
+            </if>
+        </where>
+    </select>
+    <insert id="insertRecord" parameterType="com.zdmoney.webservice.api.dto.busi.BusiBorrowCertificateDto">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select Seq_Borrow_Certificate.nextval from dual
+        </selectKey>
+        insert into
+        BUSI_BORROW_CERTIFICATE(id,CM_NUMBER,CREATE_DATE,EXPIRE_DATE,CM_NAME,CELLPHONE,MONEY,ORIGIN)
+        values(#{id,jdbcType=DECIMAL},#{cmNumber},#{createDate},#{expireDate},#{cmName},
+        #{cellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},#{money},#{origin})
+    </insert>
+
+</mapper>

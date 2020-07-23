@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.lottey.LotteryInvestAlertMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.lottey.LotteryInvestAlert" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+    <result column="CM_NAME" property="cmName" jdbcType="VARCHAR" />
+    <result column="ALERT_START_DATE" property="alertStartDate" jdbcType="DATE" />
+    <result column="ALERT_END_DATE" property="alertEndDate" jdbcType="DATE" />
+    <result column="SHARE_START_DATE" property="shareStartDate" jdbcType="DATE" />
+    <result column="SHARE_END_DATE" property="shareEndDate" jdbcType="DATE" />
+    <result column="IS_ALERT" property="isAlert" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="MODIFY_DATE" property="modifyDate" jdbcType="DATE" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--查询用户给某段结息时间的订单-->
+  <select id="selectAlertBycmNumAndDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+      ID,CM_NUMBER,CM_NAME,ALERT_START_DATE,ALERT_END_DATE,SHARE_START_DATE,SHARE_END_DATE,IS_ALERT,CREATE_DATE,MODIFY_DATE,CREATE_BY
+    FROM
+      T_LOT_INVEST_ALERT
+    WHERE
+    CM_NUMBER = #{cmNumber}
+    <![CDATA[
+            AND CREATE_DATE > to_date(#{startDate}, 'yyyy/mm/dd hh24:mi:ss')
+            ]]>
+  </select>
+  <!--查询用户给某段结息时间的订单-->
+  <select id="countBycmNumAndDate" resultType="java.lang.Integer" parameterType="java.util.Map">
+    SELECT
+      COUNT (*)
+    FROM
+      T_LOT_INVEST_ALERT
+    WHERE
+      CM_NUMBER = #{cmNumber}
+    <![CDATA[
+            AND CREATE_DATE >= to_date(#{startDate}, 'yyyy/mm/dd hh24:mi:ss')
+            AND CREATE_DATE <= to_date(#{endDate}, 'yyyy/mm/dd hh24:mi:ss')
+            ]]>
+  </select>
+  <!--插入-->
+  <insert id="insert" parameterType="com.zdmoney.models.lottey.LotteryInvestAlert">
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select
+      SEQ_T_LOT_INVEST_ALERT.nextval from dual
+    </selectKey>
+    insert into T_LOT_INVEST_ALERT
+      ( ID,CM_NUMBER,CM_NAME,ALERT_START_DATE,ALERT_END_DATE,SHARE_START_DATE,SHARE_END_DATE,IS_ALERT,CREATE_DATE,MODIFY_DATE,CREATE_BY )
+    values (#{id,jdbcType=DECIMAL}, #{cmNumber,jdbcType=VARCHAR}, #{cmName,jdbcType=VARCHAR},
+    #{alertStartDate,jdbcType=TIMESTAMP}, #{alertEndDate,jdbcType=TIMESTAMP}, #{shareStartDate,jdbcType=TIMESTAMP},
+    #{shareEndDate,jdbcType=TIMESTAMP}, #{isAlert,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+    #{modifyDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR} )
+  </insert>
+
+  <update id="updateShareDateByPrimaryKey" parameterType="com.zdmoney.models.lottey.LotteryInvestAlert">
+    update T_LOT_INVEST_ALERT set SHARE_START_DATE = #{shareStartDate} where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="queryExchangeCoinCount" resultType="long">
+      select coin_exchange from t_lot_lottery_type where activity_type = 3 and name = '抓公仔活动'
+  </select>
+
+  <select id="queryCoinCount" resultType="long">
+    select coin_exchange from t_lot_lottery_type where activity_type = 3 and name = '黄金刮刮卡'
+  </select>
+</mapper>

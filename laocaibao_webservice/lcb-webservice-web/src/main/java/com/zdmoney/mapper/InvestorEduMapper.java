@@ -1,0 +1,17 @@
+package com.zdmoney.mapper;
+
+import com.zdmoney.models.InvestorEdu;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author Gosling
+ * @date 2018-08-20 14:17:17
+ */
+public interface InvestorEduMapper {
+
+    List<InvestorEdu> queryInvestorEdu(Map<String, Object> paramsMap);
+
+    int queryInvestorEduCount(Map<String, Object> paramsMap);
+
+}

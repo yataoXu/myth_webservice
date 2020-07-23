@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysNoticeMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysNotice">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="BEGIN_DATE" property="beginDate" jdbcType="TIMESTAMP"/>
+        <result column="END_DATE" property="endDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATOR" property="creator" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="CONTENT" property="content" jdbcType="CLOB"/>
+        <result column="AUDIT_STATUS" property="auditStatus" jdbcType="DECIMAL"/>
+        <result column="AUDIT_MAN" property="auditMan" jdbcType="VARCHAR"/>
+        <result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="NOTICE_LABEL" property="noticeLabel" jdbcType="VARCHAR"/>
+        <result column="SUMMARY" property="summary" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="noticeDetail" type="com.zdmoney.vo.SysMessageVo">
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+        <result column="CONTENT" property="content" jdbcType="CLOB"/>
+        <result column="CREATOR" property="pubMan" jdbcType="VARCHAR"/>
+        <result column="pubDate" property="pubDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID, CREATE_DATE, BEGIN_DATE, END_DATE, CREATOR, STATUS, TITLE, CONTENT, AUDIT_STATUS,
+        AUDIT_MAN, AUDIT_DATE, REMARK , NOTICE_LABEL,SUMMARY
+    </sql>
+
+    <select id="getSysNoticeList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+          ID,TITLE,CONTENT,NOTICE_LABEL,BEGIN_DATE,SUMMARY
+        from SYS_NOTICE where 1=1
+        <if test="status != null">
+            and STATUS = #{status}
+        </if>
+        <if test="auditStatus != null">
+            and AUDIT_STATUS = #{auditStatus}
+        </if>
+        <if test="noticeType != null">
+            and notice_type = #{noticeType}
+        </if>
+        and sysdate &gt;= BEGIN_DATE and sysdate &lt;= END_DATE
+        order by AUDIT_DATE desc
+    </select>
+
+    <select id="noticeDetailById" resultMap="noticeDetail" parameterType="java.lang.Integer">
+        select TITLE,
+        CONTENT,
+        CREATOR,
+        to_char(BEGIN_DATE, 'yyyy-MM-dd hh24:mi:ss') pubDate
+        from SYS_NOTICE
+        where ID = #{id} AND STATUS = 1
+            AND AUDIT_STATUS = 1
+            AND notice_type = 1
+            and sysdate &gt;= BEGIN_DATE
+            and sysdate &lt;= END_DATE
+    </select>
+</mapper>

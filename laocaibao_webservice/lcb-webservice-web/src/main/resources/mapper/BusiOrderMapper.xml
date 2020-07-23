@@ -1,0 +1,1803 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.order.BusiOrderMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiOrder">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="ORDER_NUM" property="orderId" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL"/>
+        <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL"/>
+        <result column="INTEREST_START_DATE" property="interestStartDate" jdbcType="TIMESTAMP"/>
+        <result column="INTEREST_END_DATE" property="interestEndDate" jdbcType="TIMESTAMP"/>
+        <result column="PRINCIPALINTEREST" property="principalinterest" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR"/>
+        <result column="INVITE_CODE" property="inviteCode" jdbcType="VARCHAR"/>
+        <result column="CONFIRM_PAYMENT_DATE" property="confirmPaymentDate" jdbcType="TIMESTAMP"/>
+        <result column="PAY_SER_NUM" property="paySerNum" jdbcType="VARCHAR"/>
+        <result column="BANK_ACCOUNT_ID" jdbcType="DECIMAL" property="bankAccountId"/>
+        <result column="CM_OPEN_MECHANISM" jdbcType="VARCHAR" property="cmOpenMechanism"/>
+        <result column="CM_OPEN_PLATFORM" jdbcType="VARCHAR" property="cmOpenPlatform"/>
+        <result column="CM_TOGATHER_TYPE" jdbcType="VARCHAR" property="cmTogatherType"/>
+        <result column="CM_OPEN_CHANNEL" jdbcType="VARCHAR" property="cmOpenChannel"/>
+        <result column="CM_REGISTER_VERSION" jdbcType="VARCHAR" property="cmRegisterVersion"/>
+        <result column="IS_FIRST_ORDER" jdbcType="DECIMAL" property="isFirstOrder"/>
+        <result column="original_rate" jdbcType="DECIMAL" property="originalRate"/>
+        <result column="invte_rate" jdbcType="DECIMAL" property="inviteRate"/>
+        <result column="action_rate" jdbcType="DECIMAL" property="actionRate"/>
+        <result column="YEAR_RATE_STR" jdbcType="VARCHAR" property="yearRateStr"/>
+        <result column="day_profit" property="dayProfit" jdbcType="DECIMAL"/>
+        <result column="raise_day_profit" property="raiseDayProfit" jdbcType="DECIMAL"/>
+        <result column="raise_days" property="raiseDays" jdbcType="DECIMAL"/>
+        <result column="close_days" property="closeDays" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_TYPE" property="productType" jdbcType="INTEGER"/>
+        <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_TYPE" property="transferType" jdbcType="VARCHAR"/>
+        <result column="CASH_AMOUNT" property="cashAmount" jdbcType="VARCHAR"/>
+        <result column="HOLDER_TYPE" property="holderType" jdbcType="DECIMAL"/>
+        <result column="RE_INVEST_COUNT" property="reInvestCount" jdbcType="DECIMAL"/>
+        <result column="SPECIAL_MARK" property="specialMark" jdbcType="VARCHAR"/>
+        <result column="modify_date" property="modifyDate" jdbcType="TIMESTAMP"/>
+        <result column="exit_actual_date" property="exitActualDate" jdbcType="TIMESTAMP"/>
+        <result column="USER_LABEL" property="userLabel" jdbcType="VARCHAR"/>
+        <result column="USER_LEVEL" property="userLevel" jdbcType="VARCHAR"/>
+        <result column="MEMBER_LEVEL" property="memberLevel" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="orderSubMap" type="com.zdmoney.models.order.BusiOrderSubVo">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="ORDER_NUM" property="orderId" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="PRINCIPALINTEREST" property="principalinterest" jdbcType="DECIMAL"/>
+        <result column="CURR_TERM" property="currTerm" jdbcType="DECIMAL"/>
+        <result column="REPAY_DAY" property="repayDay" jdbcType="TIMESTAMP"/>
+        <result column="HOLDER_TYPE" property="holderType" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR"/>
+        <result column="product_type" property="productType" jdbcType="VARCHAR"/>
+        <result column="cm_number" property="cmNumber" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="BusiOrderSumMap" type="com.zdmoney.webservice.api.dto.finance.BusiOrderSumDto">
+        <result column="total_order_amt" property="totalOrderAmt" jdbcType="DECIMAL"/>
+        <result column="interest_start_date" property="interestStartDate" jdbcType="TIMESTAMP"/>
+        <result column="interest_end_date" property="interestEndDate" jdbcType="TIMESTAMP"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="bv_stat" property="bvStat" jdbcType="DECIMAL"/>
+        <result column="pay_date" property="payDate" jdbcType="VARCHAR"/>
+        <result column="close_days" property="closeDays" jdbcType="VARCHAR"/>
+        <result column="order_date" property="orderDate" jdbcType="VARCHAR"/>
+        <result column="total_principalinterest" property="totalPriInterest" jdbcType="DECIMAL"/>
+        <result column="total_cash_amount" property="totalPaymentCash" jdbcType="DECIMAL"/>
+        <result column="total_cust_interest" property="totalCustInterest" jdbcType="DECIMAL"/>
+        <result column="total_com_profit" property="totalComProfit" jdbcType="DECIMAL"/>
+        <result column="total_com_net_profit" property="totalComNProfit" jdbcType="DECIMAL"/>
+        <result column="total_fee" property="totalFee" jdbcType="DECIMAL"/>
+        <result column="total_com_principal_interest" property="totalComPriInterest" jdbcType="DECIMAL"/>
+        <result column="total_integral_amount" property="totalIntegral" jdbcType="DECIMAL"/>
+        <result column="total_coupon_amount" property="totalCoupon" jdbcType="DECIMAL"/>
+        <result column="raiseRateIncome" property="raiseRateIncome" jdbcType="DECIMAL"/>
+        <result column="totalCount" property="totalCount" jdbcType="DECIMAL"/>
+        <result column="product_type" property="productType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		ID, ORDER_NUM, CUSTOMER_ID, ORDER_AMT, PRODUCT_ID,
+		ORDER_TIME, STATUS,
+		YEAR_RATE,
+		INTEREST_START_DATE, INTEREST_END_DATE,
+		PRINCIPALINTEREST,
+		CUSTOMER_NAME,INVITE_CODE,CONFIRM_PAYMENT_DATE,PAY_SER_NUM, BANK_ACCOUNT_ID, CM_OPEN_MECHANISM, CM_OPEN_PLATFORM, 
+        CM_TOGATHER_TYPE, CM_OPEN_CHANNEL, CM_REGISTER_VERSION, IS_FIRST_ORDER,original_rate,invte_rate,action_rate,YEAR_RATE_STR,
+        DAY_PROFIT,RAISE_DAY_PROFIT,RAISE_DAYS,CLOSE_DAYS,PRODUCT_TYPE,PAY_TYPE,TRANSFER_TYPE, HOLDER_TYPE,RE_INVEST_COUNT,SPECIAL_MARK,USER_LABEL,USER_LEVEL,MEMBER_LEVEL
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select *  from BUSI_ORDER
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <select id="selectByOrderNo" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select *  from BUSI_ORDER
+        where ORDER_NUM = #{orderNo,jdbcType=DECIMAL}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		BUSI_ORDER
+		where ID = #{id,jdbcType=DECIMAL}
+	</delete>
+    <insert id="insert" parameterType="com.zdmoney.models.order.BusiOrder">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select
+            SQ_BUSI_ORDER.nextval from dual
+        </selectKey>
+        insert into BUSI_ORDER (ID, ORDER_NUM, CUSTOMER_ID,
+        ORDER_AMT, PRODUCT_ID, ORDER_TIME,
+        STATUS, YEAR_RATE, INTEREST_START_DATE,
+        INTEREST_END_DATE, PRINCIPALINTEREST, CUSTOMER_NAME,
+        INVITE_CODE, CONFIRM_PAYMENT_DATE, PAY_SER_NUM,
+        BANK_ACCOUNT_ID, CM_OPEN_MECHANISM, CM_OPEN_PLATFORM,
+        CM_TOGATHER_TYPE, CM_OPEN_CHANNEL, CM_REGISTER_VERSION,
+        IS_FIRST_ORDER,ORIGINAL_RATE,INVTE_RATE,ACTION_RATE,YEAR_RATE_STR,
+        DAY_PROFIT,RAISE_DAY_PROFIT,RAISE_DAYS,CLOSE_DAYS,PRODUCT_TYPE,SUBJECT_STATUS,PAY_TYPE,TRANSFER_TYPE,MODIFY_DATE,
+        RAISE_RATE_INCOME,COUPON_AMOUNT,INTEGRAL_AMOUNT,CASH_AMOUNT,DEBTOR_NUM,DEBTOR_NAME,HOLDER_TYPE)
+        values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=VARCHAR}, #{customerId,jdbcType=DECIMAL},
+        #{orderAmt,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{orderTime,jdbcType=TIMESTAMP},
+        #{status,jdbcType=VARCHAR}, #{yearRate,jdbcType=DECIMAL}, #{interestStartDate,jdbcType=TIMESTAMP},
+        #{interestEndDate,jdbcType=TIMESTAMP}, #{principalinterest,jdbcType=DECIMAL}, #{customerName,jdbcType=VARCHAR},
+        #{inviteCode,jdbcType=VARCHAR}, #{confirmPaymentDate,jdbcType=TIMESTAMP}, #{paySerNum,jdbcType=VARCHAR},
+        #{bankAccountId,jdbcType=DECIMAL}, #{cmOpenMechanism,jdbcType=VARCHAR}, #{cmOpenPlatform,jdbcType=VARCHAR},
+        #{cmTogatherType,jdbcType=VARCHAR}, #{cmOpenChannel,jdbcType=VARCHAR}, #{cmRegisterVersion,jdbcType=VARCHAR},
+        #{isFirstOrder,jdbcType=DECIMAL},#{originalRate,jdbcType=DECIMAL},#{inviteRate,jdbcType=DECIMAL},
+        #{actionRate,jdbcType=DECIMAL},#{yearRateStr,jdbcType=VARCHAR},#{dayProfit,jdbcType=DECIMAL},
+        #{raiseDayProfit,jdbcType=DECIMAL},#{raiseDays,jdbcType=DECIMAL},#{closeDays,jdbcType=DECIMAL},#{productType,jdbcType=INTEGER},
+        #{subjectStatus,jdbcType=VARCHAR},#{payType,jdbcType=VARCHAR},#{transferType,jdbcType=VARCHAR},#{modifyDate,jdbcType=TIMESTAMP},
+        #{raiseRateIncome,jdbcType=DECIMAL},#{couponAmount,jdbcType=DECIMAL},#{integralAmount,jdbcType=DECIMAL},#{cashAmount,jdbcType=DECIMAL},
+        #{debtorNum,jdbcType=VARCHAR},#{debtorName,jdbcType=VARCHAR},#{holderType,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.order.BusiOrder">
+        update BUSI_ORDER
+        <set>
+            <if test="orderId != null">
+                ORDER_NUM = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAmt != null">
+                ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="productId != null">
+                PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderTime != null">
+                ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="yearRate != null">
+                YEAR_RATE = #{yearRate,jdbcType=DECIMAL},
+            </if>
+            <if test="interestStartDate != null">
+                INTEREST_START_DATE =
+                #{interestStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interestEndDate != null">
+                INTEREST_END_DATE =
+                #{interestEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="principalinterest != null">
+                PRINCIPALINTEREST =
+                #{principalinterest,jdbcType=DECIMAL},
+            </if>
+            <if test="customerName != null">
+                CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteRate != null">
+                INVTE_RATE = #{inviteRate,jdbcType=DECIMAL},
+            </if>
+            <if test="confirmPaymentDate != null">
+                CONFIRM_PAYMENT_DATE =
+                #{confirmPaymentDate,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="paySerNum != null">
+                PAY_SER_NUM =
+                #{paySerNum,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccountId != null">
+                BANK_ACCOUNT_ID = #{bankAccountId,jdbcType=DECIMAL},
+            </if>
+            <if test="cmOpenMechanism != null">
+                CM_OPEN_MECHANISM = #{cmOpenMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenPlatform != null">
+                CM_OPEN_PLATFORM = #{cmOpenPlatform,jdbcType=VARCHAR},
+            </if>
+            <if test="cmTogatherType != null">
+                CM_TOGATHER_TYPE = #{cmTogatherType,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenChannel != null">
+                CM_OPEN_CHANNEL = #{cmOpenChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="cmRegisterVersion != null">
+                CM_REGISTER_VERSION = #{cmRegisterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isFirstOrder != null">
+                IS_FIRST_ORDER = #{isFirstOrder,jdbcType=DECIMAL},
+            </if>
+            <if test="originalRate != null">
+                original_rate = #{originalRate,jdbcType=DECIMAL},
+            </if>
+            <if test="inviteCode != null">
+                INVITE_CODE = #{inviteCode,jdbcType=DECIMAL},
+            </if>
+            <if test="actionRate != null">
+                action_rate = #{actionRate,jdbcType=DECIMAL},
+            </if>
+            <if test="yearRateStr != null">
+                YEAR_RATE_STR = #{yearRateStr,jdbcType=VARCHAR},
+            </if>
+            <if test="dayProfit != null">
+                day_profit = #{dayProfit,jdbcType=DECIMAL},
+            </if>
+
+            <if test="raiseDayProfit != null">
+                raise_day_profit = #{raiseDayProfit,jdbcType=DECIMAL},
+            </if>
+
+            <if test="raiseDays != null">
+                raise_days = #{raiseDays,jdbcType=DECIMAL},
+            </if>
+
+            <if test="closeDays != null">
+                close_days = #{closeDays,jdbcType=DECIMAL},
+            </if>
+            <if test="productType != null">
+                PRODUCT_TYPE = #{productType,jdbcType=INTEGER},
+            </if>
+            <if test="transferType != null">
+                TRANSFER_TYPE = #{transferType,jdbcType=INTEGER},
+            </if>
+            <if test="holderType != null">
+                HOLDER_TYPE= #{holderType,jdbcType=INTEGER},
+            </if>
+            <if test="modifyDate != null">
+                MODIFY_DATE = #{modifyDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reInvestCount != null">
+                RE_INVEST_COUNT = #{reInvestCount,jdbcType=TIMESTAMP},
+            </if>
+
+
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectAllOrder" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        order by ORDER_TIME desc
+    </select>
+
+    <sql id="selectOrderByProperty_where">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+
+            <if test="customerName != null">
+                and CUSTOMER_NAME = #{customerName}
+            </if>
+            <if test="orderId != null">
+                and ORDER_NUM = #{orderId}
+            </if>
+            <if test="customerId != null">
+                and CUSTOMER_ID = #{customerId}
+            </if>
+            <if test="interestStartDate != null">
+                and TO_CHAR(INTEREST_START_DATE,'yyyy-MM-dd') &gt;=
+                #{interestStartDate}
+            </if>
+            <if test="interestEndDate != null">
+                and TO_CHAR(INTEREST_END_DATE,'yyyy-MM-dd') &lt;=
+                #{interestEndDate}
+            </if>
+            <if test="orderTime != null">
+                and TO_CHAR(ORDER_TIME,'yyyy-MM-dd') =
+                #{orderTime}
+            </if>
+            <if test="inviteCode != null">
+                and INVITE_CODE = #{inviteCode}
+            </if>
+            <if test="confirmPaymentDate != null">
+                and TO_CHAR(CONFIRM_PAYMENT_DATE,'yyyy-MM-dd') =
+                #{confirmPaymentDate}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+
+            <if test="validStatus != null">
+                and (STATUS = 0 or Status = 9)
+            </if>
+
+            <if test="validDate != null">
+                and TO_CHAR(INTEREST_START_DATE,'yyyy-MM-dd')
+                &lt;=#{validDate}
+            </if>
+            <if test="inProDate != null">
+                and TO_CHAR(ORDER_TIME,'yyyy-MM-dd') &lt;=#{validDate}
+                and TO_CHAR(INTEREST_END_DATE,'yyyy-MM-dd') &gt;=#{validDate}
+            </if>
+            <if test="statusList != null">
+                and status in
+                <foreach collection="statusList" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="selectOrderByProperty" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        <include refid="selectOrderByProperty_where"/>
+        order by ORDER_TIME desc
+    </select>
+
+    <select id="selectOrderViewByProperty" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        <include refid="selectOrderByProperty_where"/>
+        order by ORDER_TIME desc
+    </select>
+
+
+    <select id="selectOrderByCustomerId" resultMap="BaseResultMap">
+
+        select
+        <include refid="Base_Column_List"/>
+        from (select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER where status in (5,6) and <![CDATA[ sysdate-order_time<=1]]>
+        union all
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER where status not in (5,6))
+        where 1=1
+        <if test="customerId != null">
+            and CUSTOMER_ID = #{customerId}
+        </if>
+        order by ORDER_TIME desc
+    </select>
+
+
+    <resultMap id="BaseResultMapProduct" type="com.zdmoney.vo.BusiOrderProductVo"
+               extends="BaseResultMap">
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectOrderProductByProperty" resultMap="BaseResultMapProduct">
+        select a.*,b.PRODUCT_NAME
+        from (
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        ) a inner join BUSI_PRODUCT b on a.PRODUCT_ID = b.ID
+        <where>
+            <if test="customerId != null">
+                and a.CUSTOMER_ID = #{customerId}
+            </if>
+            <if test="status != null">
+                and a.STATUS = #{status}
+            </if>
+
+            <if test="validStatus != null">
+                and (a.STATUS = 0 or a.Status = 9)
+            </if>
+
+            <if test="validDate != null">
+                and TO_CHAR(a.INTEREST_START_DATE,'yyyy-MM-dd')
+                &lt;=#{validDate}
+                and TO_CHAR(a.INTEREST_END_DATE,'yyyy-MM-dd')
+                &gt;=#{validDate}
+            </if>
+            <if test="inProDate != null">
+                and TO_CHAR(a.ORDER_TIME,'yyyy-MM-dd') &lt;=#{validDate}
+                and TO_CHAR(a.INTEREST_END_DATE,'yyyy-MM-dd') &gt;=#{validDate}
+            </if>
+            <if test="newHand != null">
+                and b.new_hand = #{newHand}
+            </if>
+            <if test="productId != null">
+                and a.product_id = #{productId}
+            </if>
+        </where>
+        ORDER BY a.ORDER_TIME desc
+    </select>
+
+
+    <select id="selectOrderProductByPrimaryKey" resultMap="BaseResultMapProduct"
+            parameterType="java.lang.Long">
+        select *  from BUSI_ORDER
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <resultMap id="OrderInterestMap" type="com.zdmoney.vo.OrderInterest">
+        <result column="orderAmt" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="interest" property="yesterdayInterest"
+                jdbcType="DECIMAL"/>
+        <result column="totalInterest" property="totalInterest"
+                jdbcType="DECIMAL"/>
+    </resultMap>
+    <!-- 统计某一客户的资产总额 -->
+    <select id="selectOrderTotalInterest" resultMap="OrderInterestMap">
+        <![CDATA[
+		select sum(order_amt) AS orderAmt,sum(interest) as interest,sum(totalInterest) AS totalInterest
+  		from (SELECT order_amt,
+				 case when princalDays <= 0 THEN 0
+                    WHEN princalDays - productDays = 1 THEN  principalinterest - princalDays * interest 
+                    WHEN princalDays > 0 and princalDays <= productDays then interest
+                    else 0 end AS interest,
+                    case when princalDays <= 0 THEN 0 when princalDays >= productDays THEN principalinterest - order_amt else princalDays * interest end totalInterest
+          from (select BUSI_ORDER.*, TRUNC(order_amt * year_rate / 365, 2) as interest, TRUNC(SYSDATE) - TRUNC(interest_start_date) as princalDays, TRUNC(interest_end_date) - TRUNC(interest_start_date) + 1 as productDays
+          		from BUSI_ORDER
+       	]]>
+        <include refid="selectOrderByProperty_where"/>
+        ) x) a
+    </select>
+    <!--统计某一客户的投掷金额 和收益金额  -->
+    <resultMap id="BankAccountMap" type="com.zdmoney.vo.BankAccountInterest">
+        <result column="investmentAmt" property="investmentAmt" jdbcType="DECIMAL"/>
+        <result column="incomeAmt" property="incomeAmt" jdbcType="DECIMAL"/>
+    </resultMap>
+    <select id="selectOrderBankAccount" resultMap="BankAccountMap" parameterType="java.lang.Long">
+        select nvl(sum(bu.order_amt), 0) as investmentAmt,
+       (select nvl(sum(b.PRINCIPALINTEREST - b.order_amt), 0) as incomeAmt
+          from BUSI_ORDER b
+         where to_date(to_char(sysdate, 'yyyy-MM-dd'), 'yyyy-MM-dd') >=
+               b.INTEREST_START_DATE and b.customer_id=bu.customer_id and  b.status in ('0', '9')) as incomeAmt
+  from BUSI_ORDER bu
+ where bu.status in ('0', '9')
+  AND bu.CUSTOMER_ID = #{customerId,jdbcType=DECIMAL}
+   group By bu.CUSTOMER_ID
+	</select>
+
+
+    <!-- 查询该用户已付款，但未开起起息的订单 -->
+    <select id="selectOrderNotStartInterest" resultType="DECIMAL">
+		select
+		nvl(sum(order_amt),0) from BUSI_ORDER
+		where
+		TO_CHAR(INTEREST_Start_DATE,'yyyy-MM-dd') > #{validDate}
+		AND status = 0
+		AND CUSTOMER_ID = #{customerId}
+	</select>
+
+    <!-- 查询该用户已经结息，但未回款的金额 -->
+    <select id="selectOrderEndInterest" resultType="com.zdmoney.vo.DTO">
+		select nvl(sum(principalinterest), 0) AS principalinterest,
+		nvl(sum(order_amt), 0) AS principal,
+		nvl(sum(yesterProfit), 0) AS yesterProfit
+		from (select order_amt,
+		principalinterest,
+		case
+		when TRUNC(SYSDATE) - TRUNC(interest_end_date) = 1 THEN
+		principalinterest - order_amt -
+		TRUNC(order_amt * year_rate / 365, 2) *
+		(TRUNC(interest_end_date) - TRUNC(interest_start_date))
+		else
+		0
+		end as yesterProfit
+		from BUSI_ORDER
+		where (status = 9)
+		AND CUSTOMER_ID = #{customerId}) x
+	</select>
+
+    <update id="updateByPrimaryKeySelectiveByOrderNum" parameterType="com.zdmoney.models.order.BusiOrder">
+        update BUSI_ORDER
+        <set>
+            <if test="orderId != null">
+                ORDER_NUM = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="customerId != null">
+                CUSTOMER_ID = #{customerId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderAmt != null">
+                ORDER_AMT = #{orderAmt,jdbcType=DECIMAL},
+            </if>
+            <if test="productId != null">
+                PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+            </if>
+            <if test="orderTime != null">
+                ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="yearRate != null">
+                YEAR_RATE = #{yearRate,jdbcType=DECIMAL},
+            </if>
+            <if test="interestStartDate != null">
+                INTEREST_START_DATE =
+                #{interestStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="interestEndDate != null">
+                INTEREST_END_DATE =
+                #{interestEndDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="principalinterest != null">
+                PRINCIPALINTEREST =
+                #{principalinterest,jdbcType=DECIMAL},
+            </if>
+            <if test="customerName != null">
+                CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                INVITE_CODE = #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="confirmPaymentDate != null">
+                CONFIRM_PAYMENT_DATE =
+                #{confirmPaymentDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="paySerNum != null">
+                PAY_SER_NUM =
+                #{paySerNum,jdbcType=VARCHAR},
+            </if>
+            <if test="bankAccountId != null">
+                BANK_ACCOUNT_ID = #{bankAccountId,jdbcType=DECIMAL},
+            </if>
+            <if test="cmOpenMechanism != null">
+                CM_OPEN_MECHANISM = #{cmOpenMechanism,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenPlatform != null">
+                CM_OPEN_PLATFORM = #{cmOpenPlatform,jdbcType=VARCHAR},
+            </if>
+            <if test="cmTogatherType != null">
+                CM_TOGATHER_TYPE = #{cmTogatherType,jdbcType=VARCHAR},
+            </if>
+            <if test="cmOpenChannel != null">
+                CM_OPEN_CHANNEL = #{cmOpenChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="cmRegisterVersion != null">
+                CM_REGISTER_VERSION = #{cmRegisterVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="isFirstOrder != null">
+                IS_FIRST_ORDER = #{isFirstOrder,jdbcType=DECIMAL},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where ORDER_NUM = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectOrderByCustomerIdAndStatus" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER
+        where customer_id = #{customerId}
+        and invite_code is not null
+        <if test="status != null">
+            and status in
+            <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectOrders" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER where CUSTOMER_ID = #{customerId} and STATUS in (#{status})
+        order by ORDER_TIME desc
+        <!-- <foreach collection="status" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach> -->
+    </select>
+
+    <select id="selectOrdersByProperties" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from BUSI_ORDER t
+        where 1=1
+        <if test="productId != null">
+            and product_id = #{productId}
+        </if>
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+    </select>
+
+    <resultMap id="UserPrinAndIntstMap" type="com.zdmoney.vo.UserAssetIntstAndTtlAmtVo">
+        <result column="totalInvestAmt" property="totalInvestAmt" jdbcType="DECIMAL"/>
+        <result column="totalInterest" property="totalInterest" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!-- 普通订单统计-->
+    <select id="selectEffectiveOrderAmtByCustomerID" resultMap="UserPrinAndIntstMap" parameterType="java.util.Map">
+        select nvl(sum(case when t.status='19' then (t.exit_actual_interest - t.exit_charge_fee) else
+        (t.PRINCIPALINTEREST - t.order_amt) end),0) as totalInterest ,nvl(sum(t.order_amt),0) as totalInvestAmt
+        from BUSI_ORDER t where t.CUSTOMER_ID = #{customerId} and t.PRODUCT_TYPE IN (1,4) and t.transfer_type=0
+        and t.STATUS in
+        <foreach item="item" index="index" collection="status"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectEffectiveOrderAmtByCustomerIdAndTime" resultMap="UserPrinAndIntstMap"
+            parameterType="java.util.Map">
+        select nvl(sum(t.order_amt),0) as totalInvestAmt
+        from BUSI_ORDER t where t.CUSTOMER_ID = #{customerId} and t.PRODUCT_TYPE IN (1,4) and t.transfer_type=0
+        and t.STATUS in
+        <foreach item="item" index="index" collection="status"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        <if test="orderTime != null">
+            <![CDATA[
+               AND t.ORDER_TIME <= to_date(#{orderTime},'yyyy-mm-dd hh24:mi:ss')
+            ]]>
+        </if>
+    </select>
+
+    <!--标的订单或转让订单-->
+    <select id="selectRepaymentByCustomerID" resultType="com.zdmoney.vo.UserRepaymentVo" parameterType="java.util.Map">
+        select
+        nvl(sum(case when t.repay_status in (1,2) then interest else 0 end),0) unreceivedInterest,
+        nvl(sum(case when t.repay_status in (1,2,8) then principal else 0 end),0) unreceivedPrincipal
+        from busi_order_pay_plan t  where order_num  in (select x.ORDER_NUM from BUSI_ORDER x where x.CUSTOMER_ID=#{customerId} and (x.PRODUCT_TYPE=2 or x.PRODUCT_TYPE=3 or x.TRANSFER_TYPE=1) and x.STATUS in (0,9,14))
+    </select>
+
+    <select id="selectRepaymentByCustomerIDAndTime" resultType="com.zdmoney.vo.UserRepaymentVo"
+            parameterType="java.util.Map">
+        <![CDATA[
+            select
+            nvl(sum(case when t.repay_status in (1,2,8) then principal else 0 end),0) unreceivedPrincipal
+            from busi_order_pay_plan t  where order_num  in (select x.ORDER_NUM from BUSI_ORDER x where x.CUSTOMER_ID=#{customerId} and (x.PRODUCT_TYPE=2 or x.PRODUCT_TYPE=3 or x.TRANSFER_TYPE=1) and x.STATUS in (0,9,14)
+             and x.order_time <= to_date(#{orderTime},'yyyy-mm-dd hh24:mi:ss'))
+        ]]>
+    </select>
+
+
+    <!--标的订单或转让订单v4.1-->
+    <select id="selectRepaymentByCustomerIdAndOrderNum" resultType="com.zdmoney.vo.UserRepaymentVo"
+            parameterType="java.util.Map">
+        select
+        nvl(sum(case when t.repay_status in (1,2) then interest else 0 end),0) unreceivedInterest,
+        nvl(sum(case when t.repay_status in (1,2,8) then principal else 0 end),0) unreceivedPrincipal
+        from busi_order_pay_plan t where order_num in
+        (
+        select x.ORDER_NUM from BUSI_ORDER x where x.CUSTOMER_ID=#{customerId}
+        and (x.PRODUCT_TYPE=2 or x.PRODUCT_TYPE=3 or x.TRANSFER_TYPE=1)
+        and x.STATUS in (0,9,14)
+        <!--单个订单待收-->
+        <if test="orderNum != null">
+            and x.order_num = #{orderNum}
+        </if>
+        )
+
+    </select>
+
+    <!-- 查询用户标的产品持有资产和利息-->
+    <select id="selectEffectiveRepayOrderAmtByCustomerID" resultMap="UserPrinAndIntstMap" parameterType="java.util.Map">
+        select sum(t.PRINCIPALINTEREST - t.order_amt) as totalInterest ,sum(t.order_amt)as totalInvestAmt
+        from BUSI_ORDER t where t.CUSTOMER_ID = #{customerId} and t.STATUS in (#{status})
+        <if test="productType != null">
+            and t.PRODUCT_TYPE = #{productType}
+        </if>
+    </select>
+
+    <!-- 查询用户昨日收益-->
+    <select id="selectYesterdayIncome" resultType="decimal" parameterType="java.util.Map">
+        <![CDATA[
+           select sum(case
+                        when RAISE_DAYS is null or RAISE_DAYS = 0 then
+                         DAY_PROFIT
+                        when (trunc(#{nowDate,jdbcType=TIMESTAMP}) - trunc(t.interest_start_date)) > RAISE_DAYS then
+                         DAY_PROFIT
+                        when (trunc(#{nowDate,jdbcType=TIMESTAMP}) - trunc(t.interest_start_date)) <= RAISE_DAYS then
+                         RAISE_DAY_PROFIT
+                      end)
+             from BUSI_ORDER t
+            where t.CUSTOMER_ID = #{customerId}
+              and trunc(#{nowDate,jdbcType=TIMESTAMP}) >
+                  trunc(t.INTEREST_START_DATE)
+              and trunc(#{nowDate,jdbcType=TIMESTAMP}) <=
+                  trunc(t.INTEREST_END_DATE) + 1
+
+        ]]>
+        and not exists (select * from busi_order_pay_plan p where p.order_num=t.ORDER_NUM and p.repay_status='8')
+        and t.status in
+        <foreach item="item" index="index" collection="status"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and t.product_type !=4
+    </select>
+
+    <!-- 查询用户理财计划昨日收益-->
+    <select id="yesterdayFinPlanIncome" resultType="decimal" parameterType="java.util.Map">
+        <![CDATA[
+           select sum(case
+                        when RAISE_DAYS is null or RAISE_DAYS = 0 then
+                         DAY_PROFIT
+                        when (trunc(#{nowDate,jdbcType=TIMESTAMP}) - trunc(t.interest_start_date)) > RAISE_DAYS then
+                         DAY_PROFIT
+                        when (trunc(#{nowDate,jdbcType=TIMESTAMP}) - trunc(t.interest_start_date)) <= RAISE_DAYS then
+                         RAISE_DAY_PROFIT
+                      end)
+             from BUSI_ORDER t
+            where t.CUSTOMER_ID = #{customerId}
+              and trunc(#{nowDate,jdbcType=TIMESTAMP}) > trunc(t.INTEREST_START_DATE)
+              and (t.status in (0, 17, 18) or (t.status='19' and trunc(sysdate) <= trunc(t.exit_actual_date) ))
+        ]]>
+        and t.product_type = 4
+    </select>
+
+    <!-- 查询用户非锁定期订单(未回款的)累计收益-->
+    <select id="selectTotalIncomeUnLocked" resultType="decimal" parameterType="java.util.Map">
+        <![CDATA[
+			 select sum(trunc(t.PRINCIPALINTEREST - t.ORDER_AMT, 2))
+              from BUSI_ORDER t
+             where trunc(#{nowDate,jdbcType=TIMESTAMP}) >
+                   trunc(t.INTEREST_END_DATE)
+               and t.CUSTOMER_ID = #{customerId}
+               and t.status in
+        ]]>
+        <foreach item="item" index="index" collection="status"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 查询用户锁定期订单-->
+    <select id="selectLockedOrders" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        <![CDATA[
+        from BUSI_ORDER where CUSTOMER_ID = #{customerId}
+            and trunc(#{nowDate,jdbcType=TIMESTAMP}) > trunc(INTEREST_START_DATE)
+            and trunc(#{nowDate,jdbcType=TIMESTAMP}) <= trunc(INTEREST_END_DATE)
+            ]]>
+        and STATUS in
+        <foreach item="item" index="index" collection="status"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by ORDER_TIME desc
+    </select>
+
+    <resultMap id="UserAssetMap" type="com.zdmoney.vo.UserAssetVo">
+        <result column="productId" property="productId" jdbcType="DECIMAL"/>
+        <result column="orderId" property="orderId" jdbcType="DECIMAL"/>
+        <result column="productName" property="productName" jdbcType="VARCHAR"/>
+        <result column="orderAmt" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="interestEndDate" property="interestEndDate" jdbcType="TIMESTAMP"/>
+        <result column="interest" property="interest" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="bigDecimalRate" property="bigDecimalRate" jdbcType="DECIMAL"/>
+        <result column="principalInterest" property="principalInterest" jdbcType="DECIMAL"/>
+        <result column="orderTime" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="interestStartDate" property="interestStartDate" jdbcType="TIMESTAMP"/>
+        <result column="integralAmount" property="integralAmount" jdbcType="DECIMAL"/>
+        <result column="redAmount" property="redAmount" jdbcType="DECIMAL"/>
+        <result column="cashAmount" property="cashAmount" jdbcType="DECIMAL"/>
+        <result column="statusDesc" property="statusDesc" jdbcType="VARCHAR"/>
+        <result column="repayType" property="repayType" jdbcType="VARCHAR"/>
+        <result column="transferDay" property="transferDay" jdbcType="VARCHAR"/>
+        <result column="transferStatus" property="transferStatus" jdbcType="VARCHAR"/>
+        <result column="isTransferOrder" property="isTransferOrder" jdbcType="VARCHAR"/>
+        <result column="investPeriod" property="investPeriod" jdbcType="DECIMAL"/>
+        <result column="surplusInvestPeriod" property="surplusInvestPeriod" jdbcType="VARCHAR"/>
+        <result column="isTransfer" property="isTransfer" jdbcType="VARCHAR"/>
+        <result column="orderTransferStatus" property="orderTransferStatus" jdbcType="VARCHAR"/>
+        <result column="orderTransferDesc" property="orderTransferDesc" jdbcType="VARCHAR"/>
+        <result column="transferPrice" property="transferPrice" jdbcType="DECIMAL"/>
+        <result column="transferRate" property="transferRate" jdbcType="DECIMAL"/>
+        <result column="transferCharge" property="transferCharge" jdbcType="DECIMAL"/>
+        <result column="transferReceivedAmt" property="transferReceivedAmt" jdbcType="DECIMAL"/>
+        <result column="transferDate" property="transferDate" jdbcType="TIMESTAMP"/>
+        <result column="updateDate" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="transferPreReceivedAmt" property="transferPreReceivedAmt" jdbcType="DECIMAL"/>
+        <result column="isOneDay" property="isOneDay" jdbcType="VARCHAR"/>
+        <result column="pubDate" property="pubDate" jdbcType="TIMESTAMP"/>
+        <result column="productPrincipal" property="productPrincipal" jdbcType="DECIMAL"/>
+        <result column="productInterest" property="productInterest" jdbcType="DECIMAL"/>
+        <result column="closeDay" property="closeDay" jdbcType="DECIMAL"/>
+        <result column="exitChargeFee" property="exitChargeFee" jdbcType="DECIMAL"/>
+        <result column="subjectType" property="subjectType" jdbcType="DECIMAL"/>
+        <result column="exitCheckDate" property="exitCheckDate" jdbcType="TIMESTAMP"/>
+        <result column="exitClickDate" property="exitClickDate" jdbcType="TIMESTAMP"/>
+        <result column="exitActualAmt" property="exitActualAmt" jdbcType="DECIMAL"/>
+        <result column="exitActualInterest" property="exitActualInterest" jdbcType="DECIMAL"/>
+        <result column="exitActualDate" property="exitActualDate" jdbcType="TIMESTAMP"/>
+        <result column="totalInvestPeriod" property="totalInvestPeriod" jdbcType="VARCHAR"/>
+        <result column="transferType" property="transferType" jdbcType="VARCHAR"/>
+        <result column="modifyDate" property="modifyDate" jdbcType="TIMESTAMP"/>
+        <result column="reinvestCount" property="reinvestCount" jdbcType="DECIMAL"/>
+        <result column="yearRateInit" property="yearRateInit" jdbcType="VARCHAR"/>
+        <result column="originYearRate" property="originYearRate" jdbcType="VARCHAR"/>
+        <result column="yearRate" property="yearRate" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+
+    <!-- 查询用户投资-->
+    <select id="selelctAssetByCustomerIdAndStatus" parameterType="java.util.Map" resultMap="UserAssetMap">
+        <![CDATA[
+ 		select
+			bp.id as productId,
+			t.id as orderId,
+		    t.TRANSFER_TYPE as transferType,
+			bp.product_name as productName,
+			t.ORDER_AMT as orderAmt,
+			bp.repay_type as repayType,
+			to_char(bp.init_year_rate,'FM0.000') as yearRateInit,
+			to_char(bp.year_rate,'FM0.000') as yearRate,
+			to_char(bp.origin_year_rate,'FM0.000') as originYearRate,
+			bp.TRANSFER_DAY as transferDay,
+		    bp.TRANSFER_STATUS as transferStatus,
+		    bp.IS_TRANSFER as isTransfer,
+		    bp.product_principal as productPrincipal,
+		    bp.product_interest as productInterest,
+		    bp.SUBJECT_TYPE as subjectType,
+		    t.exit_charge_fee as exitChargeFee,
+		    t.exit_check_date as exitCheckDate,
+		    t.exit_click_date as exitClickDate,
+		    t.exit_check_status as exitCheckStatus,
+		    t.exit_actual_amt as exitActualAmt,
+		    t.exit_actual_interest as exitActualInterest,
+		    t.exit_actual_date  as exitActualDate,
+		    t.modify_date as modifyDate,
+		    case when t.RE_INVEST_COUNT = 0 then bp.interest_end_date else t.interest_end_date end as interestEndDate,
+	  	    case when t.RE_INVEST_COUNT = 0 then bp.close_day else t.close_days end as closeDay,
+            case when t.RE_INVEST_COUNT = 0 then nvl(bp.interest_end_date - to_date(to_char(t.order_time, 'yyyy/mm/dd'), 'yyyy/mm/dd'), 0)
+            else  nvl(t.interest_end_date - to_date(to_char(t.order_time, 'yyyy/mm/dd'), 'yyyy/mm/dd'), 0) end as totalInvestPeriod,
+            case when t.RE_INVEST_COUNT = 0 then nvl(bp.interest_end_date - to_date(#{sDate}, 'yyyy/mm/dd'), 0)
+            else nvl(t.interest_end_date - to_date(#{sDate}, 'yyyy/mm/dd'), 0) end as surplusInvestPeriod,
+            case when t.RE_INVEST_COUNT = 0 then nvl(bp.interest_end_date - bp.interest_start_date, 0) + 1
+            else nvl(t.interest_end_date - t.interest_start_date, 0) + 1 end as investPeriod,
+			case when t.STATUS = 4 then 0 else t.PRINCIPALINTEREST - t.ORDER_AMT end as interest,
+			case when
+			 (
+			            ( t.STATUS = 0 and cast(t.INTEREST_START_DATE as date) <= to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') )
+			             OR
+			            (t.STATUS = 14 and bp.repay_type !=1)
+			          )  AND  nvl(to_date(#{sDate},'yyyy/mm/dd')-t.interest_start_date,0)+1 > bp.TRANSFER_DAY
+			             AND t.INTEREST_END_DATE-1 > to_date(#{sDate},'yyyy/mm/dd')
+			     then '0'  else '1'  end as isTransferOrder,
+
+
+			case
+			     when t.STATUS = 0 and bp.SUBJECT_TYPE=4 then '0'
+			     when t.STATUS = 0 and cast(t.INTEREST_START_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then '0'
+				 when t.STATUS = 0 and cast(t.INTEREST_START_DATE as date) <= to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then '1'
+				 when t.STATUS = 9 or (t.STATUS = 14 and bp.repay_type =1) then  '9'
+				 when t.STATUS = 14 and bp.repay_type !=1 then '14'
+				 when t.STATUS = 4 then  '4'
+				 when t.STATUS=16 then '16'
+				 when t.STATUS= 1 then  '2'
+				 when t.STATUS = 10 then '10'
+				 when t.STATUS = 17 then '17'
+				 when t.STATUS = 18 then '18'
+				 when t.STATUS = 19 then '19'
+				 end as status,
+			t.YEAR_RATE as bigDecimalRate,
+			t.PRINCIPALINTEREST as principalInterest,
+			t.ORDER_TIME as orderTime,
+			t.INTEREST_START_DATE as interestStartDate,
+			boi.integral_amount as integralAmount,
+			boi.coupon_amount as redAmount,
+			boi.cash_amount as cashAmount,
+			t.INVTE_RATE as inviteRate,
+		    t.ACTION_RATE as actionRate,
+		    t.YEAR_RATE_STR as yearRateStr,
+		    t.RE_INVEST_COUNT as reinvestCount,
+		    nvl(t.INVTE_RATE,0) + nvl(t.ACTION_RATE,0) as totalAddRate,
+		    case when nvl(t.INVTE_RATE,0) + nvl(t.ACTION_RATE,0) > 0 then 1
+		         when t.RAISE_DAYS is not null and t.RAISE_DAYS!=0 then 1
+		         else 0 end as isAddRate,
+			case when t.STATUS = 0 and cast(t.INTEREST_START_DATE as date) > to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then '申购成功'
+				 when t.STATUS = 0 and cast(t.INTEREST_START_DATE as date) <= to_date(#{sDate},'yyyy/mm/dd hh24:mi:ss') then '出借中'
+				 when t.STATUS = 9 or (t.STATUS = 14 and bp.repay_type =1) then  '回款中'
+				 when t.STATUS = 14 and bp.repay_type !=1 then '分期回款中'
+				 when t.STATUS = 4 and bp.person_loan='0' then  '已退款'
+				 when t.STATUS = 4 and bp.person_loan='1' then  '已流标-退款'
+				 when t.STATUS = 10 and bpc.ahead_pay_date is null then '已回款'
+				 when t.STATUS = 10 and bp.person_loan='1' and bpc.ahead_pay_date is not null then '已回款(提前结清)'
+				 when t.STATUS=16 then '已转让'
+				 when t.STATUS=1 then '待付款'
+				 else '' end as statusDesc
+		from BUSI_ORDER t left join busi_product bp on t.PRODUCT_ID = bp.id
+		left join busi_order_integral boi on t.id = boi.order_no
+		left join busi_product_contract bpc on bp.contract_id= bpc.id
+		where t.CUSTOMER_ID = #{customerId}
+  	]]>
+        <choose>
+            <when test="isHold == '1'.toString()">
+                <if test="status != null">
+                    and t.STATUS in
+                    <foreach item="item" index="index" collection="status"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </when>
+            <otherwise>
+                <if test="status != null">
+                    and (t.STATUS in
+                    <foreach item="item" index="index" collection="status"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                    OR (t.status=1 and bp.limit_type=4 and t.cm_open_platform='MANAGE'))
+                </if>
+            </otherwise>
+        </choose>
+        <if test="orderId != null and orderId != 0">
+            and t.id = #{orderId}
+        </if>
+        <!--智投计划-->
+        <if test="orderType != null and orderType =='1'.toString() ">
+            and t.PRODUCT_TYPE = 4 and t.TRANSFER_TYPE =0
+        </if>
+        <!--散标-->
+        <if test="orderType != null and orderType =='2'.toString() ">
+            and t.PRODUCT_TYPE = 3 and t.TRANSFER_TYPE =0
+        </if>
+        <!--定期-->
+        <if test="orderType != null and orderType =='3'.toString() ">
+            and t.PRODUCT_TYPE in (1,2) and t.TRANSFER_TYPE =0
+        </if>
+        <!--转让-->
+        <if test="orderType != null and orderType =='4'.toString() ">
+            and t.TRANSFER_TYPE =1
+        </if>
+        <choose>
+            <when test="sort == 'asc'.toString()">
+                order by t.INTEREST_END_DATE ASC,t.id
+            </when>
+            <when test="sort == 'desc'.toString()">
+                order by t.INTEREST_END_DATE DESC,t.id
+            </when>
+            <otherwise>
+                order by t.ORDER_TIME desc,t.id
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="selectInviteCustFirstInvestCount" parameterType="map" resultType="integer">
+      select count(id) from BUSI_ORDER t where t.CUSTOMER_ID = #{customerId} and t.INVITE_CODE = #{inviteCode} and t.STATUS in(0,9,10,14)
+    </select>
+
+    <select id="selectHistorySale" resultType="com.zdmoney.vo.HistorySaleVo">
+        <![CDATA[
+        select
+            sum(case when t.product_type in (1,2,3,5) then t.order_amt else 0 end)as totalOrderAmt,
+            sum(case when t.product_type in (1,2,3,4) then (t.principalinterest -t.order_amt) else 0 end) as totalInterest
+        from busi_order_sub t
+        where t.STATUS in (0, 9, 10, 14, 16, 17, 18, 19)
+              and trunc(t.order_time) < trunc(sysdate)
+        ]]>
+    </select>
+
+    <select id="selectYestodaySale" resultType="decimal" parameterType="java.lang.String">
+        select nvl(sum(t.ORDER_AMT),0) from BUSI_ORDER t
+             where t.status in (0,9,10,14,16,17,18,19)
+                  and trunc(t.ORDER_TIME) = trunc(to_date(#{datetime},'yyyy/mm/dd')-1)
+    </select>
+
+    <!--获取订单产品转让失败的记录（1天以内）-->
+    <select id="selectTransferFailRecord" resultMap="UserAssetMap" parameterType="java.util.Map">
+        <![CDATA[
+
+               select
+                    tr.TRANSFER_PRICE as transferPrice,
+                    tr.TRANSFER_RATE as transferRate,
+                    tr.TRANSFER_CHARGE  as transferCharge,
+                    tr.TRANSFER_DATE as transferDate,
+                    tr.UPDATE_DATE as updateDate,
+                    tr.PUB_DATE as pubDate,
+               case when sysdate-tr.UPDATE_DATE<=1 then '0' else '1'  end as isOneDay
+                    FROM BUSI_DEBT_TRANSFER tr  left join BUSI_PRODUCT bp on  tr.INIT_PRODUCT_ID= bp.id
+                    WHERE tr.TRANSFER_STATUS=#{transferStatus}
+                    AND  tr.INIT_ORDER_NO =#{orderNo}
+                    order by tr.UPDATE_DATE DESC
+        ]]>
+    </select>
+
+    <select id="selectProductOrders" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from BUSI_ORDER where product_id = #{productId} and STATUS in ('0', '9', '10', '14', '15', '16') and
+        customer_id=#{customerId}
+    </select>
+
+    <select id="selectProductBuyTimes" resultType="java.lang.Integer" parameterType="java.util.Map">
+       select nvl(count(*),0) from BUSI_ORDER where status in ('0', '9', '10', '14', '15', '16')  and product_id = #{productId} and customer_id = #{customer_id}
+    </select>
+
+
+    <!--查询某时间段的订单-->
+    <!--查询某时间段的订单（多次下单不记录）-->
+    <select id="selectOrderPayByDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select distinct CUSTOMER_ID, product_name , ORDER_AMT from
+        (
+        select t.CUSTOMER_ID ,t.PRODUCT_ID,t.STATUS,t.ORDER_AMT,t.ORDER_NUM,t.ORDER_TIME, bp.product_name, bp.limit_type
+        from BUSI_ORDER t
+        join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        where t.STATUS in ('0', '9', '10', '14', '15', '16')
+
+        <if test="limitType!= null">
+            and bp.limit_type != 2
+        </if>
+        <![CDATA[
+                    and t.ORDER_TIME >= to_date(#{startDate}, 'yyyy/mm/dd hh24:mi:ss')
+                    and t.ORDER_TIME <= to_date(#{endDate}, 'yyyy/mm/dd hh24:mi:ss')
+                ]]>
+        order by t.ORDER_TIME asc
+        ) where rownum &lt;= 100
+        <if test="customerId!= null">
+            and customer_id=#{customerId}
+        </if>
+    </select>
+
+
+    <resultMap id="OrderTotalAmtMap" type="com.zdmoney.vo.ActivityOrderVo">
+        <result column="totalAmt" property="totalAmt" jdbcType="DECIMAL"/>
+        <result column="customerId" property="customerId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--查询某时间段的订单投资总额-->
+    <select id="selectOrderPayTotalAmtByDate" resultType="java.util.HashMap" parameterType="java.util.Map">
+        select sum(totalAmt) as totalAmt, customerId, cmNumber, cmCellPhone
+        from (
+        select customerId,
+        totalAmt,
+        productId,
+        c.cm_number as cmNumber,
+        c.cm_cellphone as cmCellPhone
+        from (select t.id,
+        t.PRODUCT_ID as productId,
+        t.CUSTOMER_ID as customerId,
+        t.ORDER_TIME as orderTime,
+        t.ORDER_AMT as totalAmt
+        from BUSI_ORDER t
+        where
+        <![CDATA[
+               t.ORDER_TIME >= to_date(#{startDate}, 'yyyy/mm/dd hh24:mi:ss')
+                and t.ORDER_TIME <= to_date(#{endDate}, 'yyyy/mm/dd hh24:mi:ss')
+            ]]>
+        and t.STATUS in ('0')
+        ) tt
+        join busi_product bp
+        on productId = bp.id
+        join customer_main_info c
+        on c.id = customerId
+        <if test="limitType!= null">
+            and bp.limit_type != 2
+        </if>
+        )
+        group by customerId, cmNumber, cmCellPhone
+    </select>
+
+    <!--查询用户给某段结息时间的订单-->
+    <select id="selectOrderByCustomerIdAndDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+            ORDER_AMT,
+            PRINCIPALINTEREST
+        FROM
+          BUSI_ORDER
+        WHERE
+          CUSTOMER_ID = #{customerId}
+        AND
+          STATUS in (9,10)
+        <![CDATA[
+            AND INTEREST_END_DATE >= to_date(#{startDate}, 'yyyy/mm/dd hh24:mi:ss')
+            AND INTEREST_END_DATE <= to_date(#{endDate}, 'yyyy/mm/dd hh24:mi:ss')
+        ]]>
+    </select>
+
+    <select id="findUpdateCustomerCount" parameterType="Long" resultType="java.lang.Long">
+        select bsv.count from BUSI_SALES_VOLUME bsv where bsv.customer_id = #{id}
+    </select>
+
+    <update id="updateCustomerCount" parameterType="java.util.Map">
+        update BUSI_SALES_VOLUME set count = #{count} WHERE customer_id = #{customerId}
+    </update>
+
+    <insert id="insertCustomerCount" parameterType="java.util.Map">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_BUSI_SALES_VOLUME.nextval from dual
+        </selectKey>
+        insert into BUSI_SALES_VOLUME(ID, CUSTOMER_ID, COUNT) VALUES (#{id,jdbcType=DECIMAL},
+        #{customerId,jdbcType=DECIMAL}, #{count,jdbcType=DECIMAL})
+    </insert>
+
+    <select id="queryFinancePlanOrderInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from busi_order where product_type = 4 and product_id = #{productId,jdbcType=DECIMAL} and status = 0
+    </select>
+
+    <update id="updateMainSub" parameterType="java.util.Map">
+        BEGIN
+        update busi_order
+        <set>
+            <if test="interestStartDate!=null">
+                interest_start_date = #{interestStartDate},
+            </if>
+            <if test="interestEndDate!=null">
+                interest_end_date = #{interestEndDate},
+            </if>
+            <if test="sendSerialNo!=null">
+                send_serial_no = #{sendSerialNo},
+            </if>
+            MODIFY_DATE = sysdate
+        </set>
+        where id = #{id};
+        update busi_order_sub
+        <set>
+            <if test="interestStartDate!=null">
+                interest_start_date = #{interestStartDate},
+            </if>
+            <if test="interestEndDate!=null">
+                interest_end_date = #{interestEndDate},
+            </if>
+            <if test="sendSerialNo!=null">
+                send_serial_no = #{sendSerialNo},
+            </if>
+            MODIFY_DATE = sysdate
+        </set>
+        where id = #{id};
+        END;
+    </update>
+
+    <update id="updateOrderByIdAndStatus" parameterType="java.util.Map">
+        update BUSI_ORDER set STATUS = #{status,jdbcType=VARCHAR},MODIFY_DATE=sysdate
+        where ID =#{id,jdbcType=DECIMAL}
+        <if test="oldStatus !=null and oldStatus != ''">
+            and STATUS = #{oldStatus}
+        </if>
+    </update>
+    <!-- 更新超时未付款的订单状态 -->
+    <update id="updateUnpaidOrderStatus" parameterType="java.util.Map">
+        <![CDATA[
+
+			update BUSI_ORDER
+			set status = '11'
+			where status = '1' and (ORDER_TIME+45/24/60)<=#{currTime}
+
+        ]]>
+    </update>
+    <!-- 更新超时未付款的子订单状态 -->
+    <update id="updateUnpaidSubOrderStatus" parameterType="java.util.Map">
+        <![CDATA[
+			update BUSI_ORDER_sub
+			set status = '11'
+			where status = '1' and (ORDER_TIME+45/24/60)<=#{currTime}
+        ]]>
+    </update>
+
+    <!--用户历史资产红包积分累计收益,已收加息收益v4.1-->
+    <select id="getTotalCouponAndIntegralAmt" resultType="com.zdmoney.vo.UserUnReceiveAsset"
+            parameterType="java.util.Map">
+        select
+             nvl(sum(t.COUPON_AMOUNT + t.integral_amount),0)  as totalCouponAndIntegralAmt,
+             nvl(sum(t.raise_rate_income),0)  as receiveInterest
+             from  busi_order t
+              where t.customer_id = #{customerId}
+              and t.STATUS in (10,14,16,19)
+     </select>
+
+    <!--用户待收加息收益v4.1-->
+    <select id="getNoRecieveAmt" resultType="com.zdmoney.vo.UserUnReceiveAsset" parameterType="java.util.Map">
+        select
+        nvl(sum(t.raise_rate_income),0)  as noReceiveInterest
+        from  busi_order t
+        where t.customer_id = #{customerId}
+        and t.STATUS in (0,9,14,17,18)
+    </select>
+
+    <resultMap id="OrderProductExitMap" type="com.zdmoney.vo.OrderProductExit">
+        <result column="id" property="id" jdbcType="DECIMAL"/>
+        <result column="orderId" property="orderId" jdbcType="VARCHAR"/>
+        <result column="customer_id" property="customerId" jdbcType="DECIMAL"/>
+        <result column="orderAmt" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="productId" property="productId" jdbcType="DECIMAL"/>
+        <result column="dateToSettle" property="dateToSettle" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <!--查询用户订单关联产品是否提前结清-->
+    <select id="queryOrderProductExit" parameterType="java.util.Map" resultMap="OrderProductExitMap">
+        select t.ID as id  , t.ORDER_NUM as orderId, t.CUSTOMER_ID as customerId, t.ORDER_AMT as orderAmt, t.PRODUCT_ID as productId ,t1.date_to_settle as dateToSettle
+          from busi_order t join busi_product_to_pay t1  on t.product_id = t1.product_id
+            where t.customer_id= #{customerId,jdbcType=DECIMAL} and t.status in(0,9,14,17,18)
+            and (t1.date_to_settle > sysdate or t1.date_to_settle is null)
+            order by t1.date_to_settle asc  nulls last
+    </select>
+
+    <select id="getContinuedOrderList" parameterType="java.util.Map" resultMap="BaseResultMapProduct">
+        select t.* from busi_order t
+        left join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        where t.STATUS = 17
+        <![CDATA[
+        and t.INTEREST_END_DATE >= to_date(#{startDate},'yyyy-mm-dd')
+        and t.INTEREST_END_DATE <= to_date(#{endDate},'yyyy-mm-dd')
+         ]]>
+        and bp.NEW_HAND = 0
+        and t.close_days > #{regulations}
+        and t.product_type = 4
+        and t.RE_INVEST_COUNT = 0
+        and t.CUSTOMER_ID =#{customerId}
+    </select>
+
+    <select id="selectContinuedorder" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select nvl(count(t.id),0) from busi_order t
+        left join busi_product bp
+        on t.PRODUCT_ID = bp.id
+        where t.STATUS = 17
+        <![CDATA[
+        and t.INTEREST_END_DATE >= to_date(#{startDate},'yyyy-mm-dd')
+        and t.INTEREST_END_DATE <= to_date(#{endDate},'yyyy-mm-dd')
+         ]]>
+        and bp.NEW_HAND = 0
+        and t.close_days > #{regulations}
+        and t.RE_INVEST_COUNT = 0
+        and t.CUSTOMER_ID =#{customerId}
+    </select>
+
+
+    <select id="getTransferOrderData" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select bo.* from busi_order bo where bo.status in ('0','9','14','17','18')
+        <if test="startDate != null">
+            and TO_CHAR(bo.INTEREST_START_DATE,'yyyy-MM-dd') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            and TO_CHAR(bo.INTEREST_START_DATE,'yyyy-MM-dd') &lt;= #{endDate}
+        </if>
+        order by bo.order_time desc
+    </select>
+
+    <select id="getActivateOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from busi_order where order_num in (
+        select distinct a.order_num
+        from busi_order a left join busi_order_pay_plan b on a.order_num=b.order_num
+        where b.repay_status in(1,2)
+        <if test="startDate != null">
+            and TO_CHAR(b.REPAY_DAY,'yyyy-MM-dd') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            and TO_CHAR(b.REPAY_DAY,'yyyy-MM-dd') &lt;= #{endDate}
+        </if>
+        )
+    </select>
+
+    <select id="getRepayCompleteOrderList" parameterType="java.util.Map" resultMap="orderSubMap">
+        select a.id,a.order_num,a.customer_id,c.cm_number,b.principal order_amt,b.principal_interest
+        principalinterest,b.curr_term,
+        repay_day,b.term
+        from busi_order a left join busi_order_pay_plan b on a.order_num=b.order_num
+        left join customer_main_info c on a.customer_id = c.id
+        where b.repay_status in(3,4,8)
+        <if test="startDate != null">
+            and TO_CHAR(b.real_time,'yyyy-MM-dd') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            and TO_CHAR(b.real_time,'yyyy-MM-dd') &lt;= #{endDate}
+        </if>
+        order by a.id, b.curr_term
+    </select>
+
+    <select id="getInvestOverList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from busi_order bo left join busi_sell_order so on bo.id = so.order_id
+        where bo.status in (10, 16, 19)
+        <if test="startDate != null">
+            and TO_CHAR(so.pay_time,'yyyy-MM-dd') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            and TO_CHAR(so.pay_time,'yyyy-MM-dd') &lt;= #{endDate}
+        </if>
+        order by bo.order_time desc
+    </select>
+
+    <!--根据产品id获取订单最大的结息日-->
+    <select id="getMaxInterestEndDate" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select * from (
+        select
+        <include refid="Base_Column_List"/>
+        from busi_order where PRODUCT_ID = #{productId,jdbcType=DECIMAL}
+        order by interest_end_date desc nulls last
+        ) where rownum = 1
+    </select>
+
+    <resultMap id="OrderDtoflw" type="com.zdmoney.models.flw.Orders">
+        <collection ofType="com.zdmoney.models.flw.Order" javaType="java.util.ArrayList" property="order">
+            <result column="order_id_parent" property="order_id_parent" jdbcType="VARCHAR"/>
+            <result column="order_id" property="order_id" jdbcType="VARCHAR"/>
+            <result column="order_time" property="order_time" jdbcType="VARCHAR"/>
+            <result column="s_id" property="s_id" jdbcType="VARCHAR"/>
+            <result column="uname" property="uname" jdbcType="VARCHAR"/>
+            <result column="pay_time" property="pay_time" jdbcType="VARCHAR"/>
+            <result column="tc" property="tc" jdbcType="VARCHAR"/>
+            <result column="status" property="status" jdbcType="DECIMAL"/>
+            <result column="locked" property="locked" jdbcType="DECIMAL"/>
+            <result column="platform" property="platform" jdbcType="DECIMAL"/>
+            <result column="fanli_uid" property="uid" jdbcType="VARCHAR"/>
+            <result column="lastmod" property="lastmod" jdbcType="VARCHAR"/>
+            <result column="remark" property="remark" jdbcType="VARCHAR"/>
+            <collection ofType="com.zdmoney.models.flw.Extension" property="extension">
+                <result column="reg_time" property="reg_time" jdbcType="VARCHAR"/>
+                <result column="mobile" property="mobile" jdbcType="VARCHAR"
+                        typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+            </collection>
+            <collection ofType="com.zdmoney.models.flw.Product" javaType="java.util.ArrayList" property="products">
+                <result column="pid" property="pid" jdbcType="VARCHAR"/>
+                <result column="title" property="title" jdbcType="VARCHAR"/>
+                <result column="category" property="category" jdbcType="VARCHAR"/>
+                <result column="category_title" property="category_title" jdbcType="VARCHAR"/>
+                <result column="url" property="url" jdbcType="VARCHAR"/>
+                <result column="num" property="num" jdbcType="DECIMAL"/>
+                <result column="price" property="price" jdbcType="DECIMAL"/>
+                <result column="real_pay_fee" property="real_pay_fee" jdbcType="DECIMAL"/>
+                <result column="commission" property="commission" jdbcType="DECIMAL"/>
+                <result column="comm_type" property="comm_type" jdbcType="VARCHAR"/>
+                <collection ofType="com.zdmoney.models.flw.ProductExtension" property="extension">
+                    <result column="time_limit" property="time_limit" jdbcType="VARCHAR"/>
+                    <result column="annual_yield" property="annual_yield" jdbcType="DOUBLE"/>
+                    <result column="coupon" property="coupon" jdbcType="DOUBLE"/>
+                    <result column="raise_interest" property="raise_interest" jdbcType="DOUBLE"/>
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="getOrderListForFlw" resultMap="OrderDtoflw" parameterType="java.util.Map">
+        select
+        bo.ORDER_NUM as order_id_parent,
+        bo.ORDER_NUM as order_id,
+        to_char(bo.ORDER_TIME,'yyyy-MM-dd hh24:mi:ss') as order_time,
+        to_char(bo.CONFIRM_PAYMENT_DATE,'yyyy-MM-dd hh24:mi:ss') as pay_time,
+        to_char(bo.MODIFY_DATE,'yyyy-MM-dd hh24:mi:ss') as lastmod,
+        case when (bo.CM_OPEN_PLATFORM = 'ANDROID' or bo.CM_OPEN_PLATFORM ='IOS' or bo.CM_OPEN_PLATFORM = 'App') then 3
+        when (bo.CM_OPEN_PLATFORM ='WEB' or bo.CM_OPEN_PLATFORM ='MANAGE') then 1
+        else 2 end as platform,
+        to_char(cmi.CM_INPUT_DATE,'yyyy-MM-dd hh24:mi:ss') as reg_time,
+        cmi.CM_CELLPHONE as mobile,
+        cmi.fanli_tc as tc,
+        cmi.fanli_uid as fanli_uid,
+        #{sId} as s_id,
+        cmi.cm_number as uname,
+        bo.CASH_AMOUNT as price,
+        bo.ORDER_AMT as real_pay_fee,
+        bo.CLOSE_DAYS as time_limit,
+        bo.YEAR_RATE as annual_yield,
+        bo.COUPON_AMOUNT as coupon,
+        bo.PRODUCT_TYPE as category,
+        0 as raise_interest,
+        case when bo.ORDER_AMT &lt; 5000 then 'NOCM'
+        when bo.ORDER_AMT >= 5000 and bo.CLOSE_DAYS >=80 and bo.CLOSE_DAYS &lt;=149 then 'A_3'
+        when bo.ORDER_AMT >= 5000 and bo.CLOSE_DAYS >=150 and bo.CLOSE_DAYS &lt;=269 then 'A_6'
+        when bo.ORDER_AMT >= 5000 and bo.CLOSE_DAYS >=270 then 'A_12'
+        else 'NOCM' end as comm_type,
+        bo.PRODUCT_ID as pid,
+        bo.MODIFY_DATE,
+        case when bo.status = 4 then 0
+        when bo.status = 0 and ((bo.product_type = 3 and bo.INTEREST_START_DATE > sysdate) or (bo.product_type != 3))
+        then 1
+        when bo.status in (9,10,14,16,17,18,19) or (bo.status = 0 and bo.product_type=3 and bo.INTEREST_START_DATE &lt;=
+        sysdate)then 2
+        end as status
+        from busi_order bo, customer_main_info cmi
+        where cmi.id = bo.customer_id
+        and bo.IS_FIRST_ORDER = 1
+        and bo.status in (0,4,9,10,14,16,17,18,19)
+        and cmi.CM_VALID=0
+        and cmi.FANLI_UID is not null
+        and cmi.FANLI_TC is not null
+        and bo.TRANSFER_TYPE=0
+        and bo.PRODUCT_TYPE in (3,4)
+        <if test="status != null and status == 0">
+            and bo.ORDER_TIME >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            and bo.ORDER_TIME &lt;= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+        <if test="status != null and status == 1">
+            and bo.MODIFY_DATE >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            and bo.MODIFY_DATE &lt;= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        </if>
+    </select>
+
+    <resultMap id="OrderListMap" type="com.zdmoney.webservice.api.dto.finance.BusiOrderDto">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="ORDER_NUM" property="orderId" jdbcType="VARCHAR"/>
+        <result column="PR_NAME" property="statusDescr" jdbcType="VARCHAR"/>
+        <result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR"/>
+        <result column="CUSTOMER_ID" property="customerId" jdbcType="DECIMAL"/>
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="YEAR_RATE_STR" property="yearRateStr" jdbcType="VARCHAR"/>
+        <result column="ADD_INTEREST_COST" property="addInterestCost" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL"/>
+        <result column="ORDER_TIME" property="orderTime" jdbcType="TIMESTAMP"/>
+        <result column="SUBJECT_TYPE" property="subjectType" jdbcType="VARCHAR"/>
+        <result column="EXIT_CHECK_STATUS" property="exitCheckStatus" jdbcType="DECIMAL"/>
+        <result column="EXIT_CHECK_DATE" property="exitCheckDate" jdbcType="TIMESTAMP"/>
+        <result column="EXIT_CLICK_DATE" property="exitClickDate" jdbcType="TIMESTAMP"/>
+        <result column="EXIT_ACTUAL_DATE" property="exitActualDate" jdbcType="TIMESTAMP"/>
+        <result column="PRINCIPALINTEREST" property="principalinterest" jdbcType="DECIMAL"/>
+        <result column="CUSTOMER_NAME" property="customerName" jdbcType="VARCHAR"/>
+        <result column="INVITE_CODE" property="inviteCode" jdbcType="VARCHAR"/>
+        <result column="CONFIRM_PAYMENT_DATE" property="confirmPaymentDate" jdbcType="TIMESTAMP"/>
+        <result column="PAY_SER_NUM" property="paySerNum" jdbcType="VARCHAR"/>
+        <result column="BANK_ACCOUNT_ID" property="bankAccountId" jdbcType="DECIMAL"/>
+        <result column="IS_FIRST_ORDER" property="isFirstOrder" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR"/>
+        <result column="PAY_TYPE" property="payType" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_TYPE" property="transferType" jdbcType="VARCHAR"/>
+        <result column="CM_CELLPHONE" property="cellPhoneNum" jdbcType="VARCHAR"
+                typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_IDNUM" property="cardNum" jdbcType="VARCHAR"
+                typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR"/>
+        <result column="voucher_id" property="voucherId" jdbcType="VARCHAR"/>
+        <result column="CASH_AMOUNT" property="paymentCash" jdbcType="DECIMAL"/>
+        <result column="COUPON_AMOUNT" property="coupon" jdbcType="DECIMAL"/>
+        <result column="INTEGRAL_ORDER_NO" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="COUPON_ORDER_NO" property="couponSerial" jdbcType="VARCHAR"/>
+        <result column="INTEGRAL_AMOUNT" property="integral" jdbcType="DECIMAL"/>
+        <result column="PRODUCT_NO" property="productNo" jdbcType="VARCHAR"/>
+        <result column="INTEGRAL_PRODUCT_SERIAL_NO" property="productSerialNo" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_NO" property="transferNo" jdbcType="VARCHAR"/>
+        <result column="TRANSFER_CHARGE" property="transferCharge" jdbcType="DECIMAL"/>
+        <result column="CM_OPEN_PLATFORM" property="cmOpenPlatform" jdbcType="VARCHAR"/>
+        <result column="MEMBER_TYPE" property="memberType" jdbcType="VARCHAR"/>
+        <result column="RULE_NAME" property="ruleName" jdbcType="VARCHAR"/>
+        <result column="INTEREST_START_DATE" property="interestStartDate" jdbcType="TIMESTAMP"/>
+        <result column="INTEREST_END_DATE" property="interestEndDate" jdbcType="TIMESTAMP"/>
+        <result column="close_days" property="closeDays" jdbcType="DECIMAL"/>
+        <result column="SUB_ORDER_NUM" property="subOrderNum" jdbcType="DECIMAL"/>
+        <result column="FAILED_SUB_ORDER_NUM" property="failedSubOrderNum" jdbcType="DECIMAL"/>
+        <result column="SUB_ORDER_SUM" property="subOrderSum" jdbcType="DECIMAL"/>
+    </resultMap>
+
+
+    <select id="selectReinvestOrderTotal" resultMap="BusiOrderSumMap">
+        select
+        sum( REINVEST_AMT ) total_cash_amount,
+        '0' total_integral_amount,
+        '0' total_coupon_amount,
+        sum( REINVEST_AMT ) total_order_amt,
+        trunc( sum( principalinterest ), 2 ) total_principalinterest,
+        '0' raiseRateIncome,
+        count( DISTINCT logs.customer_id ) totalCount
+        from BUSI_ORDER bo LEFT JOIN CUSTOMER_MAIN_INFO cmi on bo.CUSTOMER_ID = cmi.ID
+        LEFT JOIN BUSI_ORDER_REINVEST_LOG logs ON logs.order_id = bo.id
+        LEFT JOIN BUSI_PRODUCT d on d.id = bo.PRODUCT_ID
+        WHERE bo.RE_INVEST_COUNT != 0
+        <if test="id != null">
+            and bo.ID = #{id}
+        </if>
+        <if test="customerName != null">
+            and bo.CUSTOMER_NAME = #{customerName}
+        </if>
+        <if test="orderId != null">
+            and bo.ORDER_NUM = #{orderId}
+        </if>
+        <if test="status != null">
+            and bo.STATUS = #{status}
+        </if>
+        <if test="cellPhoneNum != null">
+            and cmi.CM_CELLPHONE =
+            #{cellPhoneNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.SecurityFieldTypeHandler}
+        </if>
+        <if test="cardNum != null">
+            and cmi.CM_IDNUM = #{cardNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.SecurityFieldTypeHandler}
+        </if>
+        <if test="productName != null">
+            and d.PRODUCT_NAME like '%'||#{productName}||'%'
+        </if>
+        <if test="orderAmtLow != null">
+            and logs.REINVEST_AMT &gt;= #{orderAmtLow}
+        </if>
+        <if test="interestStartDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') = #{interestStartDate}
+        </if>
+        <if test="orderAmtUp != null">
+            and logs.REINVEST_AMT &lt;= #{orderAmtUp}
+        </if>
+        <if test="dealStartDate != null">
+            and TO_CHAR(bo.MODIFY_DATE,'yyyy-MM-dd') &gt;= #{dealStartDate,jdbcType=VARCHAR}
+        </if>
+        <if test="dealEndDate != null">
+            and TO_CHAR(bo.MODIFY_DATE,'yyyy-MM-dd') &lt;= #{dealEndDate,jdbcType=VARCHAR}
+        </if>
+        <if test="orderStartDate != null">
+            and TO_CHAR(bo.MODIFY_DATE,'yyyy-MM-dd') &gt;= #{orderStartDate,jdbcType=VARCHAR}
+        </if>
+        <if test="orderEndDate != null">
+            and TO_CHAR(bo.MODIFY_DATE,'yyyy-MM-dd') &lt;= #{orderEndDate,jdbcType=VARCHAR}
+        </if>
+        <if test="startDateInterest != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &gt;= #{startDateInterest,jdbcType=VARCHAR}
+        </if>
+        <if test="endDateInterest != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &lt;= #{endDateInterest,jdbcType=VARCHAR}
+        </if>
+        <if test="cmOpenPlatform!= null">
+            and bo.CM_OPEN_PLATFORM = #{cmOpenPlatform}
+        </if>
+        <if test="paySerNum!= null">
+            and bo.PAY_SER_NUM = #{paySerNum}
+        </if>
+        <if test="productType!= null">
+            and bo.product_type = #{productType}
+        </if>
+        <if test="transferType!= null">
+            and bo.transfer_type = #{transferType}
+        </if>
+        <if test="memberType != null">
+            and cmi.member_type = #{memberType}
+        </if>
+        <if test="ruleId != null">
+            and d.rule_id = #{ruleId}
+        </if>
+        <if test="subjectType != null">
+            and d.SUBJECT_TYPE = #{subjectType}
+        </if>
+    </select>
+
+    <select id="selectReinvestOrderList" resultMap="OrderListMap">
+        select E.PR_NAME,bo.STATUS,d.SUBJECT_TYPE,EXIT_CHECK_STATUS,EXIT_CHECK_DATE,EXIT_CLICK_DATE,
+        bo.ID as ID, D.PRODUCT_NAME PRODUCT_NAME,bo.ORDER_NUM,bo.CUSTOMER_ID,logs.REINVEST_AMT as ORDER_AMT,bo.PRODUCT_ID,logs.create_time as ORDER_TIME,
+        CASE when logs.reinvest_rate * 100>1 then substr(logs.reinvest_rate * 100, 0, 4) || '%' else '0'||substr(logs.reinvest_rate * 100, 0, 4) || '%' end  YEAR_RATE_STR,
+        nvl(bo.RAISE_RATE_INCOME,0) add_interest_cost,logs.SOURCE_END_DATE as INTEREST_START_DATE,bo.INTEREST_END_DATE,
+        logs.reinvest_days close_days,
+        trunc(bo.PRINCIPALINTEREST,2)PRINCIPALINTEREST,bo.CUSTOMER_NAME,bo.INVITE_CODE,logs.create_time as CONFIRM_PAYMENT_DATE ,bo.PAY_SER_NUM,
+        bo.BANK_ACCOUNT_ID,bo.is_first_order,bo.product_type,bo.pay_type,bo.transfer_type,cmi.CM_CELLPHONE,cmi.CM_IDNUM,cmi.CM_NUMBER,
+        '' voucher_id,logs.REINVEST_AMT as CASH_AMOUNT,
+        '0' COUPON_AMOUNT,''INTEGRAL_ORDER_NO,'0' INTEGRAL_AMOUNT ,
+        '' product_no,''INTEGRAL_PRODUCT_SERIAL_NO,bdt.transfer_no,bdt.TRANSFER_CHARGE,
+        (CASE WHEN cmi.member_type=1 THEN '项目顾问' WHEN cmi.member_type=2 THEN '项目顾问客户' else '普通客户' END) member_type,
+        bpr.RULE_NAME ruleName
+        from BUSI_ORDER bo LEFT JOIN CUSTOMER_MAIN_INFO cmi on bo.CUSTOMER_ID = cmi.ID
+        LEFT JOIN BUSI_PRODUCT d on d.id = bo.PRODUCT_ID
+        left join SYS_PARAMETER E on BO.STATUS = E.PR_VALUE and E.pr_type = 'orderStatus'
+        left join busi_debt_transfer bdt on bdt.NEW_ORDER_NO = bo.ORDER_NUM and bdt.transfer_status in('1','5')
+        LEFT JOIN BUSI_PRODUCT_RULE bpr ON d.RULE_ID = bpr.ID
+        RIGHT JOIN BUSI_ORDER_REINVEST_LOG logs ON logs.order_id = bo.id
+        WHERE bo.RE_INVEST_COUNT != 0
+        <if test="id != null">
+            and bo.ID = #{id}
+        </if>
+        <if test="customerName != null">
+            and bo.CUSTOMER_NAME = #{customerName}
+        </if>
+        <if test="orderId != null">
+            and bo.ORDER_NUM = #{orderId}
+        </if>
+        <if test="status != null">
+            and bo.STATUS = #{status}
+        </if>
+        <if test="cellPhoneNum != null">
+            and cmi.CM_CELLPHONE =
+            #{cellPhoneNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.SecurityFieldTypeHandler}
+        </if>
+        <if test="cardNum != null">
+            and cmi.CM_IDNUM = #{cardNum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.SecurityFieldTypeHandler}
+        </if>
+        <if test="productName != null">
+            and d.PRODUCT_NAME like '%'||#{productName}||'%'
+        </if>
+        <if test="orderAmtLow != null">
+            and logs.REINVEST_AMT &gt;= #{orderAmtLow}
+        </if>
+        <if test="interestStartDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') = #{interestStartDate}
+        </if>
+        <if test="orderAmtUp != null">
+            and logs.REINVEST_AMT &lt;= #{orderAmtUp}
+        </if>
+        <if test="dealStartDate != null">
+            and TO_CHAR(logs.create_time,'yyyy-MM-dd') &gt;= #{dealStartDate,jdbcType=VARCHAR}
+        </if>
+        <if test="dealEndDate != null">
+            and TO_CHAR(logs.create_time,'yyyy-MM-dd') &lt;= #{dealEndDate,jdbcType=VARCHAR}
+        </if>
+        <if test="orderStartDate != null">
+            and TO_CHAR(logs.create_time,'yyyy-MM-dd') &gt;= #{orderStartDate,jdbcType=VARCHAR}
+        </if>
+        <if test="orderEndDate != null">
+            and TO_CHAR(logs.create_time,'yyyy-MM-dd') &lt;= #{orderEndDate,jdbcType=VARCHAR}
+        </if>
+        <if test="startDateInterest != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &gt;= #{startDateInterest,jdbcType=VARCHAR}
+        </if>
+        <if test="endDateInterest != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &lt;= #{endDateInterest,jdbcType=VARCHAR}
+        </if>
+        <if test="cmOpenPlatform!= null">
+            and logs.create_time = #{cmOpenPlatform}
+        </if>
+        <if test="paySerNum!= null">
+            and bo.PAY_SER_NUM = #{paySerNum}
+        </if>
+        <if test="productType!= null">
+            and bo.product_type = #{productType}
+        </if>
+        <if test="transferType!= null">
+            and bo.transfer_type = #{transferType}
+        </if>
+        <if test="memberType != null">
+            and cmi.member_type = #{memberType}
+        </if>
+        <if test="ruleId != null">
+            and d.rule_id = #{ruleId}
+        </if>
+        <if test="subjectType != null">
+            and d.SUBJECT_TYPE = #{subjectType}
+        </if>
+        order by bo.ORDER_TIME desc
+    </select>
+
+    <select id="selectReinvestOrderSumTotal" resultMap="BusiOrderSumMap">
+        SELECT
+        SUM(ORDER_AMT) AS total_order_amt,
+        SUM(cust_interest) AS total_cust_interest ,
+        SUM(cash_amount) AS total_cash_amount ,
+        SUM(PRINCIPALINTEREST) AS total_PRINCIPALINTEREST,
+        trunc(SUM(RAISE_RATE_INCOME), 2) AS raiseRateIncome
+        FROM ( SELECT D.PRODUCT_NAME AS PRODUCT_NAME,
+        logs.SOURCE_END_DATE AS INTEREST_START_DATE, bo.INTEREST_END_DATE , to_char(logs.MODIFY_TIME + 1, 'yyyy/MM/dd')
+        AS pay_date ,
+        trunc(logs.reinvest_days * nvl(logs.reinvest_amt, 0) / 365, 2) AS bv_stat ,
+        to_char(logs.CREATE_TIME, 'yyyy/MM/dd') AS order_date,
+        BO.PRINCIPALINTEREST , logs.REINVEST_AMT AS ORDER_AMT, '' AS fee, logs.REINVEST_AMT AS cash_amount, '0' AS INTEGRAL_AMOUNT, '0' AS COUPON_AMOUNT ,
+        trunc(BO.PRINCIPALINTEREST - logs.REINVEST_AMT, 2) AS cust_interest , trunc(CASE WHEN bo.INTEREST_END_DATE -
+        logs.SOURCE_END_DATE > 179 THEN 0.16
+        ELSE 0.14 END * logs.REINVEST_AMT * (bo.INTEREST_END_DATE - logs.SOURCE_END_DATE + 1) / 365, 2) AS
+        com_Principal_Interest ,
+        trunc(CASE WHEN bo.INTEREST_END_DATE - logs.SOURCE_END_DATE > 179 THEN 0.16 ELSE 0.14 END * logs.REINVEST_AMT *
+        (bo.INTEREST_END_DATE - logs.SOURCE_END_DATE + 1) / 365 + logs.REINVEST_AMT - BO.PRINCIPALINTEREST, 2) AS
+        com_profit ,
+        trunc(CASE WHEN bo.INTEREST_END_DATE - logs.SOURCE_END_DATE > 179 THEN 0.16
+        ELSE 0.14 END * ORDER_AMT * (bo.INTEREST_END_DATE - logs.SOURCE_END_DATE + 1) / 365 + logs.REINVEST_AMT -
+        BO.PRINCIPALINTEREST - 1, 2) AS com_net_profit ,
+        bo.RAISE_RATE_INCOME , CASE WHEN bo.STATUS = '16' THEN ORDER_AMT ELSE 0 END AS transfer_amt
+        FROM BUSI_ORDER bo
+        LEFT JOIN BUSI_PRODUCT d ON d.id = bo.PRODUCT_ID
+        RIGHT JOIN BUSI_ORDER_REINVEST_LOG logs ON logs.order_id = bo.id
+        WHERE (bo.status IN ( '9', '10', '0', '14', '16', '17', '18', '19' )
+        AND bo.TRANSFER_TYPE = '0'
+        AND bo.RE_INVEST_COUNT != 0)
+        <if test="productName != null">
+            and d.PRODUCT_NAME like '%'||#{productName}||'%'
+        </if>
+        <if test="startInterestStartDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') &gt;=#{startInterestStartDate}
+        </if>
+        <if test="startInterestEndDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') &lt;= #{startInterestEndDate}
+        </if>
+        <if test="endInterestStartDate != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &gt;=#{endInterestStartDate}
+        </if>
+        <if test="endInterestEndDate != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &lt;= #{endInterestEndDate}
+        </if>
+        <if test="orderStartDate != null">
+            and TO_CHAR(logs.CREATE_TIME,'yyyy-MM-dd') &gt;=#{orderStartDate}
+        </if>
+        <if test="orderEndDate != null">
+            and TO_CHAR(logs.CREATE_TIME,'yyyy-MM-dd') &lt;= #{orderEndDate}
+        </if>
+        <if test="productType != null">
+            and bo.product_type = #{productType}
+        </if>
+        <if test="isTransfer != null">
+            and d.is_transfer = #{isTransfer}
+        </if>
+        )uu
+    </select>
+
+
+    <select id="selectReinvestOrderSum" resultMap="BusiOrderSumMap">
+        SELECT PRODUCT_NAME,(case when is_transfer='1' then '100' else product_type end) as
+        product_type,INTEREST_START_DATE,INTEREST_END_DATE,
+        pay_date,  CLOSE_DAYS,trunc(CLOSE_DAYS *nvl(sum(ORDER_AMT),0)/365,2)bv_stat,order_date,
+        sum(ORDER_AMT)total_order_amt,
+        sum(cust_interest)total_cust_interest,
+        sum(fee)total_fee,
+        sum(cash_amount)total_cash_amount,
+        sum(INTEGRAL_AMOUNT)total_integral_amount,
+        sum(COUPON_AMOUNT)total_coupon_amount,trunc(sum(PRINCIPALINTEREST),2)total_principalinterest,
+        sum(com_Principal_Interest)
+        total_com_principal_interest,sum(com_profit)total_com_profit,trunc(sum(raise_rate_income),2）
+        raiseRateIncome,sum(com_net_profit)total_com_net_profit
+        FROM(
+        select D.PRODUCT_NAME PRODUCT_NAME, bo.product_type, d.is_transfer, logs.SOURCE_END_DATE AS INTEREST_START_DATE,
+        bo.INTEREST_END_DATE,logs.reinvest_days CLOSE_DAYS,
+        to_char(logs.CREATE_TIME , 'yyyy/MM/dd') AS pay_date, '' as raise_rate_income,
+        to_char(logs.CREATE_TIME, 'yyyy/MM/dd') AS order_date, BO.PRINCIPALINTEREST, logs.REINVEST_AMT AS ORDER_AMT,
+        '' fee, logs.REINVEST_AMT AS cash_amount, '0' AS INTEGRAL_AMOUNT,
+        '0' AS COUPON_AMOUNT,
+        trunc(BO.PRINCIPALINTEREST - logs.REINVEST_AMT, 2) AS cust_interest,
+        trunc((CASE WHEN (bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)>179
+        THEN 0.16 ELSE 0.14 END)* logs.REINVEST_AMT*(bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)/365, 2)
+        com_Principal_Interest,
+        trunc((CASE WHEN (bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)>179
+        THEN 0.16 ELSE 0.14 END )*
+        logs.REINVEST_AMT*(bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)/365+logs.REINVEST_AMT-BO.PRINCIPALINTEREST,
+        2)com_profit,
+        trunc((CASE WHEN (bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)>179
+        THEN 0.16 ELSE 0.14 END )*
+        logs.REINVEST_AMT*(bo.INTEREST_END_DATE-logs.SOURCE_END_DATE)/365+logs.REINVEST_AMT-BO.PRINCIPALINTEREST-1,
+        2)com_net_profit
+        from BUSI_ORDER bo
+        LEFT JOIN BUSI_PRODUCT d on d.id = bo.PRODUCT_ID
+        RIGHT JOIN BUSI_ORDER_REINVEST_LOG logs ON logs.order_id = bo.id
+        where bo.status IN ('9','10','0','14','16','17','18','19')
+        and bo.TRANSFER_TYPE='0' AND bo.RE_INVEST_COUNT != 0
+        <if test="productName != null">
+            and d.PRODUCT_NAME like '%'||#{productName}||'%'
+        </if>
+        <if test="startInterestStartDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') &gt;=#{startInterestStartDate}
+        </if>
+        <if test="startInterestEndDate != null">
+            and TO_CHAR(logs.SOURCE_END_DATE,'yyyy-MM-dd') &lt;= #{startInterestEndDate}
+        </if>
+        <if test="endInterestStartDate != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &gt;=#{endInterestStartDate}
+        </if>
+        <if test="endInterestEndDate != null">
+            and TO_CHAR(bo.INTEREST_END_DATE,'yyyy-MM-dd') &lt;= #{endInterestEndDate}
+        </if>
+        <if test="orderStartDate != null">
+            and TO_CHAR(logs.CREATE_TIME,'yyyy-MM-dd') &gt;=#{orderStartDate}
+        </if>
+        <if test="orderEndDate != null">
+            and TO_CHAR(logs.CREATE_TIME,'yyyy-MM-dd') &lt;= #{orderEndDate}
+        </if>
+        <if test="productType != null">
+            and bo.product_type = #{productType}
+        </if>
+        <if test="isTransfer != null">
+            and d.is_transfer = #{isTransfer}
+        </if>
+        )uu GROUP BY PRODUCT_NAME,INTEREST_START_DATE,INTEREST_END_DATE,pay_date,order_date,is_transfer,product_type,CLOSE_DAYS
+        ORDER BY pay_date desc
+    </select>
+
+    <!--根据订单编号获取订单信息-->
+    <select id="getOrderInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+        select
+        <include refid="Base_Column_List"/>
+        from busi_order where ORDER_NUM = #{orderId,jdbcType=DECIMAL}
+
+    </select>
+
+    <select id="queryMatchedOrders" resultMap="OrderListMap" parameterType="java.util.Map">
+        select t.order_num,t.id,t.customer_id,t.customer_name,t.order_amt,t.product_id,t.product_name,t.order_time,
+        (select count(1) from busi_order_sub  bo where bo.parent_id=t.id ) SUB_ORDER_NUM,
+        nvl((select sum(bo.order_amt) from busi_order_sub  bo where bo.parent_id=t.id),0 ) SUB_ORDER_SUM,
+        (select count(1) from busi_order_sub  bo where bo.parent_id=t.id and bo.status in('4','11')) FAILED_SUB_ORDER_NUM
+        from busi_order t left join busi_product bp on bp.id=t.product_id
+        <where>
+            t.product_type='4' and t.status in('0','17','18','19')
+            <!--<if test="statusList != null">
+                and t.status in
+                <foreach collection="statusList" item="var" separator="," open="(" close=")">
+                    #{var}
+                </foreach>
+            </if>-->
+            <if test="productId != null">
+                and t.PRODUCT_ID = #{productId}
+            </if>
+            <if test="orderNum != null">
+                and t.ORDER_NUM = #{orderNum}
+            </if>
+            <if test="creditSource != null">
+                and bp.CREDIT_SOURCE = #{creditSource}
+            </if>
+            <if test="startTime != null">
+                and t.order_time > #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and t.order_time &lt; #{endTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        order by t.id
+    </select>
+
+</mapper>

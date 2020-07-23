@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.order.BusiOrderIntegralMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.order.BusiOrderIntegral" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="INTEGRAL_PRODUCT_SERIAL_NO" property="integralProductSerialNo" jdbcType="VARCHAR" />
+    <result column="INTEGRAL_ORDER_NO" property="integralOrderNo" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="DECIMAL" />
+    <result column="INTEGRAL_AMOUNT" property="integralAmount" jdbcType="VARCHAR" />
+    <result column="CASH_AMOUNT" property="cashAmount" jdbcType="VARCHAR"/>
+      <result column="COUPON_ID" property="couponId" jdbcType="VARCHAR"/>
+      <result column="COUPON_AMOUNT" property="couponAmount" jdbcType="VARCHAR"/>
+      <result column="COUPON_ORDER_NO" property="couponOrderNo" jdbcType="VARCHAR"/>
+      <result column="COUPON_PRODUCT_SERIAL_NO" property="couponProductSerialNo" jdbcType="VARCHAR"/>
+      <result column="INTEGRAL_RMB_AMOUNT" property="integralRmbAmount" jdbcType="VARCHAR"/>
+      <result column="pay_channel_id" property="payChannelId" jdbcType="VARCHAR"/>
+      <result column="tpp_agreement" property="tppAgreement" jdbcType="VARCHAR"/>
+      <result column="tpp_flow_id" property="tppFlowId" jdbcType="VARCHAR"/>
+      <result column="ACCOUNT_SERI_NO" property="accountSeriNo" jdbcType="VARCHAR"/>
+      <result column="ACCOUNT_REFUND_SERI_NO" property="accountRefundSeriNo" jdbcType="VARCHAR"/>
+      <result column="VOUCHER_ID" property="voucherId" jdbcType="VARCHAR"/>
+      <result column="VOUCHER_SERIAL_NO" property="voucherSerialNo" jdbcType="VARCHAR"/>
+      <result column="VOUCHER_REFUND_SERIAL_NO" property="voucherRefundSerialNo" jdbcType="VARCHAR"/>
+      <result column="APPOINTMENT_ID" property="appointmentId" jdbcType="VARCHAR"/>
+      <result column="APPOINTMENT_SERIAL_NO" property="appointmentSerialNo" jdbcType="VARCHAR"/>
+      <result column="APPOINTMENT_REFUND_SERIAL_NO" property="appointmentRefundSerialNo" jdbcType="VARCHAR"/>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+  	ID,INTEGRAL_PRODUCT_SERIAL_NO,INTEGRAL_ORDER_NO,ORDER_NO,INTEGRAL_AMOUNT,CASH_AMOUNT,COUPON_ID,COUPON_AMOUNT,COUPON_ORDER_NO,COUPON_PRODUCT_SERIAL_NO,INTEGRAL_RMB_AMOUNT,
+  	pay_channel_id,tpp_agreement,tpp_flow_id,ACCOUNT_SERI_NO,ACCOUNT_REFUND_SERI_NO,VOUCHER_ID,VOUCHER_SERIAL_NO,VOUCHER_REFUND_SERIAL_NO,APPOINTMENT_ID,APPOINTMENT_SERIAL_NO,APPOINTMENT_REFUND_SERIAL_NO
+  </sql>
+  <select id="selectByCondition" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from BUSI_ORDER_INTEGRAL
+    where 1=1
+    <if test="id != null">
+    	and ID = #{id}
+    </if>
+    <if test="orderNo != null">
+    	and ORDER_NO = #{orderNo}
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.zdmoney.models.order.BusiOrderIntegral" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+		select
+		SEQ_BUSI_ORDER_INTEGRAL.nextval from dual
+	</selectKey>
+    insert into BUSI_ORDER_INTEGRAL (ID, INTEGRAL_PRODUCT_SERIAL_NO, INTEGRAL_ORDER_NO, 
+      ORDER_NO, INTEGRAL_AMOUNT,CASH_AMOUNT,COUPON_ID,COUPON_AMOUNT,COUPON_ORDER_NO,COUPON_PRODUCT_SERIAL_NO,INTEGRAL_RMB_AMOUNT,
+      pay_channel_id,ACCOUNT_SERI_NO,ACCOUNT_REFUND_SERI_NO,VOUCHER_ID,VOUCHER_SERIAL_NO,VOUCHER_REFUND_SERIAL_NO,APPOINTMENT_ID,APPOINTMENT_SERIAL_NO,APPOINTMENT_REFUND_SERIAL_NO
+      )
+    values (#{id,jdbcType=DECIMAL}, #{integralProductSerialNo,jdbcType=VARCHAR}, #{integralOrderNo,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{integralAmount,jdbcType=VARCHAR},#{cashAmount,jdbcType=VARCHAR},#{couponId,jdbcType=VARCHAR},
+      #{couponAmount,jdbcType=VARCHAR},#{couponOrderNo,jdbcType=VARCHAR},#{couponProductSerialNo,jdbcType=VARCHAR},#{integralRmbAmount,jdbcType=VARCHAR},
+      #{payChannelId,jdbcType=DECIMAL},#{accountSeriNo,jdbcType=DECIMAL},#{accountRefundSeriNo,jdbcType=DECIMAL},
+      #{voucherId,jdbcType=VARCHAR},#{voucherSerialNo,jdbcType=VARCHAR},#{voucherRefundSerialNo,jdbcType=VARCHAR},
+      #{appointmentId,jdbcType=VARCHAR},#{appointmentSerialNo,jdbcType=VARCHAR},#{appointmentRefundSerialNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByCondition" parameterType="com.zdmoney.models.order.BusiOrderIntegral">
+  update BUSI_ORDER_INTEGRAL
+    <set>
+    	<if test="integralProductSerialNo != null">
+    		INTEGRAL_PRODUCT_SERIAL_NO = #{integralProductSerialNo},
+    	</if>
+    	<if test="integralOrderNo != null">
+    		INTEGRAL_ORDER_NO = #{integralOrderNo},
+    	</if>
+    	<if test="orderNo != null">
+    		ORDER_NO = #{orderNo},
+    	</if>
+    	<if test="integralAmount != null">
+    		INTEGRAL_AMOUNT = #{integralAmount},
+    	</if>
+    	<if test="cashAmount!=null">
+    		CASH_AMOUNT = #{cashAmount},
+    	</if>
+        <if test="couponId!=null">
+            COUPON_ID = #{couponId},
+        </if>
+        <if test="couponAmount!=null">
+            COUPON_AMOUNT = #{couponAmount},
+        </if>
+        <if test="couponOrderNo!=null">
+            COUPON_ORDER_NO = #{couponOrderNo},
+        </if>
+        <if test="couponProductSerialNo!=null">
+            COUPON_PRODUCT_SERIAL_NO = #{couponProductSerialNo},
+        </if>
+        <if test="integralRmbAmount!=null">
+            INTEGRAL_RMB_AMOUNT = #{integralRmbAmount},
+        </if>
+        <if test="tppAgreement != null">
+            tpp_agreement = #{tppAgreement},
+        </if>
+        <if test="payChannelId != null">
+            pay_channel_id = #{payChannelId},
+        </if>
+        <if test="tppFlowId != null">
+            tpp_flow_id = #{tppFlowId},
+        </if>
+        <if test="accountSeriNo != null">
+            ACCOUNT_SERI_NO = #{accountSeriNo},
+        </if>
+        <if test="accountRefundSeriNo != null">
+            ACCOUNT_REFUND_SERI_NO = #{accountRefundSeriNo},
+        </if>
+
+        <if test="voucherId != null">
+            VOUCHER_ID = #{voucherId},
+        </if>
+        <if test="voucherSerialNo != null">
+            VOUCHER_SERIAL_NO = #{voucherSerialNo},
+        </if>
+        <if test="voucherRefundSerialNo != null">
+            VOUCHER_REFUND_SERIAL_NO = #{voucherRefundSerialNo},
+        </if>
+        <if test="appointmentId != null">
+            APPOINTMENT_ID = #{appointmentId},
+        </if>
+        <if test="appointmentSerialNo != null">
+            APPOINTMENT_SERIAL_NO = #{appointmentSerialNo},
+        </if>
+        <if test="appointmentRefundSerialNo != null">
+            APPOINTMENT_REFUND_SERIAL_NO = #{appointmentRefundSerialNo},
+        </if>
+    </set>
+    where ORDER_NO = #{orderNo}
+  </update>
+</mapper>

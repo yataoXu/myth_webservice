@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.customer.CustomerWelfareMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerWelfare">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <result column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CM_NUMBER" jdbcType="VARCHAR" property="cmNumber" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="WELFARE_NAME" jdbcType="VARCHAR" property="welfareName" />
+    <result column="WELFARE_ID" jdbcType="DECIMAL" property="welfareId" />
+    <result column="WELFARE_SERIO_NO" jdbcType="VARCHAR" property="welfareSerioNo" />
+  </resultMap>
+</mapper>

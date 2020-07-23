@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.lottey.LotterySignMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.lottey.LotterySign" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="SIGN_DAYS" property="signDays" jdbcType="INTEGER" />
+    <result column="AWARD_TYPE" property="awardType" jdbcType="VARCHAR" />
+    <result column="MAX_AMT" property="maxAmt" jdbcType="DECIMAL" />
+    <result column="MIN_AMT" property="minAmt" jdbcType="DECIMAL" />
+    <result column="MAX_RATE" property="maxRate" jdbcType="DECIMAL" />
+    <result column="MIN_RATE" property="minRate" jdbcType="DECIMAL" />
+    <result column="VALID_DAYS" property="validDays" jdbcType="INTEGER" />
+    <result column="RULD_ID" property="ruldId" jdbcType="INTEGER" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="SIGN_TYPE" property="signType" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="DATE" />
+    <result column="END_TIME" property="endTime" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="findByDate" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT
+      SIGN_DAYS
+    FROM
+      T_LOT_LOTTERY_SIGN
+    WHERE
+    <![CDATA[
+        START_TIME <= #{nowDate}
+    AND
+        END_TIME >= #{nowDate}
+            ]]>
+    AND STATUS = 1 AND SIGN_TYPE = 1
+  </select>
+</mapper>

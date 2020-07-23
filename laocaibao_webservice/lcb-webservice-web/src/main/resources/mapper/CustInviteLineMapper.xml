@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.CustInviteLineMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.CustInviteLine" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CELLPHONE" property="cellphone" jdbcType="VARCHAR" typeHandler='com.zdmoney.common.handler.SecurityFieldTypeHandler'/>
+    <result column="INVITED_CELLPHONE" property="invitedCellphone" jdbcType="VARCHAR" typeHandler='com.zdmoney.common.handler.SecurityFieldTypeHandler'/>
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ACTION_TIME" property="actionTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="topInviteMap" type="com.zdmoney.vo.TopInviteVo" >
+    <result column="INVITE_COUNT" property="inviteCount" jdbcType="DECIMAL" />
+    <result column="CELLPHONE" property="cellphone" jdbcType="VARCHAR" typeHandler='com.zdmoney.common.handler.SecurityFieldTypeHandler'/>
+    <result column="MTIME" property="mTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <update id="updateByCondition" parameterType="com.zdmoney.models.CustInviteLine">
+    update CUST_INVITE_LINE
+    <set>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="actionTime !=null">
+        ACTION_TIME = #{actionTime}
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    *
+    from CUST_INVITE_LINE
+    where 1=1
+    <if test="invitedCellphone != null">
+      and INVITED_CELLPHONE = #{invitedCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    </if>
+    <if test="cellphone != null">
+      and CELLPHONE = #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    </if>
+    order by ACTION_TIME desc
+  </select>
+
+  <select id="selectInviteNum" resultType="int">
+      select
+        count(distinct t.invited_cellphone)
+      from CUST_INVITE_LINE t where t.cellphone=#{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+  </select>
+
+  <select id="selectCurMonthInviteNum" resultType="int">
+    select
+    count(distinct t.invited_cellphone)
+    from CUST_INVITE_LINE t where t.cellphone=#{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    and to_char(action_time,'yyyymm')=to_char(sysdate,'yyyymm')
+    from CUST_INVITE_LINE t where t.cellphone=#{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} and to_char(action_time,'yyyymm')=to_char(sysdate,'yyyymm')
+  </select>
+
+
+  <select id="isStaff" resultType="int" parameterType="java.util.Map">
+    select count(1) from SYS_STAFF_TEL WHERE CM_CELLPHONE = #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} and ROWNUM &lt; 2
+  </select>
+
+  <select id="getInviteCountByCellphone" resultMap="topInviteMap" parameterType="java.util.Map">
+    select nvl(t3.invitecount, 0)
+    + nvl((select VALUE from BUSI_DATA_BUFF b where b.IDENTIFY = #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} and b.type = #{type}), 0)
+    INVITE_COUNT
+    , (select min(action_time) mtime from CUST_INVITE_LINE WHERE cellphone = #{cellphone, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    group by cellphone) mTime
+    from (select #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} as cellphone from dual) d left JOIN
+    , (select min(action_time) mtime from CUST_INVITE_LINE WHERE cellphone = #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} group by cellphone) mTime
+    from (select #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler} as cellphone from dual) d left JOIN
+    (select count(1) invitecount, cellphone from (SELECT count(1) , CELLPHONE FROM  CUST_INVITE_LINE t
+    WHERE t.CELLPHONE = #{cellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    <if test="status!= null">
+      AND t.status = #{status}
+    </if>
+    <if test="startDate!= null">
+    AND t.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+    </if>
+    <if test="endDate!= null">
+    AND t.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd')
+    </if>
+      AND EXISTS(SELECT 1 FROM CUST_INVITE_LINE c  WHERE c.status = '0'
+      AND c.INVITED_CELLPHONE = t.INVITED_CELLPHONE
+      AND c.CELLPHONE = t.CELLPHONE
+      AND c.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+      AND c.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd'))
+    GROUP BY t.CELLPHONE, t.INVITED_CELLPHONE) group by CELLPHONE) t3 ON d.CELLPHONE = t3.CELLPHONE
+  </select>
+
+
+  <select id="getRankByCellphone" resultType="int" parameterType="java.util.Map">
+    SELECT count(1) + 1 as rank FROM (
+    SELECT a1.INVITE_COUNT, a1.CELLPHONE, a2.mTime from (
+    SELECT
+    count(1)
+    + nvl((select VALUE from BUSI_DATA_BUFF b where b.IDENTIFY = CELLPHONE and b.type = #{type}), 0)
+    AS INVITE_COUNT,
+    CELLPHONE
+    from (
+    SELECT COUNT(1), CELLPHONE
+    FROM CUST_INVITE_LINE t
+    WHERE 1 = 1
+    <if test="status!= null">
+      AND t.status = #{status}
+    </if>
+    <if test="startDate!= null">
+      AND t.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+    </if>
+    <if test="endDate!= null">
+      AND t.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd')
+    </if>
+      AND EXISTS(SELECT 1 FROM CUST_INVITE_LINE c  WHERE c.status = '0'
+      AND c.INVITED_CELLPHONE = t.INVITED_CELLPHONE
+      AND c.CELLPHONE = t.CELLPHONE
+      AND c.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+      AND c.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd'))
+    GROUP BY t.CELLPHONE, t.INVITED_CELLPHONE )
+    group by cellphone) a1 LEFT JOIN
+    (select cellphone , min(action_time) mTime from CUST_INVITE_LINE group by cellphone) a2
+    on a1.CELLPHONE = a2.CELLPHONE
+    WHERE
+    a1.CELLPHONE not in (select CM_CELLPHONE FROM SYS_STAFF_TEL)
+    and (a1.INVITE_COUNT > #{inviteCount}
+    <if test="mTime!= null">
+      or (a1.INVITE_COUNT = #{inviteCount} and a2.mTime &lt; #{mTime})
+    </if>)
+    )
+  </select>
+
+  <select id="getTopInvistLineList" resultMap="topInviteMap" parameterType="java.util.Map">
+    select a1.INVITE_COUNT, a1.CELLPHONE from (
+    SELECT
+    count(1)
+    + nvl((select VALUE from BUSI_DATA_BUFF b where b.IDENTIFY = t2.CELLPHONE and b.type = #{type}), 0)
+    AS INVITE_COUNT,
+    CELLPHONE
+    FROM (
+    SELECT COUNT(1), CELLPHONE
+    FROM CUST_INVITE_LINE t
+    WHERE 1 = 1
+    <if test="status!= null">
+      AND t.status = #{status}
+    </if>
+    <if test="startDate!= null">
+    and t.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+    </if>
+    <if test="endDate!= null">
+    and t.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd')
+    </if>
+      AND EXISTS(SELECT 1 FROM CUST_INVITE_LINE c  WHERE c.status = '0'
+      AND c.INVITED_CELLPHONE = t.INVITED_CELLPHONE
+      AND c.CELLPHONE = t.CELLPHONE
+      AND c.action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+      AND c.action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd'))
+    GROUP BY t.CELLPHONE, t.INVITED_CELLPHONE) t2
+    GROUP by cellphone ) a1 LEFT JOIN
+    (select cellphone , min(action_time) mTime from CUST_INVITE_LINE
+    WHERE status = '0'
+    AND action_time &gt;= to_date(#{startDate},'yyyy-mm-dd')
+    AND action_time &lt; to_date(#{endDate} ,'yyyy-mm-dd')
+    group by cellphone) a2
+    on a1.CELLPHONE = a2.CELLPHONE
+    where a1.CELLPHONE not in (select CM_CELLPHONE FROM SYS_STAFF_TEL)
+    order by INVITE_COUNT desc , mTime
+  </select>
+
+
+    <select id="investFriendsPhone" resultType="String" parameterType="java.util.Map">
+        <![CDATA[
+            select invited_cellphone from CUST_INVITE_LINE
+            where cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            AND action_time >= to_date(#{startDate},'yyyy-mm-dd')
+            AND action_time <= to_date(#{endDate} ,'yyyy-mm-dd')
+            group by invited_cellphone
+        ]]>
+    </select>
+
+    <select id="isInvest" resultType="int" parameterType="java.util.Map">
+        select count(1) from (
+          select invited_cellphone,status from CUST_INVITE_LINE
+          where invited_cellphone = #{invitedCellphone, typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+          where invited_cellphone = #{invitedCellphone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+          <![CDATA[
+              AND action_time >= to_date(#{startDate},'yyyy-mm-dd')
+              AND action_time <= to_date(#{endDate} ,'yyyy-mm-dd')
+          ]]>
+          group by invited_cellphone,status
+        )
+    </select>
+
+    <select id="queryInsideStaffInfo" resultType="String">
+        select cmi.cm_cellphone from sys_staff_info ssi, customer_main_info cmi
+        where ssi.staff_idnum = cmi.cm_idnum and ssi.staff_name = cmi.cm_real_name
+    </select>
+
+    <select id="investFriendsInfo" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+        <![CDATA[
+        select b.id investId,sum(vo.ORDER_AMT) amount,b.invitedCellPhone,b.firstInvestDate,b.cm_real_name investName from (
+            select a.invitedCellPhone,a.firstInvestDate,cmi.cm_real_name,cmi.id from (
+                select invited_cellphone as invitedCellPhone,to_char(min(action_time),'yyyy-mm-dd hh24:mi:ss') as firstInvestDate
+                from CUST_INVITE_LINE
+                where invited_cellphone in(#{phone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler})
+                and cellphone = #{cellPhone}
+                and action_time >= to_date(#{startDate},'yyyy-mm-dd')
+                and action_time <= to_date(#{endDate} ,'yyyy-mm-dd')
+                group by invited_cellphone
+                order by firstInvestDate desc
+            ) a, customer_main_info cmi
+            where a.invitedCellPhone = cmi.cm_cellphone
+        ) b,busi_order vo
+        where b.id = vo.customer_id and vo.status = 0
+        and to_char(vo.INTEREST_START_DATE, 'yyyy-MM-dd') in (
+          select to_char(ACTION_TIME,'yyyy-MM-dd') from CUST_INVITE_LINE where invited_cellphone in (#{phone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}) and status = 2
+        )
+        and vo.ORDER_TIME >= to_date(#{startDate},'yyyy-mm-dd')
+        and vo.ORDER_TIME <= to_date(#{endDate} ,'yyyy-mm-dd')
+        group by b.id, invitedCellPhone, firstInvestDate, cm_real_name
+        ]]>
+    </select>
+
+    <select id="investFriendsDetail" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+        select invited_cellphone as invitedCellPhone,min(action_time) firstInvestDate ,cmi.cm_real_name investName,cmi.id investId
+        from CUST_INVITE_LINE cil, customer_main_info cmi
+        where invited_cellphone in(#{phone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}) and cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        where invited_cellphone in(#{phone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}) and cellphone = #{cellPhone}
+        and cil.invited_cellphone = cmi.cm_cellphone
+        <![CDATA[
+            and cil.action_time >= to_date(#{startDate},'yyyy-mm-dd')
+            and cil.action_time <= to_date(#{endDate} ,'yyyy-mm-dd')
+        ]]>
+        group by invited_cellphone,cmi.cm_real_name,cmi.id
+        order by firstInvestDate desc
+    </select>
+
+    <select id="isInsideStaff" resultType="int" parameterType="java.util.Map">
+        select count(1) from sys_staff_info where staff_name = #{realName} and staff_idnum = #{idNum,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    </select>
+
+    <select id="isomerismFriendInvest" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+        <![CDATA[
+            select b.* from (
+            select * from (
+            select cil.invited_cellphone invitedCellPhone,min(action_time) firstInvestDate,cmi.cm_real_name investName,cmi.id investId,count(cil.status) scount
+            from CUST_INVITE_LINE cil,customer_main_info cmi
+            where cil.cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+            and cil.invited_cellphone = cmi.cm_cellphone
+            and cil.action_time >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            and cil.action_time <= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+            group by invited_cellphone,cmi.cm_real_name,cmi.id
+            order by firstInvestDate desc) a
+            where scount = 2) b join BUSI_ORDER vo
+            on b.investId = vo.CUSTOMER_ID
+            and vo.status = 0
+            and vo.order_time >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            and vo.order_time <= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        ]]>
+    </select>
+
+  <select id="queryLotteryCount" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+    select * from (
+    select t.invitedCellPhone,t.investName,t.investId,listagg(status,',') within group (order by status) status from
+    (select cil.invited_cellphone invitedCellPhone,cmi.cm_real_name investName,cmi.id investId,cil.status
+    from CUST_INVITE_LINE cil,customer_main_info cmi
+    where cil.cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    and cil.invited_cellphone = cmi.cm_cellphone
+    <![CDATA[
+      and cil.action_time >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+      and cil.action_time < to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+    ]]>
+    group by invited_cellphone,cmi.cm_real_name,cmi.id,status) t
+    group by t.invitedCellPhone,t.investName,t.investId) t1
+    where instr(status, '0,1') > 0
+  </select>
+
+  <select id="queryHelpFriendsKillMonster" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+        select cil.invited_cellphone invitedCellPhone,cmi.cm_real_name investName,cmi.id investId,cil.status,cmi.channel_code, cil.action_time
+        from CUST_INVITE_LINE cil left join customer_main_info cmi on cil.invited_cellphone = cmi.cm_cellphone
+        where cil.cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        and cmi.cm_open_channel = 'killMonster' and cil.status = 1
+        <![CDATA[
+          and cil.action_time >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+          and cil.action_time < to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+        ]]>
+        group by cil.invited_cellphone, cmi.cm_real_name, cmi.id, cil.status, cmi.channel_code, cil.action_time
+        order by action_time asc
+     </select>
+
+  <select id="queryHelpFriends" resultType="com.zdmoney.models.InvestFriendsInfo" parameterType="java.util.Map">
+    select cil.invited_cellphone invitedCellPhone,cmi.cm_real_name investName,cmi.id investId,cil.status,cmi.channel_code, cil.action_time
+    from CUST_INVITE_LINE cil left join customer_main_info cmi on cil.invited_cellphone = cmi.cm_cellphone
+    where cil.cellphone = #{cellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+    and cmi.cm_open_channel = #{channelCode} and cil.status = 1
+    <![CDATA[
+      and cil.action_time >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+      and cil.action_time < to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+    ]]>
+    group by cil.invited_cellphone, cmi.cm_real_name, cmi.id, cil.status, cmi.channel_code, cil.action_time
+    order by action_time asc
+  </select>
+</mapper>

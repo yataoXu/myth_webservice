@@ -1,0 +1,179 @@
+ <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--积分系统-->
+    <bean id="zdHessianProxyFactory" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactory">
+    	<property name="channel" value="LCB"/>
+    </bean>
+
+    <bean id="integralAccountFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="${integral.remote.url}/integralAccountFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IIntegralAccountFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean id="integralProductFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="${integral.remote.url}/integralProductFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IIntegralProductFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean id="integralSourceFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+        <property name="serviceUrl" value="${integral.remote.url}/integralSourceFacadeService"/>
+        <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IIntegralSourceFacadeService"/>
+        <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+    </bean>
+
+    <bean id="integralOrderFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+     <property name="serviceUrl" value="${integral.remote.url}/integralOrderFacadeService"/>
+     <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IIntegralOrderFacadeService"/>
+     <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+ </bean>
+     <bean id="couponFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/couponFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.ICouponFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean id="accountFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/accountFacadeService" />
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IAccountFacadeService" />
+         <property name="proxyFactory" ref="zdHessianProxyFactory" />
+     </bean>
+     <bean id="lotteryQualificationFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/lotteryQualificationFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.ILotteryQualificationFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean id="voucherFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/voucherFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IVoucherFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="coinFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/coinFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.ICoinFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="marketingFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${marketing.remote.url}/marketingFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.marketing.api.facade.IMarketingFacadeService"/>
+     </bean>
+
+     <bean id="wechatFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${wechat.remote.url}/wechatFacadeService"/>
+         <property name="serviceInterface" value="com.zendaimoney.laocaibao.wx.api.facade.IWechatFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="lcbSubjectFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/lcbSubjectFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.subject.ILCBSubjectFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="matchInvestOrderFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/matchInvestOrderFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.match.IMatchInvestOrderFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="msgPushFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${message.remote.url}/msgPushFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.message.api.facade.IMsgPushFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean id="msgMessageFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${message.remote.url}/msgMessageFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.message.api.facade.IMsgMessageFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean name="appointmentFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/appointmentFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IAppointmentFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean id="logFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${message.remote.url}/logFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.message.api.facade.ILogFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+     <bean name="bidFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/bidFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IBidFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="lotteryFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${lottery.remote.url}/lotteryFacadeService"/>
+         <property name="serviceInterface" value="com.zendaimoney.lottery.api.facade.ILotteryFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="lcbFinancialPlanFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/lcbFinancialPlanFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.subject.ILcbFinancialPlanFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="fragmentFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${game.remote.url}/fragmentFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.gamecenter.api.facade.IFragmentFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="iSmFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${message.remote.url}/smFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.message.api.facade.ISmFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="dataAgentBcFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${dataAgent.remote.url}/dataAgentBcFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.data.agent.api.facade.IDataAgentBcFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="msgEmailFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${message.remote.url}/msgEmailFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.message.api.facade.IMsgEmailFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <!--用户授权-->
+     <bean name="depositFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/depositFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.IDepositFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <bean id="subjectFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/subjectFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.subject.ISubjectFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <!--借款人未还信息-->
+     <bean id="originSubjectFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/originSubjectFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.subject.IOriginSubjectFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <!--现金券-->
+     <bean name="cashFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${integral.remote.url}/cashFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.integral.api.facade.ICashFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+     <!--挖财注册实名通知标的-->
+     <bean id="lcbBorrowFacadeService" class="com.zdmoney.trace.hessian.client.common.TraceHessianProxyFactoryBean">
+         <property name="serviceUrl" value="${assets.remote.url}/lcbBorrowFacadeService"/>
+         <property name="serviceInterface" value="com.zdmoney.assets.api.facade.subject.ILCBBorrowFacadeService"/>
+         <property name="proxyFactory" ref="zdHessianProxyFactory"/>
+     </bean>
+
+ </beans>

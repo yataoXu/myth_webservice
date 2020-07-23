@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.customer.CustRatingChangingRecordMapper">
+
+    <resultMap type="com.zdmoney.models.customer.CustRatingChangingRecord" id="custRatingChangingRecordMap">
+        <result property="id" column="ID"/>
+        <result property="customerId" column="CUSTOMER_ID"/>
+        <result property="customerNumber" column="CUSTOMER_NUMBER"/>
+        <result property="currentRatingCode" column="CURRENT_RATING_CODE"/>
+        <result property="nextRatingCode" column="NEXT_RATING_CODE"/>
+        <result property="currentRatingNum" column="CURRENT_RATING_NUM"/>
+        <result property="nextRatingNum" column="NEXT_RATING_NUM"/>
+        <result property="changingDirection" column="CHANGING_DIRECTION"/>
+        <result property="currentAssets" column="CURRENT_ASSETS"/>
+        <result property="createTime" column="CREATE_TIME"/>
+    </resultMap>
+
+    <resultMap type="com.zdmoney.vo.CustRatingChangingVo" id="custRatingChangingVoMap">
+        <result property="customerName" column="CM_REAL_NAME"/>
+        <result property="cellphone" column="CM_CELLPHONE" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result property="openId" column="OPEN_ID"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        ID,CUSTOMER_ID,CUSTOMER_NUMBER,CURRENT_RATING_CODE,NEXT_RATING_CODE,CURRENT_RATING_NUM,NEXT_RATING_NUM,CHANGING_DIRECTION,CURRENT_ASSETS,CREATE_TIME
+    </sql>
+
+    <select id="queryCustRatingChangingRecord" resultMap="custRatingChangingRecordMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_column_list"/>
+        FROM CUST_RATING_CHANGING_RECORD
+    </select>
+
+    <select id="queryCustRatingChangingVo" resultMap="custRatingChangingVoMap" parameterType="java.util.Map">
+        SELECT
+        R.ID,R.CUSTOMER_ID,R.CUSTOMER_NUMBER,R.CURRENT_RATING_CODE,R.NEXT_RATING_CODE,R.CURRENT_RATING_NUM,R.NEXT_RATING_NUM,R.CHANGING_DIRECTION,R.CURRENT_ASSETS,
+        R.CREATE_TIME,M.CM_REAL_NAME,M.CM_CELLPHONE,M.OPEN_ID
+        FROM CUST_RATING_CHANGING_RECORD R LEFT JOIN CUSTOMER_MAIN_INFO M on R.CUSTOMER_ID=M.ID
+        <where>
+            <if test="startTime != null">
+                and R.CREATE_TIME &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and R.CREATE_TIME &lt;= #{endTime}
+            </if>
+            <if test="status != null">
+                and R.STATUS = #{status}
+            </if>
+            <if test="lockingThread != null">
+                and R.LOCKING_THREAD = #{lockingThread}
+            </if>
+            <if test="direction != null">
+                and R.CHANGING_DIRECTION = #{direction}
+            </if>
+            <if test="nextRatingNum != null">
+                and R.NEXT_RATING_NUM = #{nextRatingNum}
+            </if>
+        </where>
+    </select>
+
+    <insert id="saveCustRatingChangingRecord" parameterType="com.zdmoney.models.customer.CustRatingChangingRecord">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            SELECT seq_cust_rating_changing.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO CUST_RATING_CHANGING_RECORD
+          (ID,CUSTOMER_ID,CUSTOMER_NUMBER,CURRENT_RATING_CODE,NEXT_RATING_CODE,CURRENT_RATING_NUM,NEXT_RATING_NUM,CHANGING_DIRECTION,CURRENT_ASSETS,CREATE_TIME)
+        VALUES
+          (#{id},#{customerId},#{customerNumber},#{currentRatingCode},#{nextRatingCode},#{currentRatingNum},#{nextRatingNum},#{changingDirection},#{currentAssets},#{createTime})
+    </insert>
+
+    <insert id="saveRecords" parameterType="java.util.List">
+        INSERT INTO CUST_RATING_CHANGING_RECORD
+        (ID,CUSTOMER_ID,CUSTOMER_NUMBER,CURRENT_RATING_CODE,NEXT_RATING_CODE,CURRENT_RATING_NUM,NEXT_RATING_NUM,CHANGING_DIRECTION,CURRENT_ASSETS,CREATE_TIME)
+        select SEQ_CUST_RATING_CHANGING.NEXTVAL,tmp.* from (
+        <foreach collection="list" separator="union" item="var">
+          select #{var.customerId},#{var.customerNumber},#{var.currentRatingCode},#{var.nextRatingCode},#{var.currentRatingNum},
+            #{var.nextRatingNum},#{var.changingDirection},#{var.currentAssets},#{var.createTime}  from dual
+        </foreach>
+        ) tmp
+    </insert>
+
+    <update id="updateByMap" parameterType="java.util.Map">
+        update CUST_RATING_CHANGING_RECORD
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="lockingThread != null">
+                LOCKING_THREAD = #{lockingThread}
+            </if>
+        </set>
+        <where>
+            <if test="initStatus != null">
+                and status = #{initStatus}
+            </if>
+            <if test="initLock != null">
+                and LOCKING_THREAD = #{initLock}
+            </if>
+            <if test="startTime != null">
+                and CREATE_TIME &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and CREATE_TIME &lt;= #{endTime}
+            </if>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="ids != null">
+                and ID in
+                <foreach collection="ids" item="var" open="(" close=")" separator=",">
+                    #{var}
+                </foreach>
+            </if>
+        </where>
+    </update>
+
+</mapper>

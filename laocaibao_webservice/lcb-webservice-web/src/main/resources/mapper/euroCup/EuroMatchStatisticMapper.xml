@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.euroCup.EuroMatchStatisticMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.euroCup.EuroMatchStatistic">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="MATCH_ID" property="matchId" jdbcType="DECIMAL"/>
+        <result column="GUESS_RESULT" property="guessResult" jdbcType="VARCHAR"/>
+        <result column="IS_GUESS_RIGHT" property="isGuessRight" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getGuessList" resultType="com.zdmoney.web.dto.euroCup.EuroGuessResultDTO" parameterType="map">
+        select match_id as id,guess_result as result from euro_match_statistic t where customer_id=#{cmNumber}
+        and match_id in
+        <foreach collection="matchIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--查询某一天的中奖者-->
+    <select id="findWinner" resultType="com.zdmoney.web.dto.euroCup.OneDayWinner" parameterType="string">
+        select t.customer_mobile as cellPhone,ems.match_reward as reward,t.create_date as guessDate,'0' as myself
+        from EURO_MATCH_SCHEDULE ems left join EURO_MATCH_STATISTIC t
+        on ems.id = t.match_id
+        where to_char(ems.match_date,'yyyyMMdd') = #{matchDate}
+        and ems.match_result is not null
+        and t.is_guess_right = 0
+        and t.is_grant = 1
+        order by t.create_date desc
+    </select>
+
+</mapper>

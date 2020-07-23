@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.UcMonitorMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.UcMonitor" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MOBILES" property="mobiles" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.models.UcMonitor" >
+	 <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_UCMONITOR.nextval from dual
+    </selectKey>
+    insert into UC_MONITOR (ID, MOBILES, NOTE, 
+      MARK, CREATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{mobiles,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{mark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.UcMonitor" >
+	 <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SEQ_UCMONITOR.nextval from dual
+    </selectKey>
+    insert into UC_MONITOR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="mobiles != null" >
+        MOBILES,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="mark != null" >
+        MARK,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="mobiles != null" >
+        #{mobiles,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

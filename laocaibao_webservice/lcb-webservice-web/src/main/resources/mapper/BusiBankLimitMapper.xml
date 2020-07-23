@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.bank.BusiBankLimitMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.bank.BusiBankLimit" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="BANK_CODE" property="bankCode" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+    <result column="CARD_TYPE" property="cardType" jdbcType="VARCHAR" />
+    <result column="SINGLE_AMT" property="singleAmt" jdbcType="DECIMAL" />
+    <result column="DAY_AMT" property="dayAmt" jdbcType="DECIMAL" />
+    <result column="MONTH_AMT" property="monthAmt" jdbcType="DECIMAL" />
+    <result column="BANK_STATUS" property="bankStatus" jdbcType="VARCHAR" />
+    <result column="OPER_DATE" property="operDate" jdbcType="TIMESTAMP" />
+    <result column="PAY_CHANNEL" property="payChannel" jdbcType="VARCHAR"/>
+    <result column="CODE" property="code" jdbcType="VARCHAR"/>
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="LL_BANK_CODE" property="llBankCode" jdbcType="VARCHAR" />
+    <result column="HR_BANK_NAME" property="hrBankName" jdbcType="VARCHAR" />
+    <result column="LL_RECHARGE" property="llRecharge" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.zdmoney.models.bank.BusiBankLimit">
+    select
+    *
+    from busi_bank_limit
+    where 1=1
+    <if test="bankCode!=null">
+      and BANK_CODE = #{bankCode}
+    </if>
+    <if test="llBankCode!=null">
+      and LL_BANK_CODE = #{llBankCode}
+    </if>
+    <if test="payChannel != null">
+      and PAY_CHANNEL = #{payChannel}
+    </if>
+    <if test="code!=null">
+      and CODE = #{code}
+    </if>
+    order BY  LL_RECHARGE asc
+  </select>
+</mapper>

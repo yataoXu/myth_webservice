@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.AccountMapper" >
+   <resultMap id="LedgerMap" type="com.zdmoney.models.GeneralLedger" >
+	    <result column="id" 		 property="id" jdbcType="DECIMAL" />
+	    <result column="customer_id" property="customerId" jdbcType="DECIMAL" />
+	    <result column="create_date" property="createDate" jdbcType="DATE" />
+	    <result column="begin_amt"   property="beginAmt" jdbcType="DECIMAL" />
+	    <result column="recharge_amt" property="rechargeAmt" jdbcType="DECIMAL" />
+	    <result column="repay_amt" 	 property="repayAmt" jdbcType="DECIMAL" />
+	    <result column="rebate_amt"  property="rebateAmt" jdbcType="DECIMAL" />
+	    <result column="withdraw_amt" property="withdrawAmt" jdbcType="DECIMAL" />
+	    <result column="consume_amt" property="consumeAmt" jdbcType="DECIMAL" />
+	    <result column="fee_amt" property="feeAmt" jdbcType="DECIMAL" />
+	    <result column="refund_amt" property="refundAmt" jdbcType="DECIMAL" />
+	    <result column="lock_amt" property="lockAmt" jdbcType="DECIMAL" />
+	    <result column="unlock_amt" property="unLockAmt" jdbcType="DECIMAL" />
+	    <result column="other_in_amt" property="otherInAmt" jdbcType="DECIMAL" />
+	    <result column="other_out_amt" property="otherOutAmt" jdbcType="DECIMAL" />
+	    <result column="end_amt" property="endAmt" jdbcType="DECIMAL" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="CompanyLedgerMap" type="com.zdmoney.models.CompanyLedger" >
+	    <result column="id" 		 property="id" jdbcType="DECIMAL" />
+	    <result column="company_id" property="companyId" jdbcType="DECIMAL" />
+	    <result column="trade_date" property="tradeDate" jdbcType="DATE" />
+	    <result column="begin_amt"   property="beginAmt" jdbcType="DECIMAL" />
+	    <result column="purchase_amt" property="purchaseAmt" jdbcType="DECIMAL" />
+	    <result column="income_amt" 	 property="incomeAmt" jdbcType="DECIMAL" />
+	    <result column="profit_wd_amt"  property="profitWdAmt" jdbcType="DECIMAL" />
+	    <result column="profit_amt" property="profitAmt" jdbcType="DECIMAL" />
+	    <result column="person_amt" property="personAmt" jdbcType="DECIMAL" />
+	    <result column="fee_amt" property="feeAmt" jdbcType="DECIMAL" />
+	    <result column="rebate_out_amt" property="rebateOutAmt" jdbcType="DECIMAL" />
+	    <result column="rebate_rh_amt" property="rebateRhAmt" jdbcType="DECIMAL" />
+	    <result column="end_amt" property="endAmt" jdbcType="DECIMAL" />
+	    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BalanceMap" type="com.zdmoney.models.customer.CustomerBalance" >
+	    <result column="id" 		 property="id" jdbcType="DECIMAL" />
+	    <result column="customer_id" property="customerId" jdbcType="DECIMAL" />
+	    <result column="account_id"  property="accountId" jdbcType="VARCHAR" />
+	    <result column="balance_pri" property="balancePri" jdbcType="VARCHAR" />
+	    <result column="balance_pub" property="balancePub" jdbcType="DECIMAL" />
+	    <result column="lock_amt" property="lockAmt" jdbcType="DECIMAL" />
+	    <result column="lock_pri" 	 property="lockPri" jdbcType="VARCHAR" />
+	    <result column="remark" 	 property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="CompanyBalMap" type="com.zdmoney.models.CompanyBalance" >
+	    <result column="id" 		 property="id" jdbcType="DECIMAL" />
+	    <result column="company_id" property="companyId" jdbcType="DECIMAL" />
+	    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+	    <result column="account_id"  property="accountId" jdbcType="VARCHAR" />
+	    <result column="balance_pri" property="balancePri" jdbcType="VARCHAR" />
+	    <result column="balance_pub" property="balancePub" jdbcType="DECIMAL" />
+	    <result column="remark" 	 property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="RecordDetailMap" type="com.zdmoney.models.RecordDetail" >
+	    <result column="id" 		 property="id" jdbcType="DECIMAL" />
+	    <result column="customer_id" property="customerId" jdbcType="DECIMAL" />
+	    <result column="order_num" 	 property="orderNum" jdbcType="VARCHAR" />
+	    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="trade_type" 	 property="type" jdbcType="VARCHAR" />
+	    <result column="pay_seq" 	 property="paySeq" jdbcType="VARCHAR" />
+	    <result column="trade_amt" 	 property="tradeAmt" jdbcType="DECIMAL" />
+	    <result column="flag" 	 property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  
+ <!-- 查询总账记录-->
+  <select id="selectGeneralLedger" resultMap="LedgerMap" parameterType="java.util.Map" >
+    select id,customer_id,create_date,begin_amt,recharge_amt,repay_amt,rebate_amt,withdraw_amt,consume_amt,fee_amt,refund_amt,lock_amt,unlock_amt,other_in_amt,other_out_amt,end_amt,remark
+    from general_ledger  where customer_id = #{customerId,jdbcType=DECIMAL} and rownum=1 order by id desc
+  </select>
+  
+  <!-- 查询客户最近总账记录 -->
+  <select id="selectLastLedger" resultMap="LedgerMap" parameterType="java.util.Map" >
+	  <![CDATA[ 
+	  	select id,customer_id,create_date,begin_amt,recharge_amt,repay_amt,rebate_amt,withdraw_amt,consume_amt,fee_amt,refund_amt,lock_amt,unlock_amt,other_in_amt,other_out_amt,end_amt,remark 
+	  	from general_ledger where customer_id = #{customerId} and to_char(create_date,'YYYY-MM-DD')=
+	     (select to_char(max(CREATE_DATE),'YYYY-MM-DD') from general_ledger where to_char(create_date,'YYYY-MM-DD')<to_char(#{currDate},'YYYY-MM-DD') and customer_id = #{customerId})
+	  ]]> 
+  </select>
+  
+  <!--查询用户余额 -->
+  <select id="selectCustomerBalance" resultMap="BalanceMap" parameterType="java.util.Map" >
+    select id,customer_id,account_id,balance_pri,balance_pub,lock_amt,lock_pri,remark
+    from customer_balance  where customer_id = #{customerId,jdbcType=DECIMAL}  and rownum=1
+  </select>
+   
+  <!--是否已操作过客户账户 -->
+  <select id="exsitsCuOrder" resultType="int" parameterType="java.util.Map" >
+    	select count(*) from detail_record  where trade_type=#{type} and order_num = #{orderNum}  
+  </select>
+    
+  <!--解冻金额是否等于冻结金额 -->
+  <select id="getBalance" resultType="String" parameterType="java.util.Map" >
+    	select (case when(a.tradeAmt=b.tradeAmt) then '1' else '0' end) bal from
+			(select  nvl(sum(trade_amt),0)tradeAmt,order_num from detail_record where order_num=#{orderNum} and trade_type=6 group by order_num)a,
+			(select  nvl(sum(trade_amt),0)tradeAmt,order_num from detail_record where order_num=#{orderNum} and trade_type=7 group by order_num)b 
+		where a.order_num=b.order_num  
+  </select>
+  
+  <!-- 生成流水明细 -->
+  <insert id="insertRecordDetail" parameterType="com.zdmoney.models.RecordDetail" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_detail_record.nextval from dual
+    </selectKey>
+    insert into detail_record (id,customer_id,order_num,create_date,trade_amt,trade_type,pay_seq,flag,remark)
+    values (#{id}, #{customerId},#{orderNum},#{createDate},#{tradeAmt},#{type},#{paySeq},#{flag},#{remark})
+  </insert>
+  
+  <!--产生用户余额 -->
+  <insert id="insertCustomerBalance" parameterType="com.zdmoney.models.customer.CustomerBalance" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_customer_balance.nextval from dual
+    </selectKey>
+    insert into customer_balance (id,customer_id,account_id,balance_pri,balance_pub,lock_amt,lock_pri)
+    values (#{id}, #{customerId},#{accountId},#{balancePri},#{balancePub},#{lockAmt},#{lockPri})
+  </insert>
+  
+  <!-- 生成总账记录 -->
+  <insert id="insertGeneralLedger" parameterType="com.zdmoney.models.GeneralLedger" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_general_ledger.nextval from dual
+    </selectKey>
+    insert into general_ledger (id,customer_id,create_date,begin_amt,recharge_amt,repay_amt,rebate_amt,withdraw_amt,consume_amt,fee_amt,refund_amt,lock_amt,unlock_amt,other_in_amt,other_out_amt,end_amt)
+    values (#{id}, #{customerId},to_date(to_char(#{createDate},'yyyy-MM-dd'),'yyyy-MM-dd'),#{beginAmt},#{rechargeAmt},#{repayAmt},#{rebateAmt},#{withdrawAmt},#{consumeAmt},#{feeAmt},#{refundAmt},#{lockAmt},#{unLockAmt},#{otherInAmt},#{otherOutAmt},#{endAmt})
+  </insert>
+  
+  <!-- 更新总账记录-->
+  <update id="updateGeneralLedger" parameterType="com.zdmoney.models.GeneralLedger" >
+    update general_ledger set begin_amt=#{beginAmt},recharge_amt=#{rechargeAmt},repay_amt=#{repayAmt},rebate_amt=#{rebateAmt},withdraw_amt=#{withdrawAmt},
+    consume_amt=#{consumeAmt},fee_amt=#{feeAmt},refund_amt=#{refundAmt},lock_amt=#{lockAmt},unlock_amt=#{unLockAmt},other_in_amt=#{otherInAmt},other_out_amt=#{otherOutAmt},end_amt=#{endAmt}   
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 更新客户余额 -->
+  <update id="updateCustomerBalance" parameterType="com.zdmoney.models.customer.CustomerBalance">
+    update customer_balance set balance_pri = #{balancePri},balance_pub=#{balancePub},lock_amt=#{lockAmt},lock_pri=#{lockPri} where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 根据客户编号更新客户余额 -->
+  <update id="updateCustomerBalanceByCustomerId" parameterType="com.zdmoney.models.customer.CustomerBalance">
+    update customer_balance set balance_pri = #{balancePri},balance_pub=#{balancePub},lock_amt=#{lockAmt},lock_pri=#{lockPri} where customer_id = #{customerId,jdbcType=DECIMAL}
+  </update>
+    
+  <!-- 查询公司总账记录-->
+  <select id="selectCompanyLedger" resultMap="CompanyLedgerMap" parameterType="java.util.Map" >
+    select id,company_id,trade_date,begin_amt,purchase_amt,income_amt,profit_wd_amt,profit_amt,person_amt,fee_amt,rebate_out_amt,rebate_rh_amt,end_amt,remark
+    from company_ledger  where company_id = #{companyId} and to_char(trade_date,'YYYY-MM-DD')=to_char(#{currDate},'YYYY-MM-DD')
+  </select>
+  
+  <!-- 查询公司最近总账记录 -->
+  <select id="selectCompanyLastLedger" resultMap="CompanyLedgerMap" parameterType="java.util.Map" >
+	  <![CDATA[ 
+	  	select id,company_id,trade_date,begin_amt,purchase_amt,income_amt,profit_wd_amt,profit_amt,person_amt,fee_amt,rebate_out_amt,rebate_rh_amt,end_amt,remark 
+	  	from company_ledger where company_id = #{companyId} and to_char(trade_date,'YYYY-MM-DD')=
+	  	(select to_char(max(trade_date),'YYYY-MM-DD') from company_ledger where to_char(trade_date,'YYYY-MM-DD')<to_char(#{currDate},'YYYY-MM-DD') and company_id = #{companyId})
+	  ]]> 
+  </select>
+  
+  <!--查询公司余额 -->
+  <select id="selectCompanyBalance" resultMap="CompanyBalMap" parameterType="java.util.Map" >
+    select id,company_id,company_name,account_id,balance_pri,balance_pub,remark
+    from company_balance  where company_id = #{companyId,jdbcType=DECIMAL} 
+  </select>
+      
+  <!--是否已操作过公司账户 -->
+  <select id="exsitsCoOrder" resultType="int" parameterType="java.util.Map" >
+    	select count(*) from company_record  where trade_type=#{type} and order_num = #{orderNum}  
+  </select>
+  
+  <!-- 生成公司流水明细 -->
+  <insert id="insertCompanyRecord" parameterType="com.zdmoney.models.CompanyRecord" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_company_record.nextval from dual
+    </selectKey>
+    insert into company_record (id,company_id,order_num,trade_date,trade_amt,trade_type,pay_seq,flag)
+    values (#{id}, #{companyId},#{orderNum},#{tradeDate},#{tradeAmt},#{type},#{paySeq},#{flag})
+  </insert>
+  
+  <!--产生公司余额 -->
+  <insert id="insertCompanyBalance" parameterType="com.zdmoney.models.CompanyBalance" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_company_balance.nextval from dual
+    </selectKey>
+    insert into company_balance (id,company_id,account_id,balance_pri,balance_pub)
+    values (#{id}, #{companyId},#{accountId},#{balancePri},#{balancePub})
+  </insert>
+  
+  <!-- 生成总账记录 -->
+  <insert id="insertCompanyLedger" parameterType="com.zdmoney.models.CompanyLedger">
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select seq_company_ledger.nextval from dual
+    </selectKey>
+    insert into company_ledger (id,company_id,trade_date,begin_amt,purchase_amt,income_amt,profit_wd_amt,profit_amt,person_amt,fee_amt,rebate_out_amt,rebate_rh_amt,end_amt)
+    values (#{id}, #{companyId},to_date(to_char(#{tradeDate},'yyyy-MM-dd'),'yyyy-MM-dd'),#{beginAmt},#{purchaseAmt},#{incomeAmt},#{profitWdAmt},#{profitAmt},#{personAmt},#{feeAmt},#{rebateOutAmt},#{rebateRhAmt},#{endAmt})
+  </insert>
+  
+  <!-- 更新公司总账记录-->
+  <update id="updateCompanyLedger" parameterType="com.zdmoney.models.CompanyLedger" >
+    update company_ledger set begin_amt=#{beginAmt},purchase_amt=#{purchaseAmt},income_amt=#{incomeAmt},
+    profit_wd_amt=#{profitWdAmt},profit_amt=#{profitAmt},person_amt=#{personAmt},fee_amt=#{feeAmt},rebate_out_amt=#{rebateOutAmt} ,rebate_rh_amt=#{rebateRhAmt} ,end_amt=#{endAmt}   
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  
+  <!-- 更新公司余额 -->
+  <update id="updateCompanyBalance" parameterType="com.zdmoney.models.CompanyBalance">
+    update company_balance set balance_pri = #{balancePri},balance_pub=#{balancePub}  where ID = #{id,jdbcType=DECIMAL}
+  </update>
+    
+  <select id="selectRecordDetail" parameterType="java.util.Map" resultMap="RecordDetailMap">
+  	select r.id as id,
+       r.customer_id as customer_id,
+       r.order_num as order_num,
+       r.create_date as create_date,
+       r.trade_amt as trade_amt,
+       t.pr_name as trade_type,
+       r.pay_seq as pay_seq,
+       r.flag as flag,
+       r.remark as remark
+  from detail_record r
+  left join sys_parameter t
+    on    r.trade_type =t.pr_value and  t.pr_type = 'tradeType'
+ where 1 = 1
+    <if test="customerId != null">
+    	and r.customer_id = #{customerId,jdbcType=DECIMAL}
+    </if>
+   and  r.TRADE_TYPE not in (6,7)
+    
+   order by create_date desc
+  </select>
+</mapper>

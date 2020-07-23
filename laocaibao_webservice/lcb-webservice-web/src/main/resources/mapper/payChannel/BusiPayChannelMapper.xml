@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.payChannel.BusiPayChannelMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.payChannel.BusiPayChannel">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName" />
+    <result column="IS_ENABLE" jdbcType="DECIMAL" property="isEnable" />
+    <result column="PAY_PLATFORM_CODE" jdbcType="VARCHAR" property="payPlatformCode" />
+    <result column="PAY_URL" jdbcType="VARCHAR" property="payUrl" />
+    <result column="PAY_PRIVATE_KEY" jdbcType="VARCHAR" property="payPrivateKey" />
+    <result column="PAY_MERCHANT_NO" jdbcType="VARCHAR" property="payMerchantNo" />
+    <result column="PAY_VESION" jdbcType="VARCHAR" property="payVesion" />
+    <result column="USE_CITY" jdbcType="VARCHAR" property="useCity" />
+  </resultMap>
+</mapper>

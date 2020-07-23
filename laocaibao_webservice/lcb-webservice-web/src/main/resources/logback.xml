@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration debug="false">
+    <!-- 控制台 -->
+    <appender name="STDOUT"  class="ch.qos.logback.core.ConsoleAppender">
+        <encoder >
+            <Pattern>%date{[yyyy-MM-dd] HH:mm:ss.SSS} webservice-%X{traceId} [%thread]-[%file:%line]-[%level] %msg%n</Pattern>
+            <charset>UTF-8</charset>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="jdbc.connection" level="OFF"/>
+    <logger name="jdbc.audit" level="OFF"/>
+    <logger name="jdbc.sqlonly" level="OFF"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.resultset" level="OFF"/>
+    <logger name="org.mybatis" level="INFO"/>
+</configuration>

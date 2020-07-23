@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.welfare.BusiWelfareRuleMapper">
+    <resultMap id="BaseResultMap" type="com.zdmoney.webservice.api.dto.welfare.BusiWelfareRuleDto">
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+        <result column="PERIOD" property="period" jdbcType="DECIMAL" />
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+        <result column="MODIFY_BY" property="modifyBy" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="welfare_type" property="welfareType" jdbcType="DECIMAL" />
+        <result column="INVEST_MIN_PERIOD" property="investMinPeriod" jdbcType="DECIMAL" />
+        <result column="INVEST_MIN_AMOUNT" property="investMinAmount" jdbcType="DECIMAL" />
+        <result column="INVEST_MAX_PERIOD" property="investMaxPeriod" jdbcType="DECIMAL" />
+        <result column="INVEST_MAX_AMOUNT" property="investMaxAmount" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="getWelfareRuleList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select * from busi_welfare_rule where 1=1
+        <if test="welfare_type != null" >
+            and welfare_type = #{welfareType}
+        </if>
+        order by MODIFY_TIME desc
+    </select>
+
+    <insert id="insert" parameterType="com.zdmoney.webservice.api.dto.welfare.BusiWelfareRuleDto" >
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select SEQ_busi_welfare_rule.nextval from dual
+        </selectKey>
+        insert into busi_welfare_rule (ID, AMOUNT, PERIOD,
+        INVEST_MIN_AMOUNT, INVEST_MIN_PERIOD, CREATE_BY,
+        MODIFY_BY, CREATE_TIME, MODIFY_TIME,welfare_type,INVEST_MAX_PERIOD,INVEST_MAX_AMOUNT
+        )
+        values (#{id,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{period,jdbcType=DECIMAL},
+        #{investMinAmount,jdbcType=DECIMAL}, #{investMinPeriod,jdbcType=DECIMAL}, #{createBy,jdbcType=VARCHAR},
+        #{modifyBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+        #{welfareType,jdbcType=VARCHAR},#{investMaxPeriod,jdbcType=DECIMAL},#{investMaxAmount,jdbcType=DECIMAL}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.webservice.api.dto.welfare.BusiWelfareRuleDto">
+        update busi_welfare_rule
+        <set >
+            <if test="amount != null" >
+                AMOUNT = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="period != null" >
+                PERIOD = #{period,jdbcType=DECIMAL},
+            </if>
+            <if test="investMinAmount != null" >
+                INVEST_MIN_AMOUNT = #{investMinAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="investMinPeriod != null" >
+                INVEST_MIN_PERIOD = #{investMinPeriod,jdbcType=DECIMAL},
+            </if>
+            <if test="createBy != null" >
+                CREATE_BY = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyBy != null" >
+                MODIFY_BY = #{modifyBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null" >
+                MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="welfareType != null" >
+                welfare_type = #{welfareType,jdbcType=VARCHAR},
+            </if>
+            <if test="investMaxAmount != null" >
+                INVEST_MAX_AMOUNT = #{investMaxAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="investMaxPeriod != null" >
+                INVEST_MAX_PERIOD = #{investMaxPeriod,jdbcType=DECIMAL}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select * from busi_welfare_rule
+        where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+  <select id="getWelfareByIds" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select * from busi_welfare_rule
+        where ID in
+      <foreach collection="welfaceIds" item="var" open="(" close=")" separator=",">
+          #{var}
+      </foreach>
+    </select>
+
+</mapper>

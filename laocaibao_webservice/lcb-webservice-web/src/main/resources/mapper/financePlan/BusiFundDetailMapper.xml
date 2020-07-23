@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.financePlan.FundDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.financePlan.BusiFundDetail" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+        <result column="CM_CELLPHONE" property="cmCellPhone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL" />
+        <result column="CLOSE_DAY" property="closeDay" jdbcType="DECIMAL" />
+        <result column="FUND_TYPE" property="fundType" jdbcType="DECIMAL" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL" />
+        <result column="LAUNCH_DATE" property="launchDate" jdbcType="TIMESTAMP" />
+        <result column="MATCH_DATE" property="matchDate" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="DISK_NO" property="diskNo" jdbcType="VARCHAR" />
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+        <result column="MATCHING_AMT" property="matchingAmt" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <resultMap id="fundDetailResultMap" type="com.zdmoney.models.financePlan.BusiFundDetail" >
+        <id column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="CM_NUMBER" property="cmNumber" jdbcType="VARCHAR" />
+        <result column="CM_CELLPHONE" property="cmCellPhone" jdbcType="VARCHAR"  typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+        <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+        <result column="ORDER_AMT" property="orderAmt" jdbcType="DECIMAL" />
+        <result column="CLOSE_DAY" property="closeDay" jdbcType="DECIMAL" />
+        <result column="FUND_TYPE" property="fundType" jdbcType="DECIMAL" />
+        <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+        <result column="YEAR_RATE" property="yearRate" jdbcType="DECIMAL" />
+        <result column="LAUNCH_DATE" property="launchDate" jdbcType="TIMESTAMP" />
+        <result column="MATCH_DATE" property="matchDate" jdbcType="TIMESTAMP" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+        <result column="DISK_NO" property="diskNo" jdbcType="VARCHAR" />
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="MODIFY_DATE" property="modifyDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select *  from BUSI_FUND_DETAIL   where ID = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select *  from BUSI_FUND_DETAIL   where 1=1
+        <if test="orderId != null">
+            and ORDER_ID =#{orderId,jdbcType=DECIMAL}
+        </if>
+        <if test="productId != null">
+            and PRODUCT_ID =#{productId,jdbcType=DECIMAL}
+        </if>
+        <if test="status != null">
+            and STATUS =#{status,jdbcType=VARCHAR}
+        </if>
+        <if test="fundType != null">
+            and  FUND_TYPE=#{fundType,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="queryFundDetail" resultMap="fundDetailResultMap" parameterType="com.zdmoney.webservice.api.dto.plan.FundDetailReqDTO">
+        SELECT * FROM
+            (SELECT ROWNUM AS rowno, t.* FROM BUSI_FUND_DETAIL t WHERE 1=1
+            <include refid="FUND_DETAIL_WHERE"/>
+            AND ROWNUM &lt;= #{pageNo}) ta
+        WHERE ta.rowno &gt;= #{pageSize}
+    </select>
+
+    <select id="countFundDetail" resultType="long" parameterType="com.zdmoney.webservice.api.dto.plan.FundDetailReqDTO">
+        select count(id) from BUSI_FUND_DETAIL WHERE 1=1
+        <include refid="FUND_DETAIL_WHERE"/>
+    </select>
+
+    <sql id="FUND_DETAIL_WHERE">
+        <if test="mainProductId != null">
+            and PRODUCT_ID = #{mainProductId}
+        </if>
+        <if test="fundId != null">
+            and ID = #{fundId}
+        </if>
+        <if test="cmNumber != null and cmNumber != ''">
+            and CM_NUMBER = #{cmNumber}
+        </if>
+        <if test="cmCellPhone != null and cmCellPhone != ''">
+            and CM_CELLPHONE = #{cmCellPhone,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler}
+        </if>
+        <if test="fundAmt != null">
+            and ORDER_AMT = #{fundAmt}
+        </if>
+        <if test="closePeriod != null">
+            and CLOSE_DAY = #{closePeriod}
+        </if>
+    </sql>
+
+    <insert id="saveFundDetail" parameterType="com.zdmoney.models.financePlan.BusiFundDetail">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            SELECT SEQ_BUSI_FUND_DETAIL.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO busi_fund_detail (ID, CM_NUMBER, CM_CELLPHONE, PRIORITY, ORDER_AMT, CLOSE_DAY, FUND_TYPE, PRODUCT_ID,
+          YEAR_RATE, LAUNCH_DATE, MATCH_DATE, STATUS, ORDER_ID, DISK_NO, CREATE_DATE, MODIFY_DATE,MATCHING_AMT)
+        VALUES (#{id,jdbcType=DECIMAL}, #{cmNumber,jdbcType=VARCHAR}, #{cmCellPhone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+        #{priority,jdbcType=VARCHAR}, #{orderAmt,jdbcType=DECIMAL}, #{closeDay,jdbcType=DECIMAL},
+        #{fundType,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{yearRate,jdbcType=DECIMAL},
+        #{launchDate,jdbcType=TIMESTAMP}, #{matchDate,jdbcType=TIMESTAMP}, #{status,jdbcType=DECIMAL},#{orderId,jdbcType=DECIMAL},
+         #{diskNo,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP},#{matchingAmt,jdbcType=DECIMAL})
+    </insert>
+
+    <update id="updateByMap" parameterType="java.util.Map" >
+        update busi_fund_detail
+        <set >
+            <if test="status != null" >
+                STATUS = #{status},
+            </if>
+            <if test="matchDate != null" >
+                MATCH_DATE = #{matchDate},
+            </if>
+            <if test="fundType != null" >
+                FUND_TYPE = #{fundType},
+            </if>
+            <if test="matchingAmt != null" >
+                MATCHING_AMT = #{matchingAmt},
+            </if>
+            <if test="batchNo != null" >
+                DISK_NO = #{batchNo},
+            </if>
+        </set>
+        <where>
+            <if test="id != null" >
+                ID= #{id}
+            </if>
+            <if test="orderIds != null" >
+                and ORDER_ID in
+                <foreach collection="orderIds" item="var" open="(" close=")" separator=",">
+                    #{var}
+                </foreach>
+            </if>
+            <if test="orderId != null" >
+                and ORDER_ID= #{orderId}
+            </if>
+            <if test="initStatus != null" >
+                and STATUS=#{initStatus}
+            </if>
+            <if test="productId != null" >
+                and PRODUCT_ID=#{productId}
+            </if>
+            <if test="diskNo != null" >
+                and DISK_NO=#{diskNo}
+            </if>
+        </where>
+    </update>
+</mapper>

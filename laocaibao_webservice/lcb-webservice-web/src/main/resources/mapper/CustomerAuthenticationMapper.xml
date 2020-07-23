@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.customer.CustomerAuthenticationMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.customer.CustomerAuthentication" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CM_CELLPHONE" property="cmCellphone" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="CM_IDNUM" property="cmIdnum" jdbcType="VARCHAR" typeHandler="com.zdmoney.common.handler.SecurityFieldTypeHandler"/>
+    <result column="AU_STATUS" property="auStatus" jdbcType="DECIMAL" />
+    <result column="PLATFORM" property="platform" jdbcType="VARCHAR" />
+    <result column="CM_INPUT_DATE" property="cmInputDate" jdbcType="TIMESTAMP" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="AU_MSG" property="auMsg" jdbcType="VARCHAR" />
+    <result column="OPER_MAN" property="operMan" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zdmoney.models.customer.CustomerAuthentication" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+      select SEQ_CUSTOMER_AUTHENTICATION.nextval from dual
+    </selectKey>
+    insert into CUSTOMER_AUTHENTICATION (ID, CM_CELLPHONE, CM_IDNUM, 
+      AU_STATUS, PLATFORM, CM_INPUT_DATE, 
+      REAL_NAME, AU_MSG, OPER_MAN, CHANNEL_ID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      #{auStatus,jdbcType=DECIMAL}, #{platform,jdbcType=VARCHAR}, #{cmInputDate,jdbcType=TIMESTAMP}, 
+      #{realName,jdbcType=VARCHAR}, #{auMsg,jdbcType=VARCHAR}, #{operMan,jdbcType=VARCHAR}, #{channelId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.customer.CustomerAuthentication" >
+    insert into CUSTOMER_AUTHENTICATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="cmCellphone != null" >
+        CM_CELLPHONE,
+      </if>
+      <if test="cmIdnum != null" >
+        CM_IDNUM,
+      </if>
+      <if test="auStatus != null" >
+        AU_STATUS,
+      </if>
+      <if test="platform != null" >
+        PLATFORM,
+      </if>
+      <if test="cmInputDate != null" >
+        CM_INPUT_DATE,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="auMsg != null" >
+        AU_MSG,
+      </if>
+      <if test="operMan != null" >
+        OPER_MAN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="cmCellphone != null" >
+        #{cmCellphone,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      </if>
+      <if test="cmIdnum != null" >
+        #{cmIdnum,jdbcType=VARCHAR,typeHandler=com.zdmoney.common.handler.SecurityFieldTypeHandler},
+      </if>
+      <if test="auStatus != null" >
+        #{auStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=VARCHAR},
+      </if>
+      <if test="cmInputDate != null" >
+        #{cmInputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="auMsg != null" >
+        #{auMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="operMan != null" >
+        #{operMan,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.BusiImgMapper" >
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.BusiImg" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zdmoney.models.BusiImg" extends="BaseResultMap" >
+    <result column="IMG" property="img" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID
+  </sql>
+  <sql id="Blob_Column_List" >
+    IMG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BUSI_IMG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from BUSI_IMG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zdmoney.models.BusiImg" >
+    <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+       select SQ_BUSI_IMG.nextval from dual
+    </selectKey>
+    insert into BUSI_IMG (ID, IMG)
+    values (#{id,jdbcType=DECIMAL}, #{img,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zdmoney.models.BusiImg" >
+    insert into BUSI_IMG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="img != null" >
+        IMG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zdmoney.models.BusiImg" >
+    update BUSI_IMG
+    <set >
+      <if test="img != null" >
+        IMG = #{img,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zdmoney.models.BusiImg" >
+    update BUSI_IMG
+    set IMG = #{img,jdbcType=BLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

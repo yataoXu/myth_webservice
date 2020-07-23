@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdmoney.mapper.task.BusiTaskFlowMapper">
+  <resultMap id="BaseResultMap" type="com.zdmoney.models.task.BusiTaskFlow">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="TASK_ID" jdbcType="DECIMAL" property="taskId" />
+    <result column="CMNUMBER" jdbcType="VARCHAR" property="cmnumber" />
+    <result column="LCB_AMT" jdbcType="DECIMAL" property="lcbAmt" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+  </resultMap>
+</mapper>

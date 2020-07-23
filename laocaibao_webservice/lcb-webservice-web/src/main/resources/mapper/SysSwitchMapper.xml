@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zdmoney.mapper.sys.SysSwitchMapper">
+
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+
+    <resultMap id="BaseResultMap" type="com.zdmoney.models.sys.SysSwitch">
+        <id column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="SWITCH_TYPENAME" property="switchTypename" jdbcType="VARCHAR"/>
+        <result column="SWITCH_TYPE" property="switchType" jdbcType="VARCHAR"/>
+        <result column="SWITCH_NAME" property="switchName" jdbcType="VARCHAR"/>
+        <result column="SWITCH_VALUE" property="switchValue" jdbcType="VARCHAR"/>
+        <result column="SWITCH_ISDELETE" property="switchIsdelete" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, SWITCH_TYPENAME, SWITCH_TYPE, SWITCH_NAME, SWITCH_VALUE, SWITCH_ISDELETE
+    </sql>
+
+    <select id="getAllParameter" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_SWITCH
+        where SWITCH_ISDELETE = 0
+    </select>
+
+    <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from SYS_SWITCH
+        where SWITCH_TYPE = #{switchType,jdbcType=DECIMAL}
+    </select>
+</mapper>

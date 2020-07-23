@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zdmoney.mapper.lycj.LycjLoanUserMapper">
+
+    <resultMap type="com.zdmoney.models.lycj.LycjLoanUser" id="lycjLoanUserMap">
+        <result property="investId" column="INVEST_ID"/>
+        <result property="id" column="ID"/>
+        <result property="username" column="USERNAME"/>
+        <result property="userid" column="USERID"/>
+        <result property="money" column="MONEY"/>
+        <result property="account" column="ACCOUNT"/>
+        <result property="status" column="STATUS"/>
+        <result property="addTime" column="ADD_TIME"/>
+        <result property="productType" column="PRODUCT_TYPE"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="planId" column="PLAN_ID"/>
+    </resultMap>
+
+    <sql id="base_column_list">
+        INVEST_ID,ID,USERNAME,USERID,MONEY,ACCOUNT,STATUS,ADD_TIME,PRODUCT_TYPE,DATA_TYPE,PLAN_ID    </sql>
+
+    <select id="queryLycjLoanUser" resultMap="lycjLoanUserMap" parameterType="java.util.Map">
+        select * from (
+            select rownum RN,cju.INVEST_ID,cju.ID,cju.USERNAME,cju.USERID,cju.MONEY,cju.ACCOUNT,cju.STATUS,cju.ADD_TIME,cju.PRODUCT_TYPE,cju.DATA_TYPE,cju.PLAN_ID
+             from lycj_loan_user cju
+            where exists (select cj.id
+            from lycj_loan_info cj
+            where cj.id = cju.id
+            and substr(cj.verify_time, 0, 10) = #{dateTime})
+        ) where RN > (#{pageNo}-1)*#{pageSize} and RN &lt;= #{pageNo} * #{pageSize}
+    </select>
+
+    <insert id="saveLycjLoanUser" parameterType="com.zdmoney.models.lycj.LycjLoanUser">
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_LYCJ_LOAN_USER.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO LYCJ_LOAN_USER
+          (INVEST_ID,ID,USERNAME,USERID,MONEY,ACCOUNT,STATUS,ADD_TIME,PRODUCT_TYPE,DATA_TYPE,PLAN_ID)
+        VALUES
+          (#{investId},#{id},#{username},#{userid},#{money},#{account},#{status},#{addTime},#{productType},#{dataType},#{planId})
+    </insert>
+
+    <update id="updateLycjLoanUser" parameterType="com.zdmoney.models.lycj.LycjLoanUser">
+        UPDATE LYCJ_LOAN_USER
+        <set>
+            <if test="investId != null">
+                INVEST_ID = #{investId},
+            </if>
+            <if test="username != null">
+                USERNAME = #{username},
+            </if>
+            <if test="userid != null">
+                USERID = #{userid},
+            </if>
+            <if test="money != null">
+                MONEY = #{money},
+            </if>
+            <if test="account != null">
+                ACCOUNT = #{account},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="addTime != null">
+                ADD_TIME = #{addTime},
+            </if>
+            <if test="productType != null">
+                PRODUCT_TYPE = #{productType},
+            </if>
+            <if test="dataType != null">
+                DATA_TYPE = #{dataType},
+            </if>
+            <if test="planId != null">
+                PLAN_ID = #{planId}</if>
+        </set>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="removeLycjLoanUserById" parameterType="java.lang.Long">
+        DELETE FROM LYCJ_LOAN_USER WHERE ID = #{id}
+    </delete>
+</mapper>
