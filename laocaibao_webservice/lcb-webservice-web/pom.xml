@@ -16,7 +16,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <!-- mybatis版本号 -->
-        <mybatis.version>3.3.0</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <targetJavaProject>${basedir}/src/main/java</targetJavaProject>
         <targetMapperPackage>com.zdmoney.mapper</targetMapperPackage>
         <targetModelPackage>com.zdmoney.models</targetModelPackage>
